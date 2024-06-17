@@ -11,11 +11,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
-@EnableWebSecurity
-@EnableMethodSecurity
 public class SecurityConfig {
   @Bean
-  protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+  protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests(authz -> authz
         .requestMatchers("*").permitAll()
         .requestMatchers("/css/**").permitAll()
