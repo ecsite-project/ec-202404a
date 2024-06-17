@@ -1,0 +1,39 @@
+-- 商品
+insert into items values(1, 'とんこつラーメン', 'クリーミーでコクのある豚骨スープが特徴のラーメン。こだわりのチャーシューと一緒にお楽しみください。', 900, 1500, '1.jpg');
+insert into items values(2, '醤油ラーメン', '鶏ガラベースの透き通った醤油スープが自慢の一品。シンプルでありながら深い味わいです。', 850, 1400, '2.jpg');
+insert into items values(3, '味噌ラーメン', '濃厚な味噌スープに炒めた野菜とジューシーなチャーシューをトッピング。寒い日にぴったりです。', 950, 1600, '3.jpg');
+insert into items values(4, '塩ラーメン', 'あっさりとした塩味のスープが特徴。具材の旨味を引き立てるバランスの取れた味わいです。', 850, 1400, '4.jpg');
+insert into items values(5, '鶏白湯ラーメン', '濃厚な鶏白湯スープに細麺が絡む逸品。コラーゲンたっぷりで女性にも人気です。', 950, 1600, '5.jpg');
+insert into items values(6, '担々麺', 'ピリ辛のスープが食欲をそそる担々麺。ゴマの風味とひき肉の旨味が絶妙です。', 1000, 1700, '6.jpg');
+insert into items values(7, '家系ラーメン', '濃厚な豚骨醤油スープに太麺が絡む。ほうれん草と海苔がトッピングされたボリューム満点の一杯です。', 1050, 1800, '7.jpg');
+insert into items values(8, '野菜たっぷりタンメン', 'たっぷりの野菜とあっさりとした塩味スープが特徴のタンメン。ヘルシー志向の方におすすめです。', 950, 1600, '8.jpg');
+insert into items values(9, '冷やし中華', '夏季限定の冷たいラーメン。さっぱりとしたタレと共に色とりどりの具材をお楽しみください。', 900, 1500, '9.jpg');
+insert into items values(10, 'Specialチャーシューメン', '特製の厚切りチャーシューがたっぷり乗った豪華な一杯。ボリューム満点で大満足です。', 1200, 2000, '10.jpg');
+insert into items values(11, '海老ワンタン麺Gorgeous', 'プリプリの海老ワンタンがたっぷり入った贅沢な一杯。クリアなスープが絶品です。', 1100, 1800, '11.jpg');
+insert into items values(12, 'もつ煮込みラーメン', '柔らかく煮込んだもつとコクのあるスープが絶妙にマッチしたラーメンです。', 1050, 1750, '12.jpg');
+insert into items values(13, '豚角煮ラーメン', 'とろとろに煮込んだ豚の角煮がトッピングされたラーメン。食べ応え抜群です。', 1150, 1900, '13.jpg');
+insert into items values(14, 'かつお出汁ラーメン', '風味豊かなかつお出汁がベースのスープ。シンプルながらも深い味わいをお楽しみください。', 900, 1500, '14.jpg');
+insert into items values(15, '塩バターコーンラーメン', '塩味のスープにバターとコーンをトッピング。まろやかな味わいが特徴です。', 950, 1600, '15.jpg');
+insert into items values(16, '魚介豚骨ラーメン', '濃厚な魚介と豚骨のダブルスープが絶品。麺との相性も抜群です。', 1050, 1800, '16.jpg');
+insert into items values(17, '辛味噌ラーメン', 'ピリ辛の味噌スープが特徴。辛さの中にもしっかりとした旨味が感じられます。', 1000, 1700, '17.jpg');
+insert into items values(18, '鶏ガラ醤油ラーメン', '鶏ガラベースの醤油スープに細麺がよく絡む。シンプルで奥深い味わいです。', 900, 1500, '18.jpg');
+
+-- トッピング
+insert into toppings values(1, '味玉', 100, 150);
+insert into toppings values(2, 'メンマ', 100, 150);
+insert into toppings values(3, 'ネギ', 100, 150);
+insert into toppings values(4, 'バター', 100, 150);
+insert into toppings values(5, 'チャーシュー', 200, 300);
+insert into toppings values(6, 'もやし', 100, 150);
+insert into toppings values(7, 'ほうれん草', 100, 150);
+insert into toppings values(8, '海苔', 100, 150);
+insert into toppings values(9, 'キムチ', 150, 200);
+insert into toppings values(10, 'コーン', 100, 150);
+insert into toppings values(11, 'のり', 100, 150);
+insert into toppings values(12, '白髪ねぎ', 100, 150);
+insert into toppings values(13, 'フライドガーリック', 100, 150);
+insert into toppings values(14, '紅しょうが', 100, 150);
+insert into toppings values(15, '高菜', 100, 150);
+insert into toppings values(16, 'バターコーン', 150, 200);
+insert into toppings values(17, '揚げニンニク', 150, 200);
+insert into toppings values(18, '辛味噌', 150, 200);
