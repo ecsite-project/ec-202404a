@@ -1,10 +1,24 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
-  <head th:replace="common/head :: head_fragment(title = '商品一覧')"></head>
+  <head
+    th:replace="common/head :: head_fragment(title = '商品一覧', links = ~{::link})"
+  >
+    <link rel="stylesheet" th:href="@{/css/item-list.css}" />
+  </head>
   <body>
     <div th:replace="common/header :: header_fragment"></div>
     <h1>商品一覧</h1>
     <div>
+      <form th:action="@{/show-item-list}" method="get">
+        <label for="searchWord">🔍</label>
+        <input type="text" name="searchWord" id="searchWord" th:value="${searchWord}">
+        <button type="submit">検索</button>
+      </form>
+    </div>
+    <div>
+      <p th:if="${notFound}">
+        <span th:text="${notFound}" style="color:red"></span>
+      </p>
       <table>
         <tr th:each="item : ${itemList}">
           <td><a th:href="@{/show-item-detail?id=} + ${item.id}" th:text="${item.name}"></a></td>

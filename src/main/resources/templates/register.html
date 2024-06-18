@@ -1,9 +1,49 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
-  <head th:replace="common/head :: head_fragment(title = '新規登録')"></head>
+  <head
+    th:replace="common/head :: head_fragment(title = '新規登録', links = ~{::link})"
+  >
+    <link rel="stylesheet" th:href="@{/css/register.css}" />
+  </head>
   <body>
     <div th:replace="common/header :: header_fragment"></div>
     <h1>新規登録</h1>
+    <form
+      th:action="@{/register}"
+      th:object="${userRegisterForm}"
+      method="post"
+    >
+      <span th:errors="*{lastName}">エラー</span>
+      苗字: <input th:type="text" th:field="*{lastName}" />
+      <span th:errors="*{firstName}">エラー</span>
+      名前: <input th:type="text" th:field="*{firstName}" />
+      <br />
+      <span th:errors="*{email}">エラー</span>
+      メールアドレス: <input th:type="text" th:field="*{email}" />
+      <br />
+      <span th:errors="*{password}">エラー</span>
+      パスワード: <input th:type="text" th:field="*{password}" />
+      <br />
+      <span th:errors="*{confirmPassword}">エラー</span>
+      確認用パスワード: <input th:type="text" th:field="*{confirmPassword}" />
+      <br />
+      <span th:errors="*{zipcode}">エラー</span>
+      郵便番号: <input th:type="text" th:field="*{zipcode}" />
+      <br />
+      <span th:errors="*{prefecture}">エラー</span>
+      都道府県: <input th:type="text" th:field="*{prefecture}" />
+      <br />
+      <span th:errors="*{municipalities}">エラー</span>
+      市区町村: <input th:type="text" th:field="*{municipalities}" />
+      <br />
+      <span th:errors="*{address}">エラー</span>
+      住所: <input th:type="text" th:field="*{address}" />
+      <br />
+      <span th:errors="*{telephone}">エラー</span>
+      電話番号: <input th:type="text" th:field="*{telephone}" />
+      <br />
+      <button type="submit">送信</button>
+    </form>
     <div th:replace="common/footer :: footer_fragment"></div>
   </body>
 </html>
