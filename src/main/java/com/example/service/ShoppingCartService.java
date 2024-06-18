@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 /**
  * ショッピングカートの処理のサービス.
  *
@@ -43,6 +45,7 @@ public class ShoppingCartService {
             order.setUserId(userId);
             order.setStatus(0);
             order.setTotalPrice(0);
+            order.setOrderTime(LocalDateTime.now());
             order = orderRepository.insert(order);
         }
 

@@ -40,8 +40,12 @@ public class OrderRepository {
         order.setDestinationMunicipalities(rs.getString("destination_municipalities"));
         order.setDestinationAddress(rs.getString("destination_address"));
         order.setDestinationTel(rs.getString("destination_tel"));
-        order.setOrderTime(rs.getTimestamp("order_time").toLocalDateTime());
-        order.setDeliveryTime(rs.getTimestamp("delivery_time").toLocalDateTime());
+        if(rs.getTimestamp("order_time") != null) {
+            order.setOrderTime(rs.getTimestamp("order_time").toLocalDateTime());
+        }
+        if(rs.getTimestamp("delivery_time") != null) {
+            order.setDeliveryTime(rs.getTimestamp("delivery_time").toLocalDateTime());
+        }
         order.setPaymentMethod(rs.getInt("payment_method"));
         return order;
     };
