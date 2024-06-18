@@ -65,4 +65,14 @@ public class ShoppingCartService {
 
         return order;
     }
+
+    /**
+     * 注文情報の取得.
+     *
+     * @param userId ユーザid
+     * @return 注文情報
+     */
+    public Order showOrder(Integer userId){
+        return orderRepository.findAllOrderInfoByUserIdAndStatus(userId, 0);
+    }
 }

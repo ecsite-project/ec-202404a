@@ -22,7 +22,7 @@ public class OrderItemRepository {
     @Autowired
     private NamedParameterJdbcTemplate template;
 
-    /** order_itemsテーブルと結合したitemsテーブルにある情報をドメインに詰め替えるRowMapper　*/
+    /** order_itemsテーブルにある情報をドメインに詰め替えるRowMapper　*/
     private static final RowMapper<OrderItem> ORDER_ITEM_WITH_ITEM_ROW_MAPPER = (rs, i) -> {
         OrderItem orderItem = new OrderItem();
         orderItem.setId(rs.getInt("ord_id"));
@@ -30,17 +30,6 @@ public class OrderItemRepository {
         orderItem.setOrderId(rs.getInt("ord_order_id"));
         orderItem.setQuantity(rs.getInt("ord_quantity"));
         orderItem.setSize((Character) rs.getObject("ord_size"));
-
-        Item item = new Item();
-        item.setId(rs.getInt("it_id"));
-        item.setName(rs.getString("it_name"));
-        item.setDescription(rs.getString("it_description"));
-        item.setPriceS(rs.getInt("it_price_s"));
-        item.setPriceM(rs.getInt("it_price_m"));
-        item.setPriceL(rs.getInt("it_price_l"));
-        item.setImagePath(rs.getString("it_image_path"));
-
-        orderItem.setItem(item);
         return orderItem;
     };
 
