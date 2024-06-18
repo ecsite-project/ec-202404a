@@ -7,7 +7,7 @@
     <div>
       <table>
         <tr th:each="item : ${itemList}">
-          <td th:text="${item.name}"></td>
+          <td><a th:href="@{/show-item-detail?id=} + ${item.id}" th:text="${item.name}"></a></td>
           <td th:text="${item.description}"></td>
           <td th:text="${item.priceS}"></td>
           <td th:text="${item.priceM}"></td>
