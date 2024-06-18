@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
-
 /**
  * カートの処理の制御用のコントローラ.
  *
@@ -56,6 +54,12 @@ public class ShoppingCartController {
   public String addItem(AddItemForm form){
     Integer testUserId = 1;
     shoppingCartService.addItem(testUserId, form);
+    return "redirect:/shopping-cart";
+  }
+
+  @PostMapping("/delete-item")
+  public String deleteItem(Integer orderItemId){
+    shoppingCartService.deleteItem(orderItemId);
     return "redirect:/shopping-cart";
   }
 }

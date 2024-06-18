@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * ショッピングカートの処理のサービス.
@@ -74,5 +75,16 @@ public class ShoppingCartService {
      */
     public Order showOrder(Integer userId){
         return orderRepository.findAllOrderInfoByUserIdAndStatus(userId, 0);
+    }
+
+    public void deleteItem(Integer orderItemId){
+        OrderItem orderItem = orderItemRepository.findById(orderItemId);
+        orderItemRepository.deleteById(orderItemId);
+        List<OrderItem> orderItemList = orderItemRepository.findByOrderId(orderItem.getOrderId());
+        if(orderItemList.isEmpty()){
+            Order order = orderRepository.findById(orderItem.getOrderId());
+            order.setStatus(9);
+            orderRepository.update(order);
+        }
     }
 }

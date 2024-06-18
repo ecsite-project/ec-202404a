@@ -1,15 +1,17 @@
 package com.example.repository;
 
-import com.example.domain.Item;
 import com.example.domain.OrderItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * order_itemsテーブル操作用のリポジトリ.
@@ -23,13 +25,13 @@ public class OrderItemRepository {
     private NamedParameterJdbcTemplate template;
 
     /** order_itemsテーブルにある情報をドメインに詰め替えるRowMapper　*/
-    private static final RowMapper<OrderItem> ORDER_ITEM_WITH_ITEM_ROW_MAPPER = (rs, i) -> {
+    private static final RowMapper<OrderItem> ORDER_ITEM_ROW_MAPPER = (rs, i) -> {
         OrderItem orderItem = new OrderItem();
-        orderItem.setId(rs.getInt("ord_id"));
-        orderItem.setItemId(rs.getInt("ord_item_id"));
-        orderItem.setOrderId(rs.getInt("ord_order_id"));
-        orderItem.setQuantity(rs.getInt("ord_quantity"));
-        orderItem.setSize((Character) rs.getObject("ord_size"));
+        orderItem.setId(rs.getInt("id"));
+        orderItem.setItemId(rs.getInt("item_id"));
+        orderItem.setOrderId(rs.getInt("order_id"));
+        orderItem.setQuantity(rs.getInt("quantity"));
+        orderItem.setSize(rs.getString("size").toCharArray()[0]);
         return orderItem;
     };
 
@@ -56,5 +58,60 @@ public class OrderItemRepository {
         template.update(sql, param, keyHolder, keyColumnNames);
         orderItem.setId(keyHolder.getKey().intValue());
         return orderItem;
+    }
+
+    /**
+     * idに基づくレコードの削除.
+     *
+     * @param id レコードのid
+     */
+    public void deleteById(Integer id){
+        String sql = """
+                DELETE FROM order_items WHERE id=:id;
+                """;
+        SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+        template.update(sql, param);
+    }
+
+    /**
+     * 主キー検索.
+     *
+     * @param id 主キー
+     * @return 注文商品情報
+     */
+    public OrderItem findById(Integer id){
+        String sql = """
+                SELECT
+                    id, item_id, order_id, quantity, size
+                FROM
+                    order_items
+                WHERE
+                    id=:id
+                ;
+                """;
+        SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+        OrderItem orderItem = template.queryForObject(sql, param, ORDER_ITEM_ROW_MAPPER);
+        return orderItem;
+    }
+
+    /**
+     * 注文idを基に注文商品情報の検索.
+     *
+     * @param orderId 注文id
+     * @return 注文商品情報のリスト
+     */
+    public List<OrderItem> findByOrderId(Integer orderId){
+        String sql = """
+                SELECT
+                    id, item_id, order_id, quantity, size
+                FROM
+                    order_items
+                WHERE
+                    order_id=:orderId
+                ;
+                """;
+        SqlParameterSource param = new MapSqlParameterSource().addValue("orderId", orderId);
+        List<OrderItem> orderItemList = template.query(sql, param, ORDER_ITEM_ROW_MAPPER);
+        return orderItemList;
     }
 }

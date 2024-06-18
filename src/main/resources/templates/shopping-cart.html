@@ -36,8 +36,9 @@
             </td>
             <td th:text="${#numbers.formatInteger(orderItem.calcSubTotalPrice, 0, 'COMMA')} + '円'"></td>
             <td>
-              <form action="shopping-cart.html" method="post">
-                <button type="button">削除</button>
+              <form action="shopping-cart.html" th:action="@{/shopping-cart/delete-item}" method="post">
+                <input type="hidden" name="orderItemId" th:value="${orderItem.id}">
+                <button>削除</button>
               </form>
             </td>
           </tr>

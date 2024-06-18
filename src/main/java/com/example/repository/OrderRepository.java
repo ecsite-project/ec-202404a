@@ -236,4 +236,54 @@ public class OrderRepository {
         }
         return orderList.get(0);
     }
+
+    /**
+     * 主キー検索.
+     *
+     * @param id 主キー
+     * @return 注文情報
+     */
+    public Order findById(Integer id){
+        String sql = """
+                SELECT
+                    id, user_id, status, total_price, destination_name, destination_email, destination_zipcode, destination_prefecture, destination_municipalities, destination_address, destination_tel, order_time, delivery_time, payment_method
+                FROM
+                    orders
+                WHERE
+                    id=:id
+                ;
+                """;
+        SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+        Order order = template.queryForObject(sql, param, ORDER_ROW_MAPPER);
+        return order;
+    }
+
+    /**
+     * 注文情報の更新.
+     *
+     * @param order 注文情報
+     */
+    public void update(Order order){
+        SqlParameterSource param = new BeanPropertySqlParameterSource(order);
+        String sql = """
+                UPDATE orders
+                    SET
+                    user_id = :userId,
+                    status = :status,
+                    total_price = :totalPrice,
+                    destination_name = :destinationName,
+                    destination_email = :destinationEmail,
+                    destination_zipcode = :destinationZipcode,
+                    destination_prefecture = :destinationPrefecture,
+                    destination_municipalities = :destinationMunicipalities,
+                    destination_address = :destinationAddress,
+                    destination_tel = :destinationTel,
+                    order_time = :orderTime,
+                    delivery_time = :deliveryTime,
+                    payment_method = :paymentMethod
+                WHERE
+                    id = :id;
+                """;
+        template.update(sql, param);
+    }
 }
