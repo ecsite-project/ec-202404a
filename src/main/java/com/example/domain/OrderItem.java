@@ -91,4 +91,24 @@ public class OrderItem {
     public void setOrderToppingList(List<OrderTopping> orderToppingList) {
         this.orderToppingList = orderToppingList;
     }
+
+    /**
+     * トッピングや数量を考慮した注文商品ごとの小計を返します.
+     *
+     * @return 注文商品の小計(税抜き)
+     */
+    public int getCalcSubTotalPrice(){
+        int itemSubtotal = 0;
+        if (this.size.equals('S')){
+            itemSubtotal = this.item.getPriceS();
+        } else if (this.size.equals('M')) {
+            itemSubtotal = this.item.getPriceM();
+        } else if (this.size.equals('L')){
+            itemSubtotal = this.item.getPriceL();
+        }
+        for (OrderTopping orderTopping : this.orderToppingList){
+            itemSubtotal += orderTopping.getTopping().getPrice();
+        }
+        return itemSubtotal*this.quantity;
+    }
 }

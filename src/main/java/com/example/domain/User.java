@@ -26,6 +26,8 @@ public class User {
     private String address;
     /** 電話番号 */
     private String telephone;
+    /** 管理者フラグ */
+    private boolean adminFlag;
     /** ブックマークした商品リスト */
     private List<Item> bookmarkList;
 
@@ -41,6 +43,7 @@ public class User {
                 ", municipalities='" + municipalities + '\'' +
                 ", address='" + address + '\'' +
                 ", telephone='" + telephone + '\'' +
+                ", adminFlag=" + adminFlag +
                 ", bookmarkList=" + bookmarkList +
                 '}';
     }
@@ -115,6 +118,14 @@ public class User {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public boolean isAdminFlag() {
+        return adminFlag;
+    }
+
+    public void setAdminFlag(boolean adminFlag) {
+        this.adminFlag = adminFlag;
     }
 
     public List<Item> getBookmarkList() {
