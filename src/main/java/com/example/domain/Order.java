@@ -9,6 +9,9 @@ import java.util.List;
  * @author rui.inoue
  */
 public class Order {
+    /** 消費税率 */
+    private static final double TAX = 0.1;
+
     /** id */
     private Integer id;
     /** ユーザid */
@@ -179,5 +182,17 @@ public class Order {
 
     public void setOrderItemList(List<OrderItem> orderItemList) {
         this.orderItemList = orderItemList;
+    }
+
+    public int getTax() {
+        return (int) (this.totalPrice * TAX);
+    }
+
+    public int getCalcTotalPrice(){
+        int total = 0;
+        for(OrderItem orderItem : this.orderItemList){
+            total += orderItem.getCalcSubTotalPrice();
+        }
+        return total;
     }
 }
