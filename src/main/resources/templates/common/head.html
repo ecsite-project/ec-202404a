@@ -1,0 +1,24 @@
+<!-- headタグの内容フラグメント -->
+<head xmlns:th="http://www.thymeleaf.org" th:fragment="head_fragment(title)">
+  <title th:text="${title}"></title>
+  <!-- Import reset css -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-css-reset/dist/reset.min.css"
+  />
+  <!--Import Google Icon Font-->
+  <link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet"
+  />
+  <!-- Import Materialize CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+  />
+  <!-- Import Font Awesome -->
+  <link
+    href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+    rel="stylesheet"
+  />
+</head>
