@@ -36,19 +36,31 @@ public class ItemRepository {
     };
 
     /**
-     * 削除フラグのたっていない商品の情報を開始位置から10件検索します.
+     * 検索ワードと開始位置の如何に沿って、削除フラグのたっていない商品の情報を10件検索します.
      *
-     * @return 削除フラグのたっていない商品情報のリスト(開始位置から10件)
+     * @return 検索結果に沿った商品情報10件のリスト
      */
-    public List<Item> findItemsFromOffsetLimit10(){
+    public List<Item> findItemsSearchByWordOrderBySortClipByOffset(String searchWord, String sort, Integer offset){
         String sql = """
                         SELECT id,name,description,price_s,price_m,price_l,image_path
                         FROM items
                         WHERE deleted = false
-                        ORDER BY name ASC
-                        LIMIT 10;
                         """;
-        SqlParameterSource param = new MapSqlParameterSource();
+        if (searchWord != null) {
+            sql += " AND name LIKE :searchWord";
+        }
+        if (sort != null){
+            sql += " ORDER BY " + sort + " ASC ";
+        } else {
+            sql += " ORDER BY name ASC ";
+        }
+        sql += " LIMIT 10 ";
+        if (offset != null) {
+            sql += " OFFSET :offset ";
+        }
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("searchWord", "%" + searchWord + "%")
+                .addValue("offset", offset);
         return template.query(sql,param,ITEM_ROW_MAPPER);
     }
 

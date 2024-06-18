@@ -30,11 +30,14 @@ public class ShowItemListController {
    * @return 商品一覧画面
    */
   @GetMapping("")
-  public String toItemList(Model model) {
-    List<Item> itemList = showItemListService.showItemList();
+  public String toItemList(String searchWord,Model model) {
+
+    List<Item> itemList = showItemListService.showItemReFuzSearch(searchWord);
     if (itemList.isEmpty()){
-      model.addAttribute("notFound","商品が存在しません");
+      model.addAttribute("notFound","検索結果：0件");
+      itemList = showItemListService.showItemList();
     }
+    model.addAttribute("searchWord",searchWord);
     model.addAttribute("itemList",itemList);
     return "item-list";
   }
