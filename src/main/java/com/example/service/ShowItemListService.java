@@ -27,6 +27,6 @@ public class ShowItemListService {
      * @return 商品情報リスト
      */
     public List<Item> showItemList(){
-        return itemRepository.findAll();
+        return itemRepository.findItemsFromOffsetLimit10();
     }
 }

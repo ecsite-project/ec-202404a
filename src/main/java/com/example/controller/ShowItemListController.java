@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+/**
+ * 商品情報を操作するコントローラ.
+ *
+ * @author krkrHotaru
+ */
+
 @Controller
 @RequestMapping("/show-item-list")
 public class ShowItemListController {
@@ -30,7 +36,6 @@ public class ShowItemListController {
       model.addAttribute("notFound","商品が存在しません");
     }
     model.addAttribute("itemList",itemList);
-    System.out.println(model);
     return "item-list";
   }
 }

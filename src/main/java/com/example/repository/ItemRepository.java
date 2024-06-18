@@ -40,7 +40,7 @@ public class ItemRepository {
      *
      * @return 削除フラグのたっていない商品情報のリスト(開始位置から10件)
      */
-    public List<Item> findAll(){
+    public List<Item> findItemsFromOffsetLimit10(){
         String sql = """
                         SELECT id,name,description,price_s,price_m,price_l,image_path
                         FROM items

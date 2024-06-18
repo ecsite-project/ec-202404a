@@ -4,6 +4,20 @@
   <body>
     <div th:replace="common/header :: header_fragment"></div>
     <h1>商品一覧</h1>
+    <div>
+      <table>
+        <tr th:each="item : ${itemList}">
+          <td th:text="${item.name}"></td>
+          <td th:text="${item.description}"></td>
+          <td th:text="${item.priceS}"></td>
+          <td th:text="${item.priceM}"></td>
+          <td th:text="${item.priceL}"></td>
+          <td>
+            <img th:src="@{'img/'} + ${item.imagePath}" alt="">
+          </td>
+        </tr>
+      </table>
+    </div>
     <div th:replace="common/footer :: footer_fragment"></div>
   </body>
 </html>
