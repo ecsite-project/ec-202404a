@@ -15,7 +15,7 @@ public class SecurityConfig {
   @Bean
   protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests(authz -> authz
-        .requestMatchers("*").permitAll()
+        .requestMatchers("/**").permitAll()
         .requestMatchers("/css/**").permitAll()
         .requestMatchers("/js/**").permitAll()
         .requestMatchers("/img/**").permitAll()
@@ -24,9 +24,9 @@ public class SecurityConfig {
         .requestMatchers("/insert").permitAll()
         .anyRequest().authenticated()
     ).formLogin(login -> login
-        .loginPage("/")
-        .loginProcessingUrl("/login")
-        .failureUrl("/?error=true")
+        .loginPage("/login")
+        .loginProcessingUrl("/loginXXX")
+        .failureUrl("/login?error=true")
         .defaultSuccessUrl("/employee/showList", true)
         .usernameParameter("mailAddress")
         .passwordParameter("password")
