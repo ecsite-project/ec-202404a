@@ -5,6 +5,16 @@
     <div th:replace="common/header :: header_fragment"></div>
     <h1>商品一覧</h1>
     <div>
+      <form th:action="@{/show-item-list}" method="get">
+        <label for="searchWord">🔍</label>
+        <input type="text" name="searchWord" id="searchWord" th:value="${searchWord}">
+        <button type="submit">検索</button>
+      </form>
+    </div>
+    <div>
+      <p th:if="${notFound}">
+        <span th:text="${notFound}" style="color:red"></span>
+      </p>
       <table>
         <tr th:each="item : ${itemList}">
           <td th:text="${item.name}"></td>

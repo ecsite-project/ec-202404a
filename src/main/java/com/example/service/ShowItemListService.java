@@ -22,11 +22,20 @@ public class ShowItemListService {
     private ItemRepository itemRepository;
 
     /**
+     * あいまい検索結果の商品情報を10件持ってきます.
+     *
+     * @return 商品情報リスト
+     */
+    public List<Item> showItemReFuzSearch(String searchWord){
+        return itemRepository.findItemsSearchByWordOrderBySortClipByOffset(searchWord,null,null);
+    }
+
+    /**
      * 全商品情報から10件持ってきます.
      *
      * @return 商品情報リスト
      */
     public List<Item> showItemList(){
-        return itemRepository.findItemsFromOffsetLimit10();
+        return itemRepository.findItemsSearchByWordOrderBySortClipByOffset(null,null,null);
     }
 }
