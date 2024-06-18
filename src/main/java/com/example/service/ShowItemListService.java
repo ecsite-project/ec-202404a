@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.common.SortType;
 import com.example.domain.Item;
 import com.example.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,12 @@ public class ShowItemListService {
      *
      * @return 商品情報リスト
      */
-    public List<Item> showItemReFuzSearch(String searchWord){
-        return itemRepository.findItemsSearchByWordOrderBySortClipByOffset(searchWord,null,null);
+    public List<Item> showItemReFuzSearch(String searchWord, Integer sortType) {
+        String sortStr = null;
+        if (sortType != null) {
+            sortStr = SortType.of(sortType).getValue();
+        }
+        return itemRepository.findItemsSearchByWordOrderBySortClipByOffset(searchWord, sortStr, null);
     }
 
     /**
@@ -35,7 +40,11 @@ public class ShowItemListService {
      *
      * @return 商品情報リスト
      */
-    public List<Item> showItemList(){
-        return itemRepository.findItemsSearchByWordOrderBySortClipByOffset(null,null,null);
+    public List<Item> showItemList(Integer sortType) {
+        String sortStr = null;
+        if (sortType != null) {
+            sortStr = SortType.of(sortType).getValue();
+        }
+        return itemRepository.findItemsSearchByWordOrderBySortClipByOffset(null, sortStr, null);
     }
 }

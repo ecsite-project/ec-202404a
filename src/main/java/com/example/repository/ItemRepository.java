@@ -40,7 +40,7 @@ public class ItemRepository {
      *
      * @return 検索結果に沿った商品情報10件のリスト
      */
-    public List<Item> findItemsSearchByWordOrderBySortClipByOffset(String searchWord, String sort, Integer offset){
+    public List<Item> findItemsSearchByWordOrderBySortClipByOffset(String searchWord, String sortStr, Integer offset){
         String sql = """
                         SELECT id,name,description,price_s,price_m,price_l,image_path
                         FROM items
@@ -49,8 +49,8 @@ public class ItemRepository {
         if (searchWord != null) {
             sql += " AND name LIKE :searchWord";
         }
-        if (sort != null){
-            sql += " ORDER BY " + sort + " ASC ";
+        if (sortStr != null){
+            sql += " ORDER BY " + sortStr;
         } else {
             sql += " ORDER BY name ASC ";
         }
