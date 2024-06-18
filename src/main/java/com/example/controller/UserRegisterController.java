@@ -22,19 +22,24 @@ public class UserRegisterController {
 
   @GetMapping("/toRegister")
   public String toRegister(Model model, UserRegisterForm form) {
+    System.out.println(form);
     return "register";
   }
 
   @PostMapping("/register")
   public String register(@Validated UserRegisterForm form, BindingResult result, Model model){
 
+    System.out.println("エラー処理前: " + form + result);
+
     if(!form.getPassword().equals(form.getConfirmPassword())){
       result.rejectValue("confirmPassword", "", "確認用パスワードが一致しません");
     }
 
     if(userRegisterService.checkEmail(form.getEmail())){
-      result.rejectValue("mailAddress", "duplicate", "メールアドレスが既に使用されています");
+      result.rejectValue("email", "duplicate", "メールアドレスが既に使用されています");
     }
+
+    System.out.println("エラー処理後: " + form + result);
 
     if(result.hasErrors()){
       return toRegister(model, form);
@@ -46,6 +51,6 @@ public class UserRegisterController {
 
     userRegisterService.insert(user);
 
-    return "redirect:/";
+    return "redirect:/toRegister";
   }
 }
