@@ -7,7 +7,42 @@
   </head>
   <body>
     <div th:replace="common/header :: header_fragment"></div>
-    <h1>新規登録</h1>
+    <main>
+      <div class="register-form">
+        <form th:action="@{register}" method="post">
+          <div class="name-input-wrap">
+            <div class="input-field col s6">
+              <i class="material-icons prefix">person</i>
+              <input id="lastName" type="text" class="validate" />
+              <label for="lastName">姓</label>
+            </div>
+            <div class="input-field col s6">
+              <i class="material-icons prefix">person</i>
+              <input id="firstName" type="text" class="validate" />
+              <label for="firstName">名</label>
+            </div>
+          </div>
+          <div class="input-field col s6">
+            <i class="material-icons prefix">mail</i>
+            <input id="email" type="text" class="validate" />
+            <label for="email">email</label>
+          </div>
+          <div class="input-field col s6">
+            <i class="material-icons prefix">password</i>
+            <input id="password" type="text" class="validate" />
+            <label for="password">password</label>
+          </div>
+          <button
+            class="btn waves-effect waves-light"
+            type="submit"
+            name="action"
+          >
+            新規登録
+            <i class="material-icons right">how_to_reg</i>
+          </button>
+        </form>
+      </div>
+    </main>
     <form
       th:action="@{/register}"
       th:object="${userRegisterForm}"
