@@ -43,6 +43,7 @@ public class User {
                 ", municipalities='" + municipalities + '\'' +
                 ", address='" + address + '\'' +
                 ", telephone='" + telephone + '\'' +
+                ", adminFlag=" + adminFlag +
                 ", bookmarkList=" + bookmarkList +
                 '}';
     }
