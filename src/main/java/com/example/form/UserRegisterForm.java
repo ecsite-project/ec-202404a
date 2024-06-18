@@ -1,6 +1,9 @@
 package com.example.form;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Pattern;
 
 /**
  * ユーザ登録時のフォーム.
@@ -15,6 +18,7 @@ public class UserRegisterForm {
     @NotBlank(message = "名前は必須です")
     private String firstName;
     /** メールアドレス */
+    @Email(message = "形式が正しくありません")
     @NotBlank(message = "メールアドレスは必須です")
     private String email;
     /** パスワード */
@@ -24,6 +28,7 @@ public class UserRegisterForm {
     @NotBlank(message = "確認用パスワードは必須です")
     private String confirmPassword;
     /** 郵便番号 */
+    @Pattern(regexp="^[0-9]{3}-[0-9]{4}$", message = "形式が正しくありません")
     @NotBlank(message = "郵便番号は必須です")
     private String zipcode;
     /** 都道府県 */
@@ -36,6 +41,7 @@ public class UserRegisterForm {
     @NotBlank(message = "住所は必須です")
     private String address;
     /** 電話番号 */
+    @Pattern(regexp="^[0-9]{3,4}-[0-9]{2,4}-[0-9]{4}$", message = "形式が正しくありません")
     @NotBlank(message = "電話番号は必須です")
     private String telephone;
 

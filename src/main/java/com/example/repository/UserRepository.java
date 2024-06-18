@@ -18,7 +18,9 @@ import java.util.List;
  */
 @Repository
 public class UserRepository {
-
+    /**
+     * ユーザ情報登録用のRowMapper.
+     */
     private static final RowMapper<User> USER_ROW_MAPPER = (rs, i) -> {
         User user = new User();
         user.setId(rs.getInt("id"));
@@ -30,7 +32,7 @@ public class UserRepository {
         user.setMunicipalities(rs.getString("municipalities"));
         user.setAddress(rs.getString("address"));
         user.setTelephone(rs.getString("telephone"));
-        user.setAddress(String.valueOf(rs.getBoolean("admin_flag")));
+        user.setAdminFlag(rs.getBoolean("admin_flag"));
         return user;
     };
 
@@ -49,7 +51,7 @@ public class UserRepository {
     }
 
     /**
-     * メールアドレスが存在するかを確認する.
+     * メールアドレスによる検索する.
      *
      * @param email 検索するメールアドレス
      * @return 一致したユーザ情報

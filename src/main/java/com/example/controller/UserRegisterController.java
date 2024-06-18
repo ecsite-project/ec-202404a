@@ -20,16 +20,28 @@ public class UserRegisterController {
   @Autowired
   private UserRegisterService userRegisterService;
 
+  /**
+   * ユーザ登録画面へフォワードする.
+   *
+   * @param model リクエストスコープ
+   * @param form ユーザ登録フォーム
+   * @return ユーザ登録画面
+   */
   @GetMapping("/toRegister")
   public String toRegister(Model model, UserRegisterForm form) {
-    System.out.println(form);
     return "register";
   }
 
+  /**
+   * ユーザ登録情報を送信する.
+   *
+   * @param form ユーザ登録フォーム
+   * @param result ユーザ登録画面
+   * @param model リクエストスコープ
+   * @return ユーザ登録画面へリダイレクト
+   */
   @PostMapping("/register")
   public String register(@Validated UserRegisterForm form, BindingResult result, Model model){
-
-    System.out.println("エラー処理前: " + form + result);
 
     if(!form.getPassword().equals(form.getConfirmPassword())){
       result.rejectValue("confirmPassword", "", "確認用パスワードが一致しません");
@@ -38,8 +50,6 @@ public class UserRegisterController {
     if(userRegisterService.checkEmail(form.getEmail())){
       result.rejectValue("email", "duplicate", "メールアドレスが既に使用されています");
     }
-
-    System.out.println("エラー処理後: " + form + result);
 
     if(result.hasErrors()){
       return toRegister(model, form);
@@ -51,6 +61,7 @@ public class UserRegisterController {
 
     userRegisterService.insert(user);
 
+    // 一旦ユーザ登録画面へリダイレクト
     return "redirect:/toRegister";
   }
 }
