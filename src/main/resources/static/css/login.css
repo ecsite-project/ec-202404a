@@ -19,9 +19,16 @@ main {
 .login-form button {
   background-color: white;
   color: rgb(34, 34, 34);
+  width: 100%;
+  font-weight: bold;
 }
 
 .login-form button:hover {
   background-color: #ffc107;
   color: white;
+}
+
+.register-link-wrap {
+  padding-top: 4px;
+  text-align: end;
 }
