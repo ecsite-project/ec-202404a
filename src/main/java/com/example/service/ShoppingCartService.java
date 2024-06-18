@@ -1,0 +1,65 @@
+package com.example.service;
+
+import com.example.domain.Order;
+import com.example.domain.OrderItem;
+import com.example.domain.OrderTopping;
+import com.example.form.AddItemForm;
+import com.example.repository.OrderItemRepository;
+import com.example.repository.OrderRepository;
+import com.example.repository.OrderToppingRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * ショッピングカートの処理のサービス.
+ *
+ * @author rui.inoue
+ */
+@Service
+@Transactional
+public class ShoppingCartService {
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
+
+    @Autowired
+    private OrderToppingRepository orderToppingRepository;
+
+    /**
+     * 商品の追加.
+     *
+     * @param userId ユーザid
+     * @param form 入力情報
+     * @return 注文情報
+     */
+    public Order addItem(Integer userId, AddItemForm form){
+        Order order = orderRepository.findByUserIdAndStatus(userId, 0);
+        if(order == null){
+            order = new Order();
+            order.setUserId(userId);
+            order.setStatus(0);
+            order.setTotalPrice(0);
+            order = orderRepository.insert(order);
+        }
+
+        OrderItem orderItem = new OrderItem();
+        orderItem.setItemId(form.getItemId());
+        orderItem.setOrderId(order.getId());
+        orderItem.setQuantity(form.getQuantity());
+        orderItem.setSize(form.getSize().toCharArray()[0]);
+        orderItem = orderItemRepository.insert(orderItem);
+
+        for (Integer toppingId: form.getToppingList()){
+            OrderTopping orderTopping = new OrderTopping();
+            orderTopping.setOrderItemId(orderItem.getId());
+            orderTopping.setToppingId(toppingId);
+            orderToppingRepository.insert(orderTopping);
+        }
+
+        return order;
+    }
+}
