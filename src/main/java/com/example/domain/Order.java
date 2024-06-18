@@ -184,10 +184,20 @@ public class Order {
         this.orderItemList = orderItemList;
     }
 
+    /**
+     * 消費税額を計算して返します.
+     *
+     * @return 消費税額
+     */
     public int getTax() {
         return (int) (this.totalPrice * TAX);
     }
 
+    /**
+     * カート内の商品を参照して合計金額を返します.
+     *
+     * @return 合計金額(税抜き)
+     */
     public int getCalcTotalPrice(){
         int total = 0;
         for(OrderItem orderItem : this.orderItemList){
