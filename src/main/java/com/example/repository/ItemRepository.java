@@ -54,9 +54,9 @@ public class ItemRepository {
         } else {
             sql += " ORDER BY name ASC ";
         }
-        sql = sql + " LIMIT 10 ";
+        sql += " LIMIT 10 ";
         if (offset != null) {
-            sql = sql + " OFFSET :offset ";
+            sql += " OFFSET :offset ";
         }
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("searchWord", "%" + searchWord + "%")
