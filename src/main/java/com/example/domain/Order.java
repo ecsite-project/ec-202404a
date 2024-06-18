@@ -190,7 +190,7 @@ public class Order {
      * @return 消費税額
      */
     public int getTax() {
-        return (int) (this.totalPrice * TAX);
+        return (int) (getCalcTotalPrice() * TAX);
     }
 
     /**
