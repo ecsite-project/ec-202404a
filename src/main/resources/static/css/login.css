@@ -1,0 +1,27 @@
+@charset "UTF-8";
+
+main {
+  height: calc(100vh - 75px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form {
+  width: 95%;
+  max-width: 500px;
+}
+
+.login-form button i.right {
+  margin-left: 4px;
+}
+
+.login-form button {
+  background-color: white;
+  color: rgb(34, 34, 34);
+}
+
+.login-form button:hover {
+  background-color: #ffc107;
+  color: white;
+}
