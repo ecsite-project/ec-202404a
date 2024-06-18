@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginLogoutController {
   @GetMapping("/login")
   public String toLogin() {
+
     return "login";
   }
 }
