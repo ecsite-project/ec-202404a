@@ -13,17 +13,18 @@
     <p th:text="${item.description}"></p>
 
     <form action="item-detail.html" th:action="@{/shopping-cart/add}" method="post">
+
       <h4>サイズ</h4>
       <label>
-        <input type="radio" name="size" value="S" checked>
+        <input type="radio" name="size" value="S" th:data-price="${item.priceS}" checked>
         <span th:text="'小盛り: ' + ${#numbers.formatInteger(item.priceS, 0, 'COMMA')} + '円'"></span>
       </label>
       <label>
-        <input type="radio" name="size" value="M">
+        <input type="radio" name="size" value="M" th:data-price="${item.priceM}">
         <span th:text="'並盛り: ' + ${#numbers.formatInteger(item.priceM, 0, 'COMMA')} + '円'"></span>
       </label>
       <label>
-        <input type="radio" name="size" value="L">
+        <input type="radio" name="size" value="L" th:data-price="${item.priceL}">
         <span th:text="'大盛り: ' + ${#numbers.formatInteger(item.priceS, 0, 'COMMA')} + '円'"></span>
       </label>
 
@@ -32,7 +33,7 @@
       <h4>トッピング</h4>
       <span th:each="topping: ${item.toppingList}">
         <label>
-          <input type="checkbox" name="toppingList" th:value="${topping.id}">
+          <input type="checkbox" name="toppingList" th:value="${topping.id}" th:data-price="${topping.price}">
           <span th:text="${topping.name} + ${#numbers.formatInteger(topping.price, 0, 'COMMA')} + '円'"></span>
         </label>
       </span>
@@ -57,9 +58,13 @@
 
       <br>
 
+      <h4 id="total-price"></h4>
       <button type="submit">カートに入れる</button>
     </form>
 
     <div th:replace="common/footer :: footer_fragment"></div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script th:src="@{/js/totalPrice.js}"></script>
   </body>
 </html>
