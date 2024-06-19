@@ -13,6 +13,12 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * ログイン処理を行うサービス.
+ * 認証を行うために，Spring SecurityのUserDetailsServiceインターフェースを実装している。
+ *
+ * @author YusakuTerashima
+ */
 @Service
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 

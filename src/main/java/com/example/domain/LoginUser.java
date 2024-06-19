@@ -4,6 +4,11 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
+/**
+ * ログイン処理用のユーザ情報を保持するドメイン.
+ *
+ * @author YusakuTerashima
+ */
 public class LoginUser extends org.springframework.security.core.userdetails.User {
 
     private final User user;
