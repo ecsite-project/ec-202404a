@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 並び替え方法のeNum
+ * 並び替え方法のenum
  *
  * @author krkrHotaru
  */
