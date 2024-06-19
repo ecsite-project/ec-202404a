@@ -31,6 +31,13 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    /**
+     * クレジットカードの有効性確認.
+     *
+     * @param card クレジットカード情報
+     * @param orderId 注文のid
+     * @return 有効かどうかの真理値
+     */
     public boolean checkCreditCard(CreditCard card, Integer orderId){
         Order order = orderRepository.findById(orderId);
         if(order == null){
