@@ -29,12 +29,19 @@
       <br />
       <span th:errors="*{zipcode}">エラー</span>
       郵便番号: <input th:type="text" th:field="*{zipcode}" />
+      <button type="button" id="searchAddressBtn">住所を取得</button>
       <br />
       <span th:errors="*{prefecture}">エラー</span>
-      都道府県: <input th:type="text" th:field="*{prefecture}" />
+      都道府県:
+      <input
+        th:type="text"
+        th:field="*{prefecture}"
+        id="destinationPrefecture"
+      />
       <br />
       <span th:errors="*{municipalities}">エラー</span>
-      市区町村: <input th:type="text" th:field="*{municipalities}" />
+      市区町村:
+      <input th:type="text" th:field="*{municipalities}" />
       <br />
       <span th:errors="*{address}">エラー</span>
       住所: <input th:type="text" th:field="*{address}" />
@@ -45,5 +52,7 @@
       <button type="submit">送信</button>
     </form>
     <div th:replace="common/footer :: footer_fragment"></div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script th:src="@{/js/zipcode.js}"></script>
   </body>
 </html>
