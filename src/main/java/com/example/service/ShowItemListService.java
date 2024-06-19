@@ -25,6 +25,9 @@ public class ShowItemListService {
     /**
      * あいまい検索結果の商品情報を10件持ってきます.
      *
+     * @param searchWord 検索ワード
+     * @param sortType 並び順指定番号
+     * @param page ページ番号
      * @return 商品情報リスト
      */
     public List<Item> showItemsSearchedBySWord(String searchWord, Integer sortType, Integer page) {
@@ -42,6 +45,8 @@ public class ShowItemListService {
     /**
      * 全商品情報から10件持ってきます.
      *
+     * @param sortType 並び順指定番号
+     * @param page ページ番号
      * @return 商品情報リスト
      */
     public List<Item> showItemList(Integer sortType,Integer page) {

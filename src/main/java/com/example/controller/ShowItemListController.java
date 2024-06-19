@@ -30,6 +30,9 @@ public class ShowItemListController {
     /**
      * 商品一覧画面を表示する.
      *
+     * @param searchWord 検索ワード
+     * @param sortType 並び順のタイプを指定する番号
+     * @param page ページ数
      * @param model Requestスコープの準備
      * @return 商品一覧画面
      */
@@ -69,7 +72,6 @@ public class ShowItemListController {
         model.addAttribute("searchWord", searchWord);
         model.addAttribute("sortType", sortType);
         model.addAttribute("itemList", itemList);
-//        System.out.println("pages:" + pages + "/ searchWord:" + searchWord + "/ sortType:" + sortType +  "/ itemList:"+ itemList);
         return "item-list";
     }
 }
