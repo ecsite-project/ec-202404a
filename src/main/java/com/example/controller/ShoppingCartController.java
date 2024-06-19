@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.domain.LoginUser;
 import com.example.domain.Order;
 import com.example.domain.OrderItem;
 import com.example.domain.User;
@@ -43,13 +44,13 @@ public class ShoppingCartController {
      * @return カート画面
      */
     @GetMapping("")
-    public String toShoppingCart(Model model, HttpSession session, @AuthenticationPrincipal User user) {
+    public String toShoppingCart(Model model, HttpSession session, @AuthenticationPrincipal LoginUser user) {
         // ここから下デバッグ用
+        System.out.println("user: " + user.getUser());
         System.out.println("sessionID: " + session.getId());
         String sessionId = session.getId();
         int sessionIdNumber = extractNumbers(sessionId);
         System.out.println("数字抽出: " + sessionIdNumber);
-        System.out.println("user: " + user);
         // ここまで
 
         Integer testUserId = 1;
