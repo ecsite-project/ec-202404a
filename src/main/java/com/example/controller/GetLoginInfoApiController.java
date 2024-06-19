@@ -17,7 +17,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/get-user")
-public class GetLoginInfoController {
+public class GetLoginInfoApiController {
 
     @Autowired
     private UserService userService;
