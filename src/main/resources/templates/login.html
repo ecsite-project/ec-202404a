@@ -9,15 +9,16 @@
     <div th:replace="common/header :: header_fragment"></div>
     <main>
       <div class="login-form">
-        <form th:action="@{/login}" method="post">
+        <form th:action="@{login}" method="post">
+          <span th:text="${notMatchError}">エラー</span><br />
           <div class="input-field col s6">
             <i class="material-icons prefix">mail</i>
-            <input id="email" type="text" class="validate" />
+            <input id="email" type="text" name="email" class="validate" />
             <label for="email">email</label>
           </div>
           <div class="input-field col s6">
             <i class="material-icons prefix">password</i>
-            <input id="password" type="text" class="validate" />
+            <input id="password" type="text" name="password" class="validate" />
             <label for="password">password</label>
           </div>
           <button
