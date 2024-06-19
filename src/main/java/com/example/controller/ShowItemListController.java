@@ -36,15 +36,18 @@ public class ShowItemListController {
      */
     @GetMapping("")
     public String toItemList(String searchWord, Integer sortType, Integer page, Model model) {
+        searchWord = searchWord == null ? "" : searchWord;
+        sortType = sortType == null ? 0 : sortType;
+        page = page == null ? 0 : page;
 
-        if (sortType != null && SortType.of(sortType) == null) {
+        if (SortType.of(sortType) == null) {
             model.addAttribute("notFound", "存在しない並び替えが選択されました。初期画面を表示しています。");
             sortType = 0;
         }
 
         int cntRows = showItemListService.cntRowsBySearchedItems(searchWord);
         int maxPage = (int) (ceil((double) cntRows / 10));
-        if (page != null && (maxPage < page || page < 1)) {
+        if (page != 0 && (maxPage < page || page < 0)) {
             model.addAttribute("notFound", "存在しないページへの遷移が行われました。初期画面を表示しています。");
             page = 1;
         }
@@ -64,7 +67,9 @@ public class ShowItemListController {
         }
         model.addAttribute("pages", pages);
         model.addAttribute("searchWord", searchWord);
+        model.addAttribute("sortType", sortType);
         model.addAttribute("itemList", itemList);
+//        System.out.println("pages:" + pages + "/ searchWord:" + searchWord + "/ sortType:" + sortType +  "/ itemList:"+ itemList);
         return "item-list";
     }
 }

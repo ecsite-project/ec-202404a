@@ -33,10 +33,10 @@ public class ShowItemListService {
             sortStr = SortType.of(sortType).getValue();
         }
         Integer offset = null;
-        if (page != null) {
+        if (page != 0) {
             offset = (page - 1) * 10;
         }
-        return itemRepository.findItemsSearchByWordOrderBySortClipByOffset(searchWord, sortStr, page);
+        return itemRepository.findItemsSearchByWordOrderBySortClipByOffset(searchWord, sortStr, offset);
     }
 
     /**
@@ -50,7 +50,7 @@ public class ShowItemListService {
             sortStr = SortType.of(sortType).getValue();
         }
         Integer offset = null;
-        if (page != null) {
+        if (page != 0) {
             offset = (page - 1) * 10;
         }
         return itemRepository.findItemsSearchByWordOrderBySortClipByOffset(null, sortStr, offset);
