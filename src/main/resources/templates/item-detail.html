@@ -8,76 +8,63 @@
   <body>
     <div th:replace="common/header :: header_fragment"></div>
     <h1>商品詳細</h1>
+    <img th:src="@{/img/} + ${item.imagePath}">
+    <h3 th:text="${item.name}"></h3>
+    <p th:text="${item.description}"></p>
 
-    <div>
-      <button type="button">ログイン者情報を入力</button>
-      <form action="item-detail.html" th:action="@{/order}" method="post">
-<!--        <div th:errors="*{destinationName}" style="color: red;">エラー</div>-->
-        <input type="text" name="destinationName" placeholder="お名前"><br>
-<!--        <div th:errors="*{destinationEmail}" style="color: red;">エラー</div>-->
-        <input type="email" name="destinationEmail" placeholder="メールアドレス"><br>
-<!--        <div th:errors="*{destinationZipcode}" style="color: red;">エラー</div>-->
-        <input type="text" name="destinationZipcode" placeholder="郵便番号" id="destinationZipcode"><br>
-        <button type="button" id="searchAddressBtn">住所検索</button>
-<!--        <div th:errors="*{destinationPrefecture}" style="color: red;">エラー</div>-->
-        <select name="destinationPrefecture" id="destinationPrefecture" class="browser-default">
-          <option value="" disabled selected>都道府県</option>
-          <option value="北海道">北海道</option>
-          <option value="青森県">青森県</option>
-          <option value="岩手県">岩手県</option>
-          <option value="宮城県">宮城県</option>
-          <option value="秋田県">秋田県</option>
-          <option value="山形県">山形県</option>
-          <option value="福島県">福島県</option>
-          <option value="茨城県">茨城県</option>
-          <option value="栃木県">栃木県</option>
-          <option value="群馬県">群馬県</option>
-          <option value="埼玉県">埼玉県</option>
-          <option value="千葉県">千葉県</option>
-          <option value="東京都">東京都</option>
-          <option value="神奈川県">神奈川県</option>
-          <option value="新潟県">新潟県</option>
-          <option value="富山県">富山県</option>
-          <option value="石川県">石川県</option>
-          <option value="福井県">福井県</option>
-          <option value="山梨県">山梨県</option>
-          <option value="長野県">長野県</option>
-          <option value="岐阜県">岐阜県</option>
-          <option value="静岡県">静岡県</option>
-          <option value="愛知県">愛知県</option>
-          <option value="三重県">三重県</option>
-          <option value="滋賀県">滋賀県</option>
-          <option value="京都府">京都府</option>
-          <option value="大阪府">大阪府</option>
-          <option value="兵庫県">兵庫県</option>
-          <option value="奈良県">奈良県</option>
-          <option value="和歌山県">和歌山県</option>
-          <option value="鳥取県">鳥取県</option>
-          <option value="島根県">島根県</option>
-          <option value="岡山県">岡山県</option>
-          <option value="広島県">広島県</option>
-          <option value="山口県">山口県</option>
-          <option value="徳島県">徳島県</option>
-          <option value="香川県">香川県</option>
-          <option value="愛媛県">愛媛県</option>
-          <option value="高知県">高知県</option>
-          <option value="福岡県">福岡県</option>
-          <option value="佐賀県">佐賀県</option>
-          <option value="長崎県">長崎県</option>
-          <option value="熊本県">熊本県</option>
-          <option value="大分県">大分県</option>
-          <option value="宮崎県">宮崎県</option>
-          <option value="鹿児島県">鹿児島県</option>
-          <option value="沖縄県">沖縄県</option>
-        </select>
-<!--        <div th:errors="*{destinationMunicipalities}" style="color: red;">エラー</div>-->
-        <input type="text" name="destinationMunicipalities" placeholder="市区町村" id="destinationMunicipalities"><br>
-<!--        <div th:errors="*{destinationAddress}" style="color: red;">エラー</div>-->
-        <input type="text" name="destinationAddress" placeholder="住所" id="destinationAddress"><br>
-      </form>
-    </div>
+    <form action="item-detail.html" th:action="@{/shopping-cart/add-item}" method="post">
+      <input type="hidden" name="itemId" th:value="${item.id}">
+      <h4>サイズ</h4>
+      <label>
+        <input type="radio" name="size" value="S" th:data-price="${item.priceS}" checked>
+        <span th:text="'小盛り: ' + ${#numbers.formatInteger(item.priceS, 0, 'COMMA')} + '円'"></span>
+      </label>
+      <label>
+        <input type="radio" name="size" value="M" th:data-price="${item.priceM}">
+        <span th:text="'並盛り: ' + ${#numbers.formatInteger(item.priceM, 0, 'COMMA')} + '円'"></span>
+      </label>
+      <label>
+        <input type="radio" name="size" value="L">
+        <span th:text="'大盛り: ' + ${#numbers.formatInteger(item.priceL, 0, 'COMMA')} + '円'"></span>
+      </label>
+
+      <br>
+
+      <h4>トッピング</h4>
+      <span th:each="topping: ${item.toppingList}">
+        <label>
+          <input type="checkbox" name="toppingList" th:value="${topping.id}" th:data-price="${topping.price}">
+          <span th:text="${topping.name} + ${#numbers.formatInteger(topping.price, 0, 'COMMA')} + '円'"></span>
+        </label>
+      </span>
+
+      <br>
+
+      <h4>数量</h4>
+      <select name="quantity" class="browser-default">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+      </select>
+
+      <br>
+
+      <h4 id="total-price"></h4>
+      <button type="submit">カートに入れる</button>
+    </form>
+
     <div th:replace="common/footer :: footer_fragment"></div>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script th:src="@{/js/zipcode.js}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script th:src="@{/js/totalPrice.js}"></script>
   </body>
 </html>

@@ -12,6 +12,11 @@
       <form th:action="@{/show-item-list}" method="get">
         <label for="searchWord">🔍</label>
         <input type="text" name="searchWord" id="searchWord" th:value="${searchWord}">
+        <select name="sortType" id="sortType" class="browser-default">
+          <option value="0">名前順</option>
+          <option value="1">価格の安い順</option>
+          <option value="2">価格の高い順</option>
+        </select>
         <button type="submit">検索</button>
       </form>
     </div>
@@ -21,13 +26,13 @@
       </p>
       <table>
         <tr th:each="item : ${itemList}">
-          <td th:text="${item.name}"></td>
+          <td><a th:href="@{/show-item-detail?id=} + ${item.id}" th:text="${item.name}"></a></td>
           <td th:text="${item.description}"></td>
           <td th:text="${item.priceS}"></td>
           <td th:text="${item.priceM}"></td>
           <td th:text="${item.priceL}"></td>
           <td>
-            <img th:src="@{'img/'} + ${item.imagePath}" alt="">
+            <img th:src="@{'img/'} + ${item.imagePath}" alt="" style="width: 20px">
           </td>
         </tr>
       </table>
