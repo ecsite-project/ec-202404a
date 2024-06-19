@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Math.ceil;
-import static java.lang.Math.copySign;
 
 /**
  * 商品情報を操作するコントローラ.
@@ -41,24 +40,25 @@ public class ShowItemListController {
         page = page == null ? 0 : page;
 
         if (SortType.of(sortType) == null) {
-            model.addAttribute("notFound", "存在しない並び替えが選択されました。初期画面を表示しています。");
+            model.addAttribute("orderError", "存在しない並び替えが選択されました。初期画面を表示しています。");
             sortType = 0;
         }
 
         int cntRows = showItemListService.cntRowsBySearchedItems(searchWord);
         int maxPage = (int) (ceil((double) cntRows / 10));
         if (page != 0 && (maxPage < page || page < 0)) {
-            model.addAttribute("notFound", "存在しないページへの遷移が行われました。初期画面を表示しています。");
+            model.addAttribute("pageError", "存在しないページへの遷移が行われました。初期画面を表示しています。");
             page = 1;
         }
 
         List<Item> itemList = showItemListService.showItemsSearchedBySWord(searchWord, sortType, page);
         if (itemList.isEmpty()) {
-            model.addAttribute("notFound", "検索内容での該当結果は0件でした。初期画面を表示しています。");
+            model.addAttribute("searchError", "検索内容での該当結果は0件でした。初期画面を表示しています。");
         }
-        if (model.getAttribute("notFound") != null) {
+        if (model.getAttribute("orderError") != null || model.getAttribute("pageError") != null || model.getAttribute("searchError") != null) {
             itemList = showItemListService.showItemList(sortType, page);
             cntRows = showItemListService.cntRowsAllItems();
+            maxPage = (int) (ceil((double) cntRows / 10));
         }
 
         List<Integer> pages = new ArrayList<>();
