@@ -1,5 +1,9 @@
 package com.example.form;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
 /**
  * 注文確認情報の入力フォーム.
  *
@@ -9,20 +13,31 @@ public class OrderForm {
     /** 注文のid */
     private Integer orderId;
     /** 名前 */
+    @NotBlank(message = "名前が未入力です")
     private String destinationName;
     /** メールアドレス */
+    @NotBlank(message = "メールアドレスが未入力です")
+    @Email(message = "メールアドレスの形式が不正です")
     private String destinationEmail;
     /** 郵便番号 */
+    @Pattern(regexp="^[0-9]{3}-[0-9]{4}$", message = "郵便番号の形式が正しくありません")
+    @NotBlank(message = "郵便番号が未入力です")
     private String destinationZipcode;
     /** 都道府県 */
+    @NotBlank(message = "都道府県が未入力です")
     private String destinationPrefecture;
     /** 市区町村 */
+    @NotBlank(message = "市区町村が未入力です")
     private String destinationMunicipalities;
     /** 住所 */
+    @NotBlank(message = "住所が未入力です")
     private String destinationAddress;
     /** 電話番号 */
+    @Pattern(regexp="^[0-9]{3,4}-[0-9]{2,4}-[0-9]{4}$", message = "電話番号の形式が正しくありません")
+    @NotBlank(message = "電話番号が未入力です")
     private String destinationTel;
     /** 配達日 */
+    @NotBlank(message = "配達日が未入力です")
     private String deliveryDate;
     /** 配達時間 */
     private String deliveryTime;
