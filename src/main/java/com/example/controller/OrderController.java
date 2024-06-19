@@ -2,7 +2,9 @@ package com.example.controller;
 
 import com.example.domain.CreditCard;
 import com.example.form.OrderForm;
+import com.example.service.MailSenderService;
 import com.example.service.OrderService;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 注文処理の制御のコントローラ.
@@ -25,6 +30,9 @@ public class OrderController {
 
   @Autowired
   private OrderService orderService;
+
+  @Autowired
+  private MailSenderService mailSenderService;
 
   /**
    * 注文.
@@ -61,6 +69,13 @@ public class OrderController {
 
     orderService.order(orderForm);
 
+    try {
+      Map<String, Object> variables = new HashMap<>();
+      variables.put("body", "これはテストです");
+      mailSenderService.mailSender("tc.kt-hil@toki.waseda.jp", variables);
+    }catch (MessagingException e){
+      e.printStackTrace();
+    }
     return "order-complete";
   }
 }
