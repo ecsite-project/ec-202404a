@@ -77,14 +77,12 @@ public class ShoppingCartService {
         return orderRepository.findAllOrderInfoByUserIdAndStatus(userId, 0);
     }
 
+    /**
+     * カート内の商品削除.
+     *
+     * @param orderItemId 商品id
+     */
     public void deleteItem(Integer orderItemId){
-        OrderItem orderItem = orderItemRepository.findById(orderItemId);
         orderItemRepository.deleteById(orderItemId);
-        List<OrderItem> orderItemList = orderItemRepository.findByOrderId(orderItem.getOrderId());
-        if(orderItemList.isEmpty()){
-            Order order = orderRepository.findById(orderItem.getOrderId());
-            order.setStatus(9);
-            orderRepository.update(order);
-        }
     }
 }

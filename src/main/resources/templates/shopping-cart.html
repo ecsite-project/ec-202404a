@@ -34,7 +34,7 @@
                 <li th:text="${orderTopping.topping.name} + ${#numbers.formatInteger(orderTopping.topping.price, 0, 'COMMA')} + '円'"></li>
               </ul>
             </td>
-            <td th:text="${#numbers.formatInteger(orderItem.calcSubTotalPrice, 0, 'COMMA')} + '円'"></td>
+<!--            <td th:text="${#numbers.formatInteger(orderItem.calcSubTotalPrice, 0, 'COMMA')} + '円'"></td>-->
             <td>
               <form action="shopping-cart.html" th:action="@{/shopping-cart/delete-item}" method="post">
                 <input type="hidden" name="orderItemId" th:value="${orderItem.id}">

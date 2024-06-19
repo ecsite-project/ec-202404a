@@ -72,46 +72,4 @@ public class OrderItemRepository {
         SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
         template.update(sql, param);
     }
-
-    /**
-     * 主キー検索.
-     *
-     * @param id 主キー
-     * @return 注文商品情報
-     */
-    public OrderItem findById(Integer id){
-        String sql = """
-                SELECT
-                    id, item_id, order_id, quantity, size
-                FROM
-                    order_items
-                WHERE
-                    id=:id
-                ;
-                """;
-        SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
-        OrderItem orderItem = template.queryForObject(sql, param, ORDER_ITEM_ROW_MAPPER);
-        return orderItem;
-    }
-
-    /**
-     * 注文idを基に注文商品情報の検索.
-     *
-     * @param orderId 注文id
-     * @return 注文商品情報のリスト
-     */
-    public List<OrderItem> findByOrderId(Integer orderId){
-        String sql = """
-                SELECT
-                    id, item_id, order_id, quantity, size
-                FROM
-                    order_items
-                WHERE
-                    order_id=:orderId
-                ;
-                """;
-        SqlParameterSource param = new MapSqlParameterSource().addValue("orderId", orderId);
-        List<OrderItem> orderItemList = template.query(sql, param, ORDER_ITEM_ROW_MAPPER);
-        return orderItemList;
-    }
 }

@@ -33,13 +33,10 @@ public class ShoppingCartController {
   public String toShoppingCart(Model model) {
     Integer testUserId = 1;
     Order order = shoppingCartService.showOrder(testUserId);
-    if(order == null){
+    if(order == null || order.getOrderItemList().isEmpty()){
       model.addAttribute("noOrder", "カートに商品は1つもありません");
     }else {
       model.addAttribute("orderItemList", order.getOrderItemList());
-      System.out.println(order.getOrderItemList());
-      model.addAttribute("S", "S");
-      model.addAttribute("M", "M");
     }
     return "shopping-cart";
   }
@@ -57,6 +54,12 @@ public class ShoppingCartController {
     return "redirect:/shopping-cart";
   }
 
+  /**
+   * カート内の商品削除.
+   *
+   * @param orderItemId 商品id
+   * @return カート一覧画面にリダイレクト
+   */
   @PostMapping("/delete-item")
   public String deleteItem(Integer orderItemId){
     shoppingCartService.deleteItem(orderItemId);

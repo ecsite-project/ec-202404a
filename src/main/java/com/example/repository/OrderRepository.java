@@ -84,14 +84,16 @@ public class OrderRepository {
                 orderItemList = new ArrayList<>();
                 order.setOrderItemList(orderItemList);
             }
-            if(formerId != rs.getInt("order_item_id")){
+            if(formerId != rs.getInt("order_item_id") && rs.getInt("order_item_id") != 0){
                 formerId = rs.getInt("order_item_id");
                 OrderItem orderItem = new OrderItem();
                 orderItem.setId(rs.getInt("order_item_id"));
                 orderItem.setItemId(rs.getInt("item_id"));
                 orderItem.setOrderId(rs.getInt("order_id"));
                 orderItem.setQuantity(rs.getInt("quantity"));
-                orderItem.setSize(rs.getString("size").toCharArray()[0]);
+                if(rs.getString("size") != null) {
+                    orderItem.setSize(rs.getString("size").toCharArray()[0]);
+                }
                 Item item = new Item();
                 item.setId(rs.getInt("item_id"));
                 item.setName(rs.getString("item_name"));
@@ -105,16 +107,18 @@ public class OrderRepository {
                 orderToppingList = new ArrayList<>();
                 orderItem.setOrderToppingList(orderToppingList);
             }
-            OrderTopping orderTopping = new OrderTopping();
-            orderTopping.setId(rs.getInt("order_topping_id"));
-            orderTopping.setToppingId(rs.getInt("topping_id"));
-            orderTopping.setOrderItemId(rs.getInt("order_item_id"));
-            Topping topping = new Topping();
-            topping.setId(rs.getInt("topping_id"));
-            topping.setName(rs.getString("topping_name"));
-            topping.setPrice(rs.getInt("topping_price"));
-            orderTopping.setTopping(topping);
-            orderToppingList.add(orderTopping);
+            if(rs.getInt("order_topping_id") != 0) {
+                OrderTopping orderTopping = new OrderTopping();
+                orderTopping.setId(rs.getInt("order_topping_id"));
+                orderTopping.setToppingId(rs.getInt("topping_id"));
+                orderTopping.setOrderItemId(rs.getInt("order_item_id"));
+                Topping topping = new Topping();
+                topping.setId(rs.getInt("topping_id"));
+                topping.setName(rs.getString("topping_name"));
+                topping.setPrice(rs.getInt("topping_price"));
+                orderTopping.setTopping(topping);
+                orderToppingList.add(orderTopping);
+            }
         }
         return orderList;
     };
@@ -234,28 +238,8 @@ public class OrderRepository {
         if(orderList.get(0).getId() == null){
             return null;
         }
+        System.out.println(orderList.get(0));
         return orderList.get(0);
-    }
-
-    /**
-     * 主キー検索.
-     *
-     * @param id 主キー
-     * @return 注文情報
-     */
-    public Order findById(Integer id){
-        String sql = """
-                SELECT
-                    id, user_id, status, total_price, destination_name, destination_email, destination_zipcode, destination_prefecture, destination_municipalities, destination_address, destination_tel, order_time, delivery_time, payment_method
-                FROM
-                    orders
-                WHERE
-                    id=:id
-                ;
-                """;
-        SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
-        Order order = template.queryForObject(sql, param, ORDER_ROW_MAPPER);
-        return order;
     }
 
     /**
