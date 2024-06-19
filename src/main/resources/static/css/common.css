@@ -11,6 +11,11 @@ h6 {
   padding: 0;
 }
 
+* {
+  font-family: Futura, 'Century Gothic', YuGothic, 'Hiragino Kaku Gothic ProN',
+    'Yu Gothic', Meiryo;
+}
+
 /* 全体で使うコンポーネント系部分 */
 body {
   background-color: rgb(34, 34, 34);
