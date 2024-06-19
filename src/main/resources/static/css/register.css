@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 main {
-  height: calc(100vh - 75px);
+  min-height: calc(100vh - 75px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,6 +10,7 @@ main {
 .register-form {
   width: 95%;
   max-width: 500px;
+  padding: 24px 0;
 }
 
 .register-form button i.right {
@@ -28,6 +29,6 @@ main {
   color: white;
 }
 
-.name-input-wrap {
-  display: flex;
+.row {
+  margin-bottom: 0;
 }
