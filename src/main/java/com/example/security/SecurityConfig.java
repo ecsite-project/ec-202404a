@@ -21,8 +21,9 @@ public class SecurityConfig {
         .requestMatchers("/js/**").permitAll()
         .requestMatchers("/img/**").permitAll()
         .requestMatchers("/").permitAll()
-        .requestMatchers("/toInsert").permitAll()
-        .requestMatchers("/insert").permitAll()
+        .requestMatchers("/toRegister").permitAll()
+        .requestMatchers("/register").permitAll()
+            .requestMatchers("/login").permitAll()
         .anyRequest().authenticated()
     ).formLogin(login -> login
         .loginPage("/login")
