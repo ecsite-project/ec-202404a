@@ -26,14 +26,14 @@ public class SecurityConfig {
         .anyRequest().authenticated()
     ).formLogin(login -> login
         .loginPage("/login")
-        .loginProcessingUrl("/loginXXX")
+        .loginProcessingUrl("/login")
         .failureUrl("/login?error=true")
-        .defaultSuccessUrl("/employee/showList", true)
-        .usernameParameter("mailAddress")
+        .defaultSuccessUrl("/show-item-list", false)
+        .usernameParameter("email")
         .passwordParameter("password")
     ).logout(logout -> logout
         .logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))
-        .logoutSuccessUrl("/")
+        .logoutSuccessUrl("/login")
         .invalidateHttpSession(true)
         .deleteCookies("JSESSIONID")
     ).csrf(csrf -> csrf
