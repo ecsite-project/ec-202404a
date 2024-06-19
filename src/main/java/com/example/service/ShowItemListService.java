@@ -27,12 +27,16 @@ public class ShowItemListService {
      *
      * @return 商品情報リスト
      */
-    public List<Item> showItemReFuzSearch(String searchWord, Integer sortType) {
+    public List<Item> showItemsSearchedBySWord(String searchWord, Integer sortType, Integer page) {
         String sortStr = null;
         if (sortType != null) {
             sortStr = SortType.of(sortType).getValue();
         }
-        return itemRepository.findItemsSearchByWordOrderBySortClipByOffset(searchWord, sortStr, null);
+        Integer offset = null;
+        if (page != null) {
+            offset = (page - 1) * 10;
+        }
+        return itemRepository.findItemsSearchByWordOrderBySortClipByOffset(searchWord, sortStr, page);
     }
 
     /**
@@ -40,11 +44,36 @@ public class ShowItemListService {
      *
      * @return 商品情報リスト
      */
-    public List<Item> showItemList(Integer sortType) {
+    public List<Item> showItemList(Integer sortType,Integer page) {
         String sortStr = null;
         if (sortType != null) {
             sortStr = SortType.of(sortType).getValue();
         }
-        return itemRepository.findItemsSearchByWordOrderBySortClipByOffset(null, sortStr, null);
+        Integer offset = null;
+        if (page != null) {
+            offset = (page - 1) * 10;
+        }
+        return itemRepository.findItemsSearchByWordOrderBySortClipByOffset(null, sortStr, offset);
     }
+
+    /**
+     * 全商品情報の行数を数えます.
+     *
+     * @return 全商品数、商品情報がnullの場合は0が返されます。
+     */
+    public int cntRowsAllItems() {
+        return itemRepository.countItemRows(null);
+    }
+
+    /**
+     * あいまい検索の結果該当した商品情報の行数を数えます.
+     *
+     * @param searchWord あいまい検索の検索ワード
+     * @return 検索結果の商品数、検索結果がnullの場合は0が返されます。
+     */
+    public int cntRowsBySearchedItems(String searchWord) {
+        return itemRepository.countItemRows(searchWord);
+    }
+
+
 }

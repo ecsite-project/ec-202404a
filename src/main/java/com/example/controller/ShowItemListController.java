@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.common.SortType;
 import com.example.domain.Item;
 import com.example.service.ShowItemListService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Math.ceil;
+import static java.lang.Math.copySign;
+
 /**
  * 商品情報を操作するコントローラ.
  *
@@ -21,31 +25,46 @@ import java.util.List;
 @RequestMapping("/show-item-list")
 public class ShowItemListController {
 
-  @Autowired
-  private ShowItemListService showItemListService;
+    @Autowired
+    private ShowItemListService showItemListService;
 
-  /**
-   * 商品一覧画面を表示する.
-   *
-   * @param model Requestスコープの準備
-   * @return 商品一覧画面
-   */
-  @GetMapping("")
-  public String toItemList(String searchWord,Model model,Integer sortType) {
-    List<Item> itemList = new ArrayList<>();
-    try {
-      itemList = showItemListService.showItemReFuzSearch(searchWord,sortType);
-      if (itemList.isEmpty()){
-        model.addAttribute("notFound","検索結果：0件");
-        itemList = showItemListService.showItemList(sortType);
-      }
-    } catch (IndexOutOfBoundsException e) {
-      e.printStackTrace();
-      model.addAttribute("notFound","存在しない並び替えが選択されました。名前順で表示しています。");
-      itemList = showItemListService.showItemList(null);
+    /**
+     * 商品一覧画面を表示する.
+     *
+     * @param model Requestスコープの準備
+     * @return 商品一覧画面
+     */
+    @GetMapping("")
+    public String toItemList(String searchWord, Integer sortType, Integer page, Model model) {
+
+        if (sortType != null && SortType.of(sortType) == null) {
+            model.addAttribute("notFound", "存在しない並び替えが選択されました。初期画面を表示しています。");
+            sortType = 0;
+        }
+
+        int cntRows = showItemListService.cntRowsBySearchedItems(searchWord);
+        int maxPage = (int) (ceil((double) cntRows / 10));
+        if (page != null && (maxPage < page || page < 1)) {
+            model.addAttribute("notFound", "存在しないページへの遷移が行われました。初期画面を表示しています。");
+            page = 1;
+        }
+
+        List<Item> itemList = showItemListService.showItemsSearchedBySWord(searchWord, sortType, page);
+        if (itemList.isEmpty()) {
+            model.addAttribute("notFound", "検索内容での該当結果は0件でした。初期画面を表示しています。");
+        }
+        if (model.getAttribute("notFound") != null) {
+            itemList = showItemListService.showItemList(sortType, page);
+            cntRows = showItemListService.cntRowsAllItems();
+        }
+
+        List<Integer> pages = new ArrayList<>();
+        for (int i = 0; i < maxPage; i++) {
+            pages.add(i + 1);
+        }
+        model.addAttribute("pages", pages);
+        model.addAttribute("searchWord", searchWord);
+        model.addAttribute("itemList", itemList);
+        return "item-list";
     }
-    model.addAttribute("searchWord",searchWord);
-    model.addAttribute("itemList",itemList);
-    return "item-list";
-  }
 }
