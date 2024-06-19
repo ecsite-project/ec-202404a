@@ -11,6 +11,11 @@ h6 {
   padding: 0;
 }
 
+* {
+  font-family: Futura, 'Century Gothic', YuGothic, 'Hiragino Kaku Gothic ProN',
+    'Yu Gothic', Meiryo;
+}
+
 /* 全体で使うコンポーネント系部分 */
 body {
   background-color: rgb(34, 34, 34);
@@ -20,7 +25,7 @@ body {
 header {
   height: 72px;
   position: sticky;
-  z-index: 1;
+  z-index: 10;
   top: 0;
   padding: 0 12px;
   display: flex;
@@ -55,4 +60,22 @@ footer {
 .input-field input:focus {
   border-bottom: 1px solid #ffc107 !important;
   box-shadow: 0 1px 0 0 #ffc107 !important;
+}
+
+.input-field input.valid {
+  border-bottom: 1px solid #ffc107 !important;
+  box-shadow: 0 1px 0 0 #ffc107 !important;
+}
+
+.input-field input {
+  color: white;
+}
+
+.input-field .helper-text {
+  color: #ff5252;
+}
+
+.btn:focus {
+  background-color: #ffc107;
+  color: white;
 }

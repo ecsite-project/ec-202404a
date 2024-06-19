@@ -36,7 +36,7 @@ public class ShoppingCartController {
     if(order == null || order.getOrderItemList().isEmpty()){
       model.addAttribute("noOrder", "カートに商品は1つもありません");
     }else {
-      model.addAttribute("orderItemList", order.getOrderItemList());
+      model.addAttribute("order", order);
     }
     return "shopping-cart";
   }
