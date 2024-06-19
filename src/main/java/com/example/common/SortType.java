@@ -3,6 +3,12 @@ package com.example.common;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 並び替え方法のeNum
+ *
+ * @author krkrHotaru
+ */
+
 public enum SortType {
     NAME_ASC(0, " name ASC "),
     PRICE_ASC(1, " price_s ASC "),
