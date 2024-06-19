@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 main {
-  height: calc(100vh - 75px);
+  min-height: calc(100vh - 75px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,6 +29,25 @@ main {
 }
 
 .register-link-wrap {
-  padding-top: 4px;
-  text-align: end;
+  margin-top: 12px;
+  display: flex;
+  justify-content: end;
+}
+
+.register-link-wrap > a {
+  display: flex;
+  align-items: center;
+}
+
+.register-link-wrap i.right {
+  margin-left: 4px;
+}
+
+.row {
+  margin-bottom: 0;
+}
+
+.error-message {
+  color: #ff5252;
+  margin-bottom: 4px;
 }

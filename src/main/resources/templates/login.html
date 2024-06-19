@@ -9,17 +9,26 @@
     <div th:replace="common/header :: header_fragment"></div>
     <main>
       <div class="login-form">
+        <p class="error-message" th:text="${notMatchError}">エラー</p>
         <form th:action="@{login}" method="post">
-          <span th:text="${notMatchError}">エラー</span><br />
-          <div class="input-field col s6">
-            <i class="material-icons prefix">mail</i>
-            <input id="email" type="text" name="email" class="validate" />
-            <label for="email">email</label>
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">mail</i>
+              <input id="email" type="text" name="email" class="validate" />
+              <label for="email">email</label>
+            </div>
           </div>
-          <div class="input-field col s6">
-            <i class="material-icons prefix">password</i>
-            <input id="password" type="text" name="password" class="validate" />
-            <label for="password">password</label>
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">password</i>
+              <input
+                id="password"
+                type="text"
+                name="password"
+                class="validate"
+              />
+              <label for="password">password</label>
+            </div>
           </div>
           <button
             class="btn waves-effect waves-light"
@@ -31,7 +40,9 @@
           </button>
         </form>
         <div class="register-link-wrap">
-          <a th:href="@{/toRegister}">新規登録はこちら</a>
+          <a th:href="@{/toRegister}"
+            >新規登録はこちら<i class="material-icons right">how_to_reg</i></a
+          >
         </div>
       </div>
     </main>
