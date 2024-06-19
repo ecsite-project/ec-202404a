@@ -9,7 +9,7 @@
     <div th:replace="common/header :: header_fragment"></div>
     <h1>商品一覧</h1>
     <div>
-      <form th:action="@{/show-item-list}" method="get">
+      <form th:action="@{/show-item-list}" method="get" id="searchForm">
         <label for="searchWord">🔍</label>
         <input type="text" name="searchWord" id="searchWord" th:if="${searchError == null}" th:value="${searchWord}">
         <input type="text" name="searchWord" id="searchWord" th:if="${searchError != null}">
@@ -55,5 +55,6 @@
       </span>
     </div>
     <div th:replace="common/footer :: footer_fragment"></div>
+    <script th:src="@{/js/item-list/select.js}"></script>
   </body>
 </html>
