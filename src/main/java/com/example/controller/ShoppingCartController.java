@@ -34,6 +34,8 @@ public class ShoppingCartController {
     @Autowired
     private HttpSession session;
 
+    static final int margin = 10000; // 仮IDが登録済ユーザのユーザIDと重複しないためのマージン
+
     /**
      * カート画面の表示.
      *
@@ -107,7 +109,7 @@ public class ShoppingCartController {
             }
         }
 
-        number += 10000; // 登録されてるユーザとの重複を避けるため
+        number += margin; // 登録されてるユーザとの重複を避けるため
 
         return number;
     }
