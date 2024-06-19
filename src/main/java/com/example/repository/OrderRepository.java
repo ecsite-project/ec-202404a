@@ -238,7 +238,6 @@ public class OrderRepository {
         if(orderList.get(0).getId() == null){
             return null;
         }
-        System.out.println(orderList.get(0));
         return orderList.get(0);
     }
 
