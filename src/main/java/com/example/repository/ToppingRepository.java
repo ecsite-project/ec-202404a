@@ -19,7 +19,7 @@ public class ToppingRepository {
     @Autowired
     private NamedParameterJdbcTemplate template;
 
-    /** toppingsテーブルにある商品情報をドメインに詰め替えるRowMapper */
+    /** toppingsテーブルにある情報をドメインに詰め替えるRowMapper */
     private static final RowMapper<Topping> TOPPING_ROW_MAPPER = (rs, i) -> {
         Topping topping = new Topping();
         topping.setId(rs.getInt("id"));

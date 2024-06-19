@@ -12,8 +12,8 @@
     <h3 th:text="${item.name}"></h3>
     <p th:text="${item.description}"></p>
 
-    <form action="item-detail.html" th:action="@{/shopping-cart/add}" method="post">
-
+    <form action="item-detail.html" th:action="@{/shopping-cart/add-item}" method="post">
+      <input type="hidden" name="itemId" th:value="${item.id}">
       <h4>サイズ</h4>
       <label>
         <input type="radio" name="size" value="S" th:data-price="${item.priceS}" checked>
@@ -24,8 +24,8 @@
         <span th:text="'並盛り: ' + ${#numbers.formatInteger(item.priceM, 0, 'COMMA')} + '円'"></span>
       </label>
       <label>
-        <input type="radio" name="size" value="L" th:data-price="${item.priceL}">
-        <span th:text="'大盛り: ' + ${#numbers.formatInteger(item.priceS, 0, 'COMMA')} + '円'"></span>
+        <input type="radio" name="size" value="L">
+        <span th:text="'大盛り: ' + ${#numbers.formatInteger(item.priceL, 0, 'COMMA')} + '円'"></span>
       </label>
 
       <br>

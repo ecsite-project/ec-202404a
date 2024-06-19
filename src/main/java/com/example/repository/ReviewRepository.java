@@ -21,7 +21,7 @@ public class ReviewRepository {
     @Autowired
     private NamedParameterJdbcTemplate template;
 
-    /** reviewsテーブルにある商品情報をドメインに詰め替えるRowMapper */
+    /** reviewsテーブルにある情報をドメインに詰め替えるRowMapper */
     private static final RowMapper<Review> REVIEW_ROW_MAPPER = (rs, i) -> {
         Review review = new Review();
         review.setId(rs.getInt("id"));
