@@ -1,7 +1,6 @@
 package com.example.controller;
 
 import com.example.domain.Order;
-import com.example.domain.OrderItem;
 import com.example.form.AddItemForm;
 import com.example.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
