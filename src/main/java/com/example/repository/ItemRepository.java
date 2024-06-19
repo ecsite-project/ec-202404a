@@ -51,8 +51,6 @@ public class ItemRepository {
         }
         if (sortStr != null){
             sql += " ORDER BY " + sortStr;
-        } else {
-            sql += " ORDER BY name ASC ";
         }
         sql += " LIMIT 10 ";
         if (offset != null) {
@@ -83,5 +81,24 @@ public class ItemRepository {
         SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
         Item item = template.queryForObject(sql, param, ITEM_ROW_MAPPER);
         return item;
+    }
+
+    /**
+     * 条件に沿って検索された商品情報の全行数を取得.
+     *
+     * @param searchWord 文字列が入るとあいまい検索結果数カウント、nullが入ると全件検索の検索結果数カウント
+     * @return 検索結果の行数
+     */
+    public Integer countItemRows(String searchWord) {
+        String sql = """
+                SELECT count(*) FROM items
+                WHERE name LIKE :searchWord;
+                """;
+        if (searchWord == null) {
+            searchWord = "";
+        }
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("searchWord", "%" + searchWord + "%");
+        return template.queryForObject(sql, param, Integer.class);
     }
 }
