@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,12 +31,18 @@ public class ShowItemListController {
    * @return 商品一覧画面
    */
   @GetMapping("")
-  public String toItemList(String searchWord,Model model) {
-
-    List<Item> itemList = showItemListService.showItemReFuzSearch(searchWord);
-    if (itemList.isEmpty()){
-      model.addAttribute("notFound","検索結果：0件");
-      itemList = showItemListService.showItemList();
+  public String toItemList(String searchWord,Model model,Integer sortType) {
+    List<Item> itemList = new ArrayList<>();
+    try {
+      itemList = showItemListService.showItemReFuzSearch(searchWord,sortType);
+      if (itemList.isEmpty()){
+        model.addAttribute("notFound","検索結果：0件");
+        itemList = showItemListService.showItemList(sortType);
+      }
+    } catch (IndexOutOfBoundsException e) {
+      e.printStackTrace();
+      model.addAttribute("notFound","存在しない並び替えが選択されました。名前順で表示しています。");
+      itemList = showItemListService.showItemList(null);
     }
     model.addAttribute("searchWord",searchWord);
     model.addAttribute("itemList",itemList);
