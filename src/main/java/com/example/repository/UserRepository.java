@@ -65,4 +65,25 @@ public class UserRepository {
         }
         return userListList.get(0);
     }
+
+    /**
+     * 主キー検索.
+     *
+     * @param id ユーザの主キー
+     * @return ユーザ情報
+     */
+    public User findById(Integer id){
+        String sql = """
+                SELECT
+                    id, name, email, password, zipcode, prefecture, municipalities, address, telephone, admin_flag
+                FROM
+                    users
+                WHERE
+                    id=:id
+                ;
+                """;
+        SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+        User user = template.queryForObject(sql, param, USER_ROW_MAPPER);
+        return user;
+    }
 }

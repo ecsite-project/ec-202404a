@@ -12,7 +12,7 @@
 
     <span th:text="${noOrder}"></span>
 
-    <div th:unless="${orderItemList == null}">
+    <div th:unless="${order == null}">
       <table>
         <thead>
           <tr>
@@ -24,7 +24,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr th:each="orderItem: ${orderItemList}">
+          <tr th:each="orderItem: ${order.orderItemList}">
             <td th:text="${orderItem.item.name}"></td>
             <td th:if="${orderItem.size} == 'S'" th:text="'小盛り ' + ${#numbers.formatInteger(orderItem.item.priceS, 0, 'COMMA')} + '円 ' + ${orderItem.quantity} + '個'"></td>
             <td th:if="${orderItem.size} == 'M'" th:text="'並盛り ' + ${#numbers.formatInteger(orderItem.item.priceM, 0, 'COMMA')} + '円 ' + ${orderItem.quantity} + '個'"></td>
@@ -34,7 +34,7 @@
                 <li th:text="${orderTopping.topping.name} + ${#numbers.formatInteger(orderTopping.topping.price, 0, 'COMMA')} + '円'"></li>
               </ul>
             </td>
-<!--            <td th:text="${#numbers.formatInteger(orderItem.calcSubTotalPrice, 0, 'COMMA')} + '円'"></td>-->
+            <td th:text="${#numbers.formatInteger(orderItem.calcSubTotalPrice, 0, 'COMMA')} + '円'"></td>
             <td>
               <form action="shopping-cart.html" th:action="@{/shopping-cart/delete-item}" method="post">
                 <input type="hidden" name="orderItemId" th:value="${orderItem.id}">
@@ -44,6 +44,15 @@
           </tr>
         </tbody>
       </table>
+
+      <h4 th:text="'消費税：' + ${#numbers.formatInteger(order.tax, 0, 'COMMA')} + '円'"></h4>
+      <h4 th:text="'ご注文金額合計：' + ${#numbers.formatInteger(order.calcTotalPrice + order.tax, 0, 'COMMA')} + '円（税込み）'"></h4>
+
+      <form action="shopping-cart.html" th:action="@{/order-confirm}" method="get">
+        <input type="hidden" name="orderId" th:value="${order.id}">
+        <button>注文確認画面へ</button>
+      </form>
+
     </div>
 
     <div th:replace="common/footer :: footer_fragment"></div>

@@ -8,18 +8,45 @@
   <body>
     <div th:replace="common/header :: header_fragment"></div>
     <h1>注文内容確認</h1>
+    <table>
+      <thead>
+      <tr>
+        <th>商品名</th>
+        <th>サイズ、価格（税抜き）、数量</th>
+        <th>トッピング、価格（税抜き）</th>
+        <th>小計</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="orderItem: ${order.orderItemList}">
+        <td th:text="${orderItem.item.name}"></td>
+        <td th:if="${orderItem.size} == 'S'" th:text="'小盛り ' + ${#numbers.formatInteger(orderItem.item.priceS, 0, 'COMMA')} + '円 ' + ${orderItem.quantity} + '個'"></td>
+        <td th:if="${orderItem.size} == 'M'" th:text="'並盛り ' + ${#numbers.formatInteger(orderItem.item.priceM, 0, 'COMMA')} + '円 ' + ${orderItem.quantity} + '個'"></td>
+        <td th:if="${orderItem.size} == 'L'"  th:text="'大盛り ' + ${#numbers.formatInteger(orderItem.item.priceL, 0, 'COMMA')} + '円 ' + ${orderItem.quantity} + '個'"></td>
+        <td>
+          <ul th:each="orderTopping: ${orderItem.orderToppingList}">
+            <li th:text="${orderTopping.topping.name} + ${#numbers.formatInteger(orderTopping.topping.price, 0, 'COMMA')} + '円'"></li>
+          </ul>
+        </td>
+        <td th:text="${#numbers.formatInteger(orderItem.calcSubTotalPrice, 0, 'COMMA')} + '円'"></td>
+      </tr>
+      </tbody>
+    </table>
+
     <div>
-      <button type="button">ログイン者情報を入力</button>
-      <form action="item-detail.html" th:action="@{/order}" method="post">
-        <!--        <div th:errors="*{destinationName}" style="color: red;">エラー</div>-->
-        <input type="text" name="destinationName" placeholder="お名前"><br>
-        <!--        <div th:errors="*{destinationEmail}" style="color: red;">エラー</div>-->
-        <input type="email" name="destinationEmail" placeholder="メールアドレス"><br>
-        <!--        <div th:errors="*{destinationZipcode}" style="color: red;">エラー</div>-->
-        <input type="text" name="destinationZipcode" placeholder="郵便番号" id="destinationZipcode"><br>
+      <h1>お届け先情報</h1>
+      <button type="button" id="loginInfoBtn">ログイン者情報を入力</button>
+      <form action="item-detail.html" th:action="@{/order}" method="post" th:object="${orderForm}">
+        <input type="hidden" name="orderId" th:value="${order.id}">
+        <div th:errors="*{destinationName}" style="color: red;">エラー</div>
+        <input type="text" name="destinationName" placeholder="お名前" id="destinationName" th:field="*{destinationName}"><br>
+        <div th:errors="*{destinationEmail}" style="color: red;">エラー</div>
+        <input type="email" name="destinationEmail" placeholder="メールアドレス" id="destinationEmail" th:field="*{destinationEmail}"><br>
+        <div th:errors="*{destinationZipcode}" style="color: red;">エラー</div>
+        <input type="text" name="destinationZipcode" placeholder="郵便番号" id="destinationZipcode" th:field="*{destinationZipcode}"><br>
         <button type="button" id="searchAddressBtn">住所検索</button>
-        <!--        <div th:errors="*{destinationPrefecture}" style="color: red;">エラー</div>-->
-        <select name="destinationPrefecture" id="destinationPrefecture" class="browser-default">
+        <div th:errors="*{destinationPrefecture}" style="color: red;">エラー</div>
+        <select name="destinationPrefecture" id="destinationPrefecture" class="browser-default" th:field="*{destinationPrefecture}">
           <option value="" disabled selected>都道府県</option>
           <option value="北海道">北海道</option>
           <option value="青森県">青森県</option>
@@ -69,15 +96,92 @@
           <option value="鹿児島県">鹿児島県</option>
           <option value="沖縄県">沖縄県</option>
         </select>
-        <!--        <div th:errors="*{destinationMunicipalities}" style="color: red;">エラー</div>-->
-        <input type="text" name="destinationMunicipalities" placeholder="市区町村" id="destinationMunicipalities"><br>
-        <!--        <div th:errors="*{destinationAddress}" style="color: red;">エラー</div>-->
-        <input type="text" name="destinationAddress" placeholder="住所" id="destinationAddress"><br>
+        <div th:errors="*{destinationMunicipalities}" style="color: red;">エラー</div>
+        <input type="text" name="destinationMunicipalities" placeholder="市区町村" id="destinationMunicipalities" th:field="*{destinationMunicipalities}"><br>
+        <div th:errors="*{destinationAddress}" style="color: red;">エラー</div>
+        <input type="text" name="destinationAddress" placeholder="住所" id="destinationAddress" th:field="*{destinationAddress}"><br>
+        <div th:errors="*{destinationTel}" style="color: red;">エラー</div>
+        <input type="text" name="destinationTel" placeholder="電話番号" id="destinationTel" th:field="*{destinationTel}"><br>
+        <div th:errors="*{deliveryDate}" style="color: red;">エラー</div>
+        <p>配達日</p>
+        <input type="date" name="deliveryDate" th:field="*{deliveryDate}"><br>
+        <label class="order-confirm-delivery-time">
+          <input
+                  name="deliveryTime"
+                  type="radio"
+                  value="10時"
+                  checked="checked"
+          />
+          <span>10時</span>
+        </label>
+        <label class="order-confirm-delivery-time">
+          <input name="deliveryTime" type="radio" value="11時" />
+          <span>11時</span>
+        </label>
+        <label class="order-confirm-delivery-time">
+          <input name="deliveryTime" type="radio" value="12時" />
+          <span>12時</span>
+        </label>
+        <label class="order-confirm-delivery-time">
+          <input name="deliveryTime" type="radio" value="13時" />
+          <span>13時</span>
+        </label>
+        <label class="order-confirm-delivery-time">
+          <input name="deliveryTime" type="radio" value="14時" />
+          <span>14時</span>
+        </label>
+        <label class="order-confirm-delivery-time">
+          <input name="deliveryTime" type="radio" value="15時" />
+          <span>15時</span>
+        </label>
+        <label class="order-confirm-delivery-time">
+          <input name="deliveryTime" type="radio" value="16時" />
+          <span>16時</span>
+        </label>
+        <label class="order-confirm-delivery-time">
+          <input name="deliveryTime" type="radio" value="17時" />
+          <span>17時</span>
+        </label>
+        <label class="order-confirm-delivery-time">
+          <input name="deliveryTime" type="radio" value="18時" />
+          <span>18時</span>
+        </label>
+        <h1>お支払い方法</h1>
+        <label class="order-confirm-payment-method-radio">
+          <input
+                  name="paymentMethod"
+                  type="radio"
+                  value="1"
+                  checked="checked"
+          />
+          <span>代金引換</span>
+        </label>
+        <label class="order-confirm-payment-method-radio">
+          <input name="paymentMethod" type="radio" value="2" />
+          <span>クレジットカード</span>
+        </label>
+
+        <div>
+          <p>クレジットカード情報</p>
+          <div th:errors="*{cardNumber}" style="color: red;">エラー</div>
+          <input type="text" name="cardNumber" placeholder="クレジットカード番号" th:field="*{cardNumber}">
+          <div th:errors="*{cardExpYear}" style="color: red;">エラー</div>
+          <input type="text" name="cardExpYear" placeholder="カード有効期限（年）" th:field="*{cardExpYear}">
+          <div th:errors="*{cardExpMonth}" style="color: red;">エラー</div>
+          <input type="text" name="cardExpMonth" placeholder="カード有効期限（月）" th:field="*{cardExpMonth}">
+          <div th:errors="*{cardName}" style="color: red;">エラー</div>
+          <input type="text" name="cardName" placeholder="クレジットカード名義人" th:field="*{cardName}">
+          <div th:errors="*{cardCvv}" style="color: red;">エラー</div>
+          <input type="text" name="cardCvv" placeholder="セキュリティコード" th:field="*{cardCvv}">
+        </div>
+
+        <button>確定</button>
       </form>
     </div>
     <div th:replace="common/footer :: footer_fragment"></div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script th:src="@{/js/zipcode.js}"></script>
+    <script th:src="@{/js/getLoginInfo.js}"></script>
   </body>
 </html>
