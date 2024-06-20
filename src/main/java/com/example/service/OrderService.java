@@ -25,7 +25,7 @@ import java.time.format.DateTimeFormatter;
 @Transactional
 public class OrderService {
 
-    @Value("${CreditCardCheckApi: ''}")
+    @Value("${credit-card-check-api}")
     private String creditCardCheckApi;
 
     @Autowired
