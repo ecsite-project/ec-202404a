@@ -16,9 +16,6 @@
     <tbody>
         <tr th:each="orderItem: ${order.orderItemList}">
             <td th:text="${orderItem.item.name}"></td>
-            <td th:if="${orderItem.size} == 'S'" th:text="'小盛り ' + ${#numbers.formatInteger(orderItem.item.priceS, 0, 'COMMA')} + '円 ' + ${orderItem.quantity} + '個'"></td>
-            <td th:if="${orderItem.size} == 'M'" th:text="'並盛り ' + ${#numbers.formatInteger(orderItem.item.priceM, 0, 'COMMA')} + '円 ' + ${orderItem.quantity} + '個'"></td>
-            <td th:if="${orderItem.size} == 'L'"  th:text="'大盛り ' + ${#numbers.formatInteger(orderItem.item.priceL, 0, 'COMMA')} + '円 ' + ${orderItem.quantity} + '個'"></td>
             <td>
                 <ul th:each="orderTopping: ${orderItem.orderToppingList}">
                     <li th:text="${orderTopping.topping.name} + ${#numbers.formatInteger(orderTopping.topping.price, 0, 'COMMA')} + '円'"></li>

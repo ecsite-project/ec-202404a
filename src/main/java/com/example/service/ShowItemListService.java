@@ -23,7 +23,7 @@ public class ShowItemListService {
     private ItemRepository itemRepository;
 
     /**
-     * あいまい検索結果の商品情報を10件持ってきます.
+     * あいまい検索結果の商品情報を12件持ってきます.
      *
      * @param searchWord 検索ワード
      * @param sortType 並び順指定番号
@@ -37,7 +37,7 @@ public class ShowItemListService {
         }
         Integer offset = null;
         if (page != 0) {
-            offset = (page - 1) * 10;
+            offset = (page - 1) * 12;
         }
         return itemRepository.findItemsSearchByWordOrderBySortClipByOffset(searchWord, sortStr, offset);
     }
@@ -56,7 +56,7 @@ public class ShowItemListService {
         }
         Integer offset = null;
         if (page != 0) {
-            offset = (page - 1) * 10;
+            offset = (page - 1) * 12;
         }
         return itemRepository.findItemsSearchByWordOrderBySortClipByOffset(null, sortStr, offset);
     }

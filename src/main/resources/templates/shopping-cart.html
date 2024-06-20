@@ -56,6 +56,7 @@
                     th:action="@{/shopping-cart/delete-item}"
                     method="post"
                   >
+                    <input type="hidden" name="orderItemId" th:value="${orderItem.id}">
                     <button class="waves-effect waves-lignt btn-flat">
                       削除
                     </button>
@@ -81,7 +82,7 @@
           ></p>
         </div>
 
-        <div class="order-button-wrap">
+        <div class="order-button-wrap" th:if="${order.orderItemList}" >
           <form
             action="shopping-cart.html"
             th:action="@{/order-confirm}"
