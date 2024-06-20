@@ -20,6 +20,7 @@
             ></p>
           </div>
         </div>
+
         <div class="item-form">
           <form
             action="item-detail.html"
@@ -115,6 +116,22 @@
       </div>
 
       <a th:href="@{/review?itemId=} + ${item.id}">レビューする</a>
+      <table>
+        <thead>
+        <th></th>
+        <th>ポジティブ度</th>
+        <th>ネガティブ度</th>
+        <th>ニュートラル度</th>
+        </thead>
+        <tbody>
+        <tr th:each="review: ${item.reviewList}">
+          <td th:text="${review.content}"></td>
+          <td th:text="${#numbers.formatDecimal(review.positiveValue, 1, 'COMMA', 5, 'POINT')}"></td>
+          <td th:text="${#numbers.formatDecimal(review.negativeValue, 1, 'COMMA', 5, 'POINT')}"></td>
+          <td th:text="${#numbers.formatDecimal(review.neutralValue, 1, 'COMMA', 5, 'POINT')}"></td>
+        </tr>
+        </tbody>
+      </table>
     </main>
 
     <div th:replace="~{common/footer :: footer_fragment}"></div>

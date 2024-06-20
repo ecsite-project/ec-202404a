@@ -70,7 +70,7 @@ public class OrderController {
 
             boolean checkCreditCard = orderService.checkCreditCard(creditCard, orderForm.getOrderId());
 
-            if (orderForm.getPaymentMethod().equals(2) && checkCreditCard) {
+            if (orderForm.getPaymentMethod().equals(paymentMethodKey) && !checkCreditCard) {
                 result.rejectValue("cardNumber", "", "カードが使えません");
             }
         }

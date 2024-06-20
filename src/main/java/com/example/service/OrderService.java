@@ -45,10 +45,11 @@ public class OrderService {
         }
 
         card.setAmount(order.getCalcTotalPrice() + order.getTax());
+        card.setCard_exp_year(2020);
         RestTemplate restTemplate = new RestTemplate();
         JsonNode jsonNode = restTemplate.postForObject(creditCardCheckApi, card, JsonNode.class);
 
-        if(jsonNode.findValue("status").equals("success")){
+        if(jsonNode.findValue("status").toString().equals("success")){
             return true;
         }
         return false;
