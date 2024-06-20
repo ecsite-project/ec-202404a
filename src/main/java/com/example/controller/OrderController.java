@@ -8,6 +8,8 @@ import com.example.service.MailSenderService;
 import com.example.service.OrderService;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,69 +27,66 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/order")
+@EnableAsync
 public class OrderController {
 
-  @Autowired
-  private OrderConfirmController orderConfirmController;
+    @Autowired
+    private OrderConfirmController orderConfirmController;
 
-  @Autowired
-  private OrderService orderService;
+    @Autowired
+    private OrderService orderService;
 
-  @Autowired
-  private MailSenderService mailSenderService;
+    @Autowired
+    private MailSenderService mailSenderService;
 
-  /**
-   * 注文.
-   *
-   * @param orderForm 入力情報
-   * @param result バリデーションチェック
-   * @param model 注文画面に渡すmodel
-   * @return 注文完了画面
-   */
-  @PostMapping("")
-  public String order(@Validated OrderForm orderForm, BindingResult result, Model model) {
-    Integer paymentMethodKey = 0;
-    for (PaymentMethod paymentMethod: PaymentMethod.values()){
-      if(paymentMethod.getValue().equals("クレジットカード")){
-        paymentMethodKey = paymentMethod.getKey();
-      }
+    /**
+     * 注文.
+     *
+     * @param orderForm 入力情報
+     * @param result    バリデーションチェック
+     * @param model     注文画面に渡すmodel
+     * @return 注文完了画面
+     */
+    @PostMapping("")
+    public String order(@Validated OrderForm orderForm, BindingResult result, Model model) {
+        Integer paymentMethodKey = 0;
+        for (PaymentMethod paymentMethod : PaymentMethod.values()) {
+            if (paymentMethod.getValue().equals("クレジットカード")) {
+                paymentMethodKey = paymentMethod.getKey();
+            }
+        }
+
+        if (orderForm.getPaymentMethod().equals(paymentMethodKey)) {
+            CreditCard creditCard = new CreditCard();
+            creditCard.setUser_id(1);
+            creditCard.setOrder_number("12345678912345");
+            if (orderForm.getCardNumber() != null) {
+                creditCard.setCard_number(orderForm.getCardNumber().toString());
+            }
+            creditCard.setCard_exp_year(orderForm.getCardExpYear());
+            creditCard.setCard_exp_month(orderForm.getCardExpMonth());
+            creditCard.setCard_name(orderForm.getCardName());
+            creditCard.setCard_cvv(orderForm.getCardCvv());
+
+            boolean checkCreditCard = orderService.checkCreditCard(creditCard, orderForm.getOrderId());
+
+            if (orderForm.getPaymentMethod().equals(2) && checkCreditCard) {
+                result.rejectValue("cardNumber", "", "カードが使えません");
+            }
+        }
+
+        if (result.hasErrors()) {
+            return orderConfirmController.showConfirmOrder(orderForm.getOrderId(), model, orderForm);
+        }
+
+        Order order = orderService.order(orderForm);
+
+        try {
+            mailSenderService.mailSender(orderForm.getDestinationEmail(), PaymentMethod.of(orderForm.getPaymentMethod()).getValue(), order);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+
+        return "order-complete";
     }
-
-    if(orderForm.getPaymentMethod().equals(paymentMethodKey)) {
-      CreditCard creditCard = new CreditCard();
-      creditCard.setUser_id(1);
-      creditCard.setOrder_number("12345678912345");
-      if (orderForm.getCardNumber() != null) {
-        creditCard.setCard_number(orderForm.getCardNumber().toString());
-      }
-      creditCard.setCard_exp_year(orderForm.getCardExpYear());
-      creditCard.setCard_exp_month(orderForm.getCardExpMonth());
-      creditCard.setCard_name(orderForm.getCardName());
-      creditCard.setCard_cvv(orderForm.getCardCvv());
-
-      boolean checkCreditCard = orderService.checkCreditCard(creditCard, orderForm.getOrderId());
-
-      if (orderForm.getPaymentMethod().equals(2) && checkCreditCard) {
-        result.rejectValue("cardNumber", "", "カードが使えません");
-      }
-    }
-
-    if(result.hasErrors()){
-      return orderConfirmController.showConfirmOrder(orderForm.getOrderId(), model, orderForm);
-    }
-
-    Order order = orderService.order(orderForm);
-
-    try {
-      Map<String, Object> variables = new HashMap<>();
-      variables.put("order", order);
-      variables.put("paymentMethod", PaymentMethod.of(paymentMethodKey).getValue());
-      mailSenderService.mailSender(orderForm.getDestinationEmail(), variables);
-    }catch (MessagingException e){
-      e.printStackTrace();
-      return "order-complete";
-    }
-
-    return "order-complete";
-  }
 }

@@ -1,15 +1,19 @@
 package com.example.service;
 
+import com.example.common.PaymentMethod;
+import com.example.domain.Order;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -33,10 +37,16 @@ public class MailSenderService {
      * メール送信.
      *
      * @param toAddress 送信先アドレス
-     * @param variables htmlの変数
+     * @param paymentMethod 支払い方法
+     * @param order 注文情報
      * @throws MessagingException メール関連の例外処理
      */
-    public void mailSender(String toAddress, Map<String, Object> variables) throws MessagingException {
+    @Async
+    public void mailSender(String toAddress, String paymentMethod, Order order) throws MessagingException {
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("order", order);
+        variables.put("paymentMethod", paymentMethod);
+
         MimeMessage  message = javaMailSender.createMimeMessage();
         MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 
