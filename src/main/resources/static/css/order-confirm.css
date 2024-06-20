@@ -1,1 +1,153 @@
 @charset "UTF-8";
+
+/*
+  タイトル
+*/
+.page-title {
+  text-align: center;
+  margin-bottom: 12px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/*
+  オーダー内容テーブル
+*/
+
+.order-content-section {
+  width: 76%;
+  min-width: 600px;
+  margin: 0 auto;
+}
+
+.total-price {
+  margin-top: 8px;
+}
+
+.total-price__main {
+  text-align: end;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.total-price__sub {
+  text-align: end;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.order-table tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.order-table__thead {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 12px;
+  position: sticky;
+  top: 72px;
+  z-index: 9;
+  background-color: rgb(34, 34, 34);
+}
+
+.td-item__list > span:nth-child(n + 2)::before {
+  content: ' / ';
+}
+
+.th-quantity,
+.th-total {
+  text-align: center;
+}
+
+.td-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.td-item__img {
+  width: 180px;
+}
+
+.td-item__info {
+  width: calc(100% - 180px);
+}
+
+.td-item__name {
+  font-size: 20px;
+}
+
+.td-item__price {
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.td-item__list {
+  margin-top: 8px;
+}
+
+.td-item__list > span {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 12px;
+}
+
+.td-quantity {
+  width: 12%;
+}
+.td-total {
+  width: 12%;
+}
+
+.td-quantity__value {
+  text-align: center;
+}
+
+.td-total p {
+  text-align: center;
+}
+
+/*
+  フォーム
+*/
+
+.order-form {
+  width: 95%;
+  min-width: 600px;
+  max-width: 1600px;
+  margin: 20px auto 0;
+}
+
+.order-form form {
+  display: flex;
+  justify-content: space-between;
+}
+
+.address-section,
+.payment-section {
+  width: 50%;
+  padding: 0 20px;
+}
+
+.address-section__title,
+.payment-section__title {
+  font-size: 24px;
+  font-weight: bold;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+}
+
+.row {
+  margin-bottom: 0;
+}
+
+/*
+  お届け内容
+*/
+
+.datepicker-modal {
+  color: rgb(92, 91, 91);
+}
+
+/*
+  支払い内容
+*/
