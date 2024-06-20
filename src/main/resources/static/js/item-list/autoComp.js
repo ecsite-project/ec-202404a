@@ -6,7 +6,7 @@ $(function () {
       type: 'POST',
       url: 'http://localhost:8080/ec-202404a/get-item-info',
       data: {
-        itemNameList: $('#searchWord').text(),
+        input: $('#searchWord').val(),
       },
       dataType: 'JSON',
     })
