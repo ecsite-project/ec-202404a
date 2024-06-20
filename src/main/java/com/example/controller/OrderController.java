@@ -67,7 +67,7 @@ public class OrderController {
 
       boolean checkCreditCard = orderService.checkCreditCard(creditCard, orderForm.getOrderId());
 
-      if (orderForm.getPaymentMethod().equals(2) && !checkCreditCard) {
+      if (orderForm.getPaymentMethod().equals(2) && checkCreditCard) {
         result.rejectValue("cardNumber", "", "カードが使えません");
       }
     }
@@ -81,7 +81,7 @@ public class OrderController {
     try {
       Map<String, Object> variables = new HashMap<>();
       variables.put("order", order);
-      variables.put("paymentMethod", PaymentMethod.of(paymentMethodKey));
+      variables.put("paymentMethod", PaymentMethod.of(paymentMethodKey).getValue());
       mailSenderService.mailSender(orderForm.getDestinationEmail(), variables);
     }catch (MessagingException e){
       e.printStackTrace();

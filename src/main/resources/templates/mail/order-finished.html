@@ -3,7 +3,6 @@
 <head
         th:replace="common/head :: head_fragment(title = 'カート', links = ~{::link})"
 >
-    <link rel="stylesheet" th:href="@{/css/shopping-cart.css}" />
 </head>
 <body>
 <h1>注文確定画面</h1>
@@ -33,7 +32,7 @@
 
 <p th:text="'決済方法: ' + ${paymentMethod}"></p>
 
-<p th:text="'お届け時間: ' + ${#temporals.format(order.deliveryTime, 'yyyy年MM月dd日 HH:mm')}}"></p>
+<p th:text="'お届け時間: ' + ${#temporals.format(order.deliveryTime, 'yyyy年MM月dd日 HH:mm')}"></p>
 
 <a href="http://localhost:8080/ec-202404a/show-item-list">ホームページへ</a>
 
