@@ -19,19 +19,12 @@
           type="text"
           name="searchWord"
           id="searchWord"
-          th:if="${searchError == null}"
           th:value="${searchWord}"
         />
-        <input
-          type="text"
-          name="searchWord"
-          id="searchWord"
-          th:if="${searchError != null}"
-        />
         <select name="sortType" id="sortType" class="browser-default">
-          <option value="0">名前順</option>
-          <option value="1">価格の安い順</option>
-          <option value="2">価格の高い順</option>
+          <option value="0" th:selected="${sortType == 0}">名前順</option>
+          <option value="1" th:selected="${sortType == 1}">価格の安い順</option>
+          <option value="2" th:selected="${sortType == 2}">価格の高い順</option>
         </select>
         <button type="submit">検索</button>
       </form>

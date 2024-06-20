@@ -31,9 +31,9 @@ public class ShowItemListController {
      * 商品一覧画面を表示する.
      *
      * @param searchWord 検索ワード
-     * @param sortType 並び順のタイプを指定する番号
-     * @param page ページ数
-     * @param model Requestスコープの準備
+     * @param sortType   並び順のタイプを指定する番号
+     * @param page       ページ数
+     * @param model      Requestスコープの準備
      * @return 商品一覧画面
      */
     @GetMapping("")
@@ -62,6 +62,7 @@ public class ShowItemListController {
             itemList = showItemListService.showItemList(sortType, page);
             cntRows = showItemListService.cntRowsAllItems();
             maxPage = (int) (ceil((double) cntRows / 10));
+            searchWord = "";
         }
 
         List<Integer> pages = new ArrayList<>();
