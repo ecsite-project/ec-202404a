@@ -85,6 +85,7 @@ public class OrderController {
       mailSenderService.mailSender(orderForm.getDestinationEmail(), variables);
     }catch (MessagingException e){
       e.printStackTrace();
+      return "order-complete";
     }
 
     return "order-complete";
