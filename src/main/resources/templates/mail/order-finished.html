@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head
+        th:replace="common/head :: head_fragment(title = 'カート', links = ~{::link})"
+>
+</head>
+<body>
+<h1>注文確定画面</h1>
+<h2>注文商品</h2>
+<table>
+    <thead>
+        <th>商品名</th>
+        <th>トッピング</th>
+        <th>小計</th>
+    </thead>
+    <tbody>
+        <tr th:each="orderItem: ${order.orderItemList}">
+            <td th:text="${orderItem.item.name}"></td>
+            <td th:if="${orderItem.size} == 'S'" th:text="'小盛り ' + ${#numbers.formatInteger(orderItem.item.priceS, 0, 'COMMA')} + '円 ' + ${orderItem.quantity} + '個'"></td>
+            <td th:if="${orderItem.size} == 'M'" th:text="'並盛り ' + ${#numbers.formatInteger(orderItem.item.priceM, 0, 'COMMA')} + '円 ' + ${orderItem.quantity} + '個'"></td>
+            <td th:if="${orderItem.size} == 'L'"  th:text="'大盛り ' + ${#numbers.formatInteger(orderItem.item.priceL, 0, 'COMMA')} + '円 ' + ${orderItem.quantity} + '個'"></td>
+            <td>
+                <ul th:each="orderTopping: ${orderItem.orderToppingList}">
+                    <li th:text="${orderTopping.topping.name} + ${#numbers.formatInteger(orderTopping.topping.price, 0, 'COMMA')} + '円'"></li>
+                </ul>
+            </td>
+            <td th:text="${#numbers.formatInteger(orderItem.calcSubTotalPrice, 0, 'COMMA')} + '円'"></td>
+        </tr>
+    </tbody>
+    <h4 th:text="'ご注文金額合計：' + ${#numbers.formatInteger(order.calcTotalPrice + order.tax, 0, 'COMMA')} + '円（税込み）'"></h4>
+</table>
+
+<p th:text="'決済方法: ' + ${paymentMethod}"></p>
+
+<p th:text="'お届け時間: ' + ${#temporals.format(order.deliveryTime, 'yyyy年MM月dd日 HH:mm')}"></p>
+
+<a href="http://localhost:8080/ec-202404a/show-item-list">ホームページへ</a>
+
+<div th:replace="common/footer :: footer_fragment"></div>
+</body>
+</html>
