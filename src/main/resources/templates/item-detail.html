@@ -113,6 +113,8 @@
           </form>
         </div>
       </div>
+
+      <a th:href="@{/review?itemId=} + ${item.id}">レビューする</a>
     </main>
 
     <div th:replace="~{common/footer :: footer_fragment}"></div>
