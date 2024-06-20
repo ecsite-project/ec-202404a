@@ -25,6 +25,11 @@ public class ReviewService {
     @Value("${emotional-analysis-api}")
     private String emotionalAnalysisApiUrl;
 
+    /**
+     * レビューの保存.
+     *
+     * @param review レビュー情報
+     */
     public void addReview(Review review){
         review.setUserId(1);
 
