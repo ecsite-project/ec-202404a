@@ -44,7 +44,7 @@ public class OrderForm {
     /** 支払い方法 */
     private Integer paymentMethod;
     /** カード番号 */
-    private Integer cardNumber;
+    private String cardNumber;
     /** カード有効期限（年） */
     private Integer cardExpYear;
     /** カード有効期限（月） */
@@ -164,11 +164,11 @@ public class OrderForm {
         this.paymentMethod = paymentMethod;
     }
 
-    public Integer getCardNumber() {
+    public String getCardNumber() {
         return cardNumber;
     }
 
-    public void setCardNumber(Integer cardNumber) {
+    public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
 

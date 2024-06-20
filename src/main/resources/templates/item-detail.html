@@ -1,70 +1,142 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
   <head
-    th:replace="common/head :: head_fragment(title = '商品詳細', links = ~{::link})"
+    th:replace="~{common/head :: head_fragment(title = '商品詳細', links = ~{::link})}"
   >
     <link rel="stylesheet" th:href="@{/css/item-detail.css}" />
   </head>
   <body>
-    <div th:replace="common/header :: header_fragment"></div>
-    <h1>商品詳細</h1>
-    <img th:src="@{/img/} + ${item.imagePath}">
-    <h3 th:text="${item.name}"></h3>
-    <p th:text="${item.description}"></p>
+    <div th:replace="~{common/header :: header_fragment}"></div>
 
-    <form action="item-detail.html" th:action="@{/shopping-cart/add-item}" method="post">
-      <input type="hidden" name="itemId" th:value="${item.id}">
-      <h4>サイズ</h4>
-      <label>
-        <input type="radio" name="size" value="S" th:data-price="${item.priceS}" checked>
-        <span th:text="'小盛り: ' + ${#numbers.formatInteger(item.priceS, 0, 'COMMA')} + '円'"></span>
-      </label>
-      <label>
-        <input type="radio" name="size" value="M" th:data-price="${item.priceM}">
-        <span th:text="'並盛り: ' + ${#numbers.formatInteger(item.priceM, 0, 'COMMA')} + '円'"></span>
-      </label>
-      <label>
-        <input type="radio" name="size" value="L">
-        <span th:text="'大盛り: ' + ${#numbers.formatInteger(item.priceL, 0, 'COMMA')} + '円'"></span>
-      </label>
+    <main>
+      <div class="item-container">
+        <div class="item-content">
+          <img th:src="@{/img/} + ${item.imagePath}" />
+          <div class="item-description">
+            <p class="item-description__title">商品詳細</p>
+            <p
+              class="item-description__content"
+              th:text="${item.description}"
+            ></p>
+          </div>
+        </div>
 
-      <br>
+        <div class="item-form">
+          <form
+            action="item-detail.html"
+            th:action="@{/shopping-cart/add-item}"
+            method="post"
+          >
+            <input type="hidden" name="itemId" th:value="${item.id}" />
+            <p class="item-name" th:text="${item.name}"></p>
+            <div class="size-input">
+              <p class="size-input__title">サイズ</p>
+              <div class="size-input__inputs">
+                <label>
+                  <input
+                    class="with-gap"
+                    type="radio"
+                    name="size"
+                    value="S"
+                    th:data-price="${item.priceS}"
+                  />
+                  <span
+                    th:text="'小盛: ' + ${#numbers.formatInteger(item.priceS, 0, 'COMMA')} + '円'"
+                  ></span>
+                </label>
+                <label>
+                  <input
+                    class="with-gap"
+                    type="radio"
+                    name="size"
+                    value="M"
+                    th:data-price="${item.priceM}"
+                    checked
+                  />
+                  <span
+                    th:text="'並盛: ' + ${#numbers.formatInteger(item.priceM, 0, 'COMMA')} + '円'"
+                  ></span>
+                </label>
+                <label>
+                  <input
+                    class="with-gap"
+                    type="radio"
+                    name="size"
+                    value="L"
+                    th:data-price="${item.priceL}"
+                  />
+                  <span
+                    th:text="'大盛: ' + ${#numbers.formatInteger(item.priceL, 0, 'COMMA')} + '円'"
+                  ></span>
+                </label>
+              </div>
+            </div>
+            <div class="topping-input">
+              <p class="topping-input__title">トッピング</p>
+              <div class="topping-input__inputs">
+                <label th:each="topping: ${item.toppingList}">
+                  <input
+                    type="checkbox"
+                    name="toppingList"
+                    class="filled-in"
+                    th:value="${topping.id}"
+                    th:data-price="${topping.price}"
+                  />
+                  <span
+                    th:text="${topping.name} + ${#numbers.formatInteger(topping.price, 0, 'COMMA')} + '円'"
+                  ></span>
+                </label>
+              </div>
+            </div>
+            <div class="quantity-input">
+              <div class="input-field quantity-input__select-container">
+                <select name="quantity">
+                  <option selected value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                </select>
+                <label>数量</label>
+              </div>
+              <p id="total-price"></p>
+            </div>
+            <button class="waves-effect waves-light btn-large cart-button">
+              <i class="material-icons right">shopping_cart</i>カートに入れる
+            </button>
+          </form>
+        </div>
+      </div>
 
-      <h4>トッピング</h4>
-      <span th:each="topping: ${item.toppingList}">
-        <label>
-          <input type="checkbox" name="toppingList" th:value="${topping.id}" th:data-price="${topping.price}">
-          <span th:text="${topping.name} + ${#numbers.formatInteger(topping.price, 0, 'COMMA')} + '円'"></span>
-        </label>
-      </span>
+      <a th:href="@{/review?itemId=} + ${item.id}">レビューする</a>
+      <table>
+        <thead>
+        <th></th>
+        <th>ポジティブ度</th>
+        <th>ネガティブ度</th>
+        <th>ニュートラル度</th>
+        </thead>
+        <tbody>
+        <tr th:each="review: ${item.reviewList}">
+          <td th:text="${review.content}"></td>
+          <td th:text="${#numbers.formatDecimal(review.positiveValue, 1, 'COMMA', 5, 'POINT')}"></td>
+          <td th:text="${#numbers.formatDecimal(review.negativeValue, 1, 'COMMA', 5, 'POINT')}"></td>
+          <td th:text="${#numbers.formatDecimal(review.neutralValue, 1, 'COMMA', 5, 'POINT')}"></td>
+        </tr>
+        </tbody>
+      </table>
+    </main>
 
-      <br>
+    <div th:replace="~{common/footer :: footer_fragment}"></div>
 
-      <h4>数量</h4>
-      <select name="quantity" class="browser-default">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-        <option value="11">11</option>
-        <option value="12">12</option>
-      </select>
-
-      <br>
-
-      <h4 id="total-price"></h4>
-      <button type="submit">カートに入れる</button>
-    </form>
-
-    <div th:replace="common/footer :: footer_fragment"></div>
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script th:src="@{/js/totalPrice.js}"></script>
+    <script th:src="@{/js/materialize/select.js}"></script>
   </body>
 </html>

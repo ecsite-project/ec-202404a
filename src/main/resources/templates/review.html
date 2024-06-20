@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head
+        th:replace="common/head :: head_fragment(title = 'レビュー', links = ~{::link})"
+>
+    <link rel="stylesheet" th:href="@{/css/review.css}" />
+</head>
+<body>
+<div th:replace="common/header :: header_fragment"></div>
+
+<h1>レビュー投稿</h1>
+<form action="review.html" th:action="@{/review/add}" method="post" th:object="${reviewForm}">
+    <input type="hidden" name="itemId" th:value="${itemId}">
+    <div th:errors="*{content}" style="color: red;"></div>
+    <textarea name="content" th:field="*{content}"></textarea>
+    <button>投稿</button>
+</form>
+
+<div th:replace="common/footer :: footer_fragment"></div>
+</body>
+</html>
