@@ -81,7 +81,7 @@
           ></p>
         </div>
 
-        <div class="order-button-wrap">
+        <div class="order-button-wrap" th:if="${noOrder}" >
           <form
             action="shopping-cart.html"
             th:action="@{/order-confirm}"
