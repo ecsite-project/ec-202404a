@@ -62,6 +62,7 @@
       <button type="submit">カートに入れる</button>
     </form>
 
+    <a th:href="@{/review?itemId=} + ${item.id}">レビューする</a>
     <div th:replace="common/footer :: footer_fragment"></div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
