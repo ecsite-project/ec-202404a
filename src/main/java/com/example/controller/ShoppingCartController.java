@@ -2,8 +2,6 @@ package com.example.controller;
 
 import com.example.domain.LoginUser;
 import com.example.domain.Order;
-import com.example.domain.OrderItem;
-import com.example.domain.User;
 import com.example.form.AddItemForm;
 import com.example.service.ShoppingCartService;
 import jakarta.servlet.http.HttpSession;
@@ -15,8 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,7 +31,8 @@ public class ShoppingCartController {
     @Autowired
     private HttpSession session;
 
-    static final int margin = 10000; // 仮IDが登録済ユーザのユーザIDと重複しないためのマージン
+    static final int MARGIN = 10000;// 仮IDが登録済ユーザのユーザIDと重複しないためのマージン
+    static final int MAX_TMP_ID = 2000000000; // 仮IDがint型の最大値を超えないようにするための条件値(20億)
 
     /**
      * カート画面の表示.
@@ -46,12 +43,29 @@ public class ShoppingCartController {
     @GetMapping("")
     public String toShoppingCart(Model model, HttpSession session, @AuthenticationPrincipal LoginUser user) {
         // ここから下デバッグ用
-        System.out.println("user: " + user.getUser());
+        if (user == null) {
+            System.out.println("user: " + user);
+        } else {
+            System.out.println("user: " + user.getUser());
+        }
         System.out.println("sessionID: " + session.getId());
         String sessionId = session.getId();
         int sessionIdNumber = extractNumbers(sessionId);
         System.out.println("数字抽出: " + sessionIdNumber);
         // ここまで
+
+        if (user == null) {
+            Integer tmpUserId = extractNumbers(sessionId);
+            Order order = shoppingCartService.showOrder(tmpUserId);
+            if (order == null || order.getOrderItemList().isEmpty()) {
+                model.addAttribute("noOrder", "カートに商品は1つもありません");
+            } else {
+                model.addAttribute("order", order);
+            }
+            session.setAttribute("tmpUserId", tmpUserId);
+            session.setAttribute("notLoginUser", "true");
+            return "shopping-cart";
+        }
 
         Integer testUserId = 1;
         Order order = shoppingCartService.showOrder(testUserId);
@@ -70,7 +84,13 @@ public class ShoppingCartController {
      * @return カートの画面へリダイレクト
      */
     @PostMapping("/add-item")
-    public String addItem(AddItemForm form, HttpSession session, @AuthenticationPrincipal User user) {
+    public String addItem(AddItemForm form, HttpSession session, @AuthenticationPrincipal LoginUser user) {
+        if (user == null) {
+            String sessionId = session.getId();
+            Integer tmpUserId = extractNumbers(sessionId);
+            shoppingCartService.addItem(tmpUserId, form);
+        }
+
         Integer testUserId = 1;
         shoppingCartService.addItem(testUserId, form);
 
@@ -97,21 +117,19 @@ public class ShoppingCartController {
      * @return 仮のユーザID
      */
     public int extractNumbers(String str) {
-        // List<Integer> numbers = new ArrayList<>();
-        int number = 0;
+        int tmpId = 0;
 
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher(str);
 
         while (matcher.find()) {
-            // numbers.add(Integer.parseInt(matcher.group()));
-            if (number < Integer.parseInt(matcher.group())) {
-                number = Integer.parseInt(matcher.group());
+            if (tmpId < Integer.parseInt(matcher.group()) && Integer.parseInt(matcher.group()) < MAX_TMP_ID) {
+                tmpId = Integer.parseInt(matcher.group());
             }
         }
 
-        number += margin; // 登録されてるユーザとの重複を避けるため
+        tmpId += MARGIN; // 登録されてるユーザとの重複を避けるため
 
-        return number;
+        return tmpId;
     }
 }

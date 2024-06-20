@@ -80,4 +80,8 @@ public class OrderService {
 
         orderRepository.update(order);
     }
+
+    public void updateUserId(Order order){
+        orderRepository.update(order);
+    }
 }

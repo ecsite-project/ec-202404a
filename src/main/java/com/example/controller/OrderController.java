@@ -1,9 +1,12 @@
 package com.example.controller;
 
 import com.example.domain.CreditCard;
+import com.example.domain.LoginUser;
 import com.example.form.OrderForm;
 import com.example.service.OrderService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,6 +29,9 @@ public class OrderController {
   @Autowired
   private OrderService orderService;
 
+  @Autowired
+  private HttpSession session;
+
   /**
    * 注文.
    *
@@ -35,7 +41,7 @@ public class OrderController {
    * @return 注文完了画面
    */
   @PostMapping("")
-  public String order(@Validated OrderForm orderForm, BindingResult result, Model model) {
+  public String order(@Validated OrderForm orderForm, BindingResult result, Model model, HttpSession session, @AuthenticationPrincipal LoginUser user) {
     if(orderForm.getPaymentMethod().equals(2)) {
       CreditCard creditCard = new CreditCard();
       creditCard.setUser_id(1);
@@ -56,7 +62,7 @@ public class OrderController {
     }
 
     if(result.hasErrors()){
-      return orderConfirmController.showConfirmOrder(orderForm.getOrderId(), model, orderForm);
+      return orderConfirmController.showConfirmOrder(orderForm.getOrderId(), model, orderForm, session, user);
     }
 
     orderService.order(orderForm);
