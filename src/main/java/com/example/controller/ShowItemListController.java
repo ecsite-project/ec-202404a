@@ -48,7 +48,7 @@ public class ShowItemListController {
         }
 
         int cntRows = showItemListService.cntRowsBySearchedItems(searchWord);
-        int maxPage = (int) (ceil((double) cntRows / 10));
+        int maxPage = (int) (ceil((double) cntRows / 12));
         if (page != 0 && (maxPage < page || page < 0)) {
             model.addAttribute("pageError", "存在しないページへの遷移が行われました。初期画面を表示しています。");
             page = 1;
@@ -61,7 +61,7 @@ public class ShowItemListController {
         if (model.getAttribute("orderError") != null || model.getAttribute("pageError") != null || model.getAttribute("searchError") != null) {
             itemList = showItemListService.showItemList(sortType, page);
             cntRows = showItemListService.cntRowsAllItems();
-            maxPage = (int) (ceil((double) cntRows / 10));
+            maxPage = (int) (ceil((double) cntRows / 12));
             searchWord = "";
         }
 
