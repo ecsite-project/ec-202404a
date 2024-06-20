@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * ショッピングカートの処理のサービス.
@@ -57,11 +56,13 @@ public class ShoppingCartService {
         orderItem.setSize(form.getSize().toCharArray()[0]);
         orderItem = orderItemRepository.insert(orderItem);
 
-        for (Integer toppingId: form.getToppingList()){
-            OrderTopping orderTopping = new OrderTopping();
-            orderTopping.setOrderItemId(orderItem.getId());
-            orderTopping.setToppingId(toppingId);
-            orderToppingRepository.insert(orderTopping);
+        if(form.getToppingList() != null) {
+            for (Integer toppingId : form.getToppingList()) {
+                OrderTopping orderTopping = new OrderTopping();
+                orderTopping.setOrderItemId(orderItem.getId());
+                orderTopping.setToppingId(toppingId);
+                orderToppingRepository.insert(orderTopping);
+            }
         }
 
         return order;

@@ -327,4 +327,59 @@ public class OrderRepository {
                 """;
         template.update(sql, param);
     }
+
+    /**
+     * ユーザidに基づく注文情報全ての検索.
+     *
+     * @param userId ユーザid
+     * @return 注文情報のリスト
+     */
+    public List<Order> findByUserId(Integer userId){
+        String sql = """
+                SELECT
+                	o.id AS order_id,
+                	o.user_id,
+                	o.status,
+                	o.total_price,
+                	o.destination_name,
+                	o.destination_email,
+                	o.destination_zipcode,
+                	o.destination_prefecture,
+                	o.destination_municipalities,
+                	o.destination_address,
+                	o.destination_tel,
+                	o.order_time,
+                	o.delivery_time,
+                	o.payment_method,
+                	i.id AS item_id,
+                	i.name AS item_name,
+                	i.description AS item_description,
+                	i.price_s,
+                	i.price_m,
+                	i.price_l,
+                	i.image_path,
+                	oi.id AS order_item_id,
+                	oi.quantity,
+                	oi.size,
+                	ot.id AS order_topping_id,
+                	ot.topping_id,
+                	t.name AS topping_name,
+                	t.price AS topping_price
+                FROM
+                	orders o
+                LEFT OUTER JOIN
+                    order_items oi ON o.id = oi.order_id
+                LEFT OUTER JOIN
+                	items i ON oi.item_id = i.id
+                LEFT OUTER JOIN
+                    order_toppings ot ON oi.id = ot.order_item_id
+                LEFT OUTER JOIN
+                    toppings t ON ot.topping_id = t.id
+                WHERE
+                    o.user_id=:userId;
+                """;
+        SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
+        List<Order> orderList = template.query(sql, param, ORDER_RESULT_SET_EXTRACTOR);
+        return orderList;
+    }
 }

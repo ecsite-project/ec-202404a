@@ -1,5 +1,6 @@
 package com.example.common;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ public enum SortType {
     PRICE_DESC(2, " price_s DESC ")
     ;
 
-    private final int key;
+    private final Integer key;
     private final String value;
 
     SortType(int key, String value) {
@@ -33,11 +34,11 @@ public enum SortType {
 
     public static SortType of(Integer key){
         for(SortType sortType: SortType.values()){
-            if(sortType.key == key){
+            if(sortType.key.equals(key)){
                 return sortType;
             }
         }
-        throw new IndexOutOfBoundsException("The value of SortType does not exists");
+        return null;
     }
 
     public static Map<Integer, String> getMap(){
