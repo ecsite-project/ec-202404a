@@ -12,7 +12,6 @@ $(function () {
     })
       .done(function (data) {
         let names = data.itemNameList
-        console.log(names)
         $('#searchWord ').autocomplete({
           source: names,
         })
