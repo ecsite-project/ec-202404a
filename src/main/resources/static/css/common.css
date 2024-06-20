@@ -34,6 +34,10 @@ header {
   background-color: rgb(34, 34, 34);
 }
 
+main {
+  min-height: calc(100vh - 75px);
+}
+
 .header-right {
   display: flex;
   gap: 8px;
