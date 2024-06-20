@@ -36,9 +36,9 @@ public class ItemRepository {
     };
 
     /**
-     * 検索ワードと開始位置の如何に沿って、削除フラグのたっていない商品の情報を10件検索します.
+     * 検索ワードと開始位置の如何に沿って、削除フラグのたっていない商品の情報を12件検索します.
      *
-     * @return 検索結果に沿った商品情報10件のリスト
+     * @return 検索結果に沿った商品情報12件のリスト
      */
     public List<Item> findItemsSearchByWordOrderBySortClipByOffset(String searchWord, String sortStr, Integer offset){
         String sql = """
@@ -52,7 +52,7 @@ public class ItemRepository {
         if (sortStr != null){
             sql += " ORDER BY " + sortStr;
         }
-        sql += " LIMIT 10 ";
+        sql += " LIMIT 12 ";
         if (offset != null) {
             sql += " OFFSET :offset ";
         }
