@@ -4,9 +4,10 @@
     th:replace="common/head :: head_fragment(title = '商品一覧', links = ~{::link})"
   >
     <link rel="stylesheet" th:href="@{/css/item-list.css}" />
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
-    <meta name="_csrf" content="${_csrf.token}">
-    <meta name="_csrf_header" content="${_csrf.headerName}">
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css"
+    />
   </head>
   <body>
     <div th:replace="common/header :: header_fragment"></div>
@@ -14,8 +15,19 @@
     <div>
       <form th:action="@{/show-item-list}" method="get" id="searchForm">
         <label for="searchWord">🔍</label>
-        <input type="text" name="searchWord" id="searchWord" th:if="${searchError == null}" th:value="${searchWord}">
-        <input type="text" name="searchWord" id="searchWord" th:if="${searchError != null}">
+        <input
+          type="text"
+          name="searchWord"
+          id="searchWord"
+          th:if="${searchError == null}"
+          th:value="${searchWord}"
+        />
+        <input
+          type="text"
+          name="searchWord"
+          id="searchWord"
+          th:if="${searchError != null}"
+        />
         <select name="sortType" id="sortType" class="browser-default">
           <option value="0">名前順</option>
           <option value="1">価格の安い順</option>
@@ -26,33 +38,48 @@
     </div>
     <div>
       <p th:if="${orderError}">
-        <span th:text="${orderError}" style="color:red"></span>
+        <span th:text="${orderError}" style="color: red"></span>
       </p>
       <p th:if="${pageError}">
-        <span th:text="${pageError}" style="color:red"></span>
+        <span th:text="${pageError}" style="color: red"></span>
       </p>
       <p th:if="${searchError}">
-        <span th:text="${searchError}" style="color:red"></span>
+        <span th:text="${searchError}" style="color: red"></span>
       </p>
       <table>
         <tr th:each="item : ${itemList}">
-          <td><a th:href="@{/show-item-detail?id=} + ${item.id}" th:text="${item.name}"></a></td>
+          <td>
+            <a
+              th:href="@{/show-item-detail?id=} + ${item.id}"
+              th:text="${item.name}"
+            ></a>
+          </td>
           <td th:text="${item.description}"></td>
           <td th:text="${item.priceS}"></td>
           <td th:text="${item.priceM}"></td>
           <td th:text="${item.priceL}"></td>
           <td>
-            <img th:src="@{'img/'} + ${item.imagePath}" alt="" style="width: 20px">
+            <img
+              th:src="@{'img/'} + ${item.imagePath}"
+              alt=""
+              style="width: 20px"
+            />
           </td>
         </tr>
       </table>
     </div>
     <div>
       <span th:each="page : ${pages}">
-        <a th:if="${searchError == null}" th:href="@{/show-item-list} + '?searchWord=' + ${searchWord} + '&sortType=' + ${sortType} + '&page=' + ${page}">
+        <a
+          th:if="${searchError == null}"
+          th:href="@{/show-item-list} + '?searchWord=' + ${searchWord} + '&sortType=' + ${sortType} + '&page=' + ${page}"
+        >
           <span th:text="${page}"></span>
         </a>
-        <a th:if="${searchError != null}" th:href="@{/show-item-list} + '?searchWord=' + '&sortType=' + ${sortType} + '&page=' + ${page}">
+        <a
+          th:if="${searchError != null}"
+          th:href="@{/show-item-list} + '?searchWord=' + '&sortType=' + ${sortType} + '&page=' + ${page}"
+        >
           <span th:text="${page}"></span>
         </a>
       </span>
