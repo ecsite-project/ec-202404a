@@ -86,4 +86,20 @@ public class UserRepository {
         User user = template.queryForObject(sql, param, USER_ROW_MAPPER);
         return user;
     }
+
+    /**
+     * ユーザ情報の更新.
+     *
+     * @param user ユーザ情報
+     */
+    public void update(User user,Integer id){
+        SqlParameterSource param = new BeanPropertySqlParameterSource(user);
+        String sql = """
+                    UPDATE users
+                    SET
+                      name=:name, email=:email, zipcode=:zipcode, prefecture=:prefecture, municipalities=:municipalities, address=:address, telephone=:telephone
+                    """;
+        sql += " WHERE id = " + id;
+        template.update(sql,param);
+    }
 }

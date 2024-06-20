@@ -19,6 +19,7 @@
             <div class="input-field col s6">
               <input
                 th:field="*{name}"
+                th:value="${user.name}"
                 id="name"
                 type="text"
                 class="validate"
@@ -33,10 +34,12 @@
               <i class="material-icons prefix">mail</i>
               <input
                 th:field="*{email}"
+                th:value="${user.email}"
                 id="email"
                 type="text"
                 class="validate"
               />
+              <input type="hidden" name="oldEmail" th:value="${oldEmail}">
               <label for="email">email</label>
               <span class="helper-text" th:errors="*{email}">エラー</span>
             </div>
@@ -47,6 +50,7 @@
               <i class="material-icons prefix">location_on</i>
               <input
                 th:field="*{zipcode}"
+                th:value="${user.zipcode}"
                 id="zipcode"
                 type="text"
                 class="validate"
@@ -61,6 +65,7 @@
               <i class="material-icons prefix">location_on</i>
               <input
                 th:field="*{prefecture}"
+                th:value="${user.prefecture}"
                 id="prefecture"
                 type="text"
                 class="validate"
@@ -75,6 +80,7 @@
               <i class="material-icons prefix">location_on</i>
               <input
                 th:field="*{municipalities}"
+                th:value="${user.municipalities}"
                 id="municipalities"
                 type="text"
                 class="validate"
@@ -91,6 +97,7 @@
               <i class="material-icons prefix">location_on</i>
               <input
                 th:field="*{address}"
+                th:value="${user.address}"
                 id="address"
                 type="text"
                 class="validate"
@@ -105,6 +112,7 @@
               <i class="material-icons prefix">call</i>
               <input
                 th:field="*{telephone}"
+                th:value="${user.telephone}"
                 id="telephone"
                 type="text"
                 class="validate"

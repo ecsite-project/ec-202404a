@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.domain.User;
 import com.example.form.UserMyPageUpdateForm;
+import com.example.service.UserMyPageService;
 import com.example.service.UserRegisterService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,19 @@ public class UserMyPageController {
   @Autowired
   private UserRegisterService userRegisterService;
 
+  @Autowired
+  private UserMyPageService userMyPageService;
+
   @GetMapping("/to-my-page")
   public String toMyPage(Model model, UserMyPageUpdateForm form) {
+    User user = userMyPageService.loadUserByEmail("test@test.co.jp");
+    model.addAttribute("user",user);
+    model.addAttribute("oldEmail",user.getEmail());
     return "my-page";
   }
 
   @PostMapping("/my-page")
-  public String register(@Validated UserMyPageUpdateForm form, BindingResult result, Model model){
+  public String register(@Validated UserMyPageUpdateForm form, BindingResult result,String oldEmail, Model model){
 
     if(userRegisterService.checkEmail(form.getEmail())){
       result.rejectValue("email", "duplicate", "メールアドレスが既に使用されています");
@@ -38,11 +45,10 @@ public class UserMyPageController {
 
     User user = new User();
     BeanUtils.copyProperties(form, user);
-    user.setName(form.getName());
+    userMyPageService.updateUserInfo(user,userMyPageService.loadUserByEmail(oldEmail).getId());
 
-    userRegisterService.insert(user);
-
-    // 一旦ユーザ登録画面へリダイレクト
-    return "redirect:/toMyPage";
+    model.addAttribute("user",user);
+    model.addAttribute("oldEmail",user.getEmail());
+    return "my-page";
   }
 }
