@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
   <head
-    th:replace="common/head :: head_fragment(title = '商品一覧', links = ~{::link})"
+    th:replace="~{common/head :: head_fragment(title = '商品一覧', links = ~{::link})}"
   >
     <link rel="stylesheet" th:href="@{/css/item-list.css}" />
     <link
@@ -10,7 +10,7 @@
     />
   </head>
   <body>
-    <div th:replace="common/header :: header_fragment"></div>
+    <div th:replace="~{common/header :: header_fragment}"></div>
     <h1>商品一覧</h1>
     <div>
       <form th:action="@{/show-item-list}" method="get" id="searchForm">
@@ -70,7 +70,7 @@
       </span>
     </div>
 
-    <div th:replace="common/footer :: footer_fragment"></div>
+    <div th:replace="~{common/footer :: footer_fragment}"></div>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
     <script th:src="@{/js/item-list/select.js}"></script>
     <script th:src="@{/js/item-list/autoComp.js}"></script>
