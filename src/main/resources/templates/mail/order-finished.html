@@ -33,7 +33,7 @@
 
 <p th:text="'決済方法: ' + ${paymentMethod}"></p>
 
-<p th:text="'お届け時間: ' + ${#temporals.format(deliveryTime, 'yyyy年MM月dd日 HH:mm')}}"></p>
+<p th:text="'お届け時間: ' + ${#temporals.format(order.deliveryTime, 'yyyy年MM月dd日 HH:mm')}}"></p>
 
 <a href="http://localhost:8080/ec-202404a/show-item-list">ホームページへ</a>
 

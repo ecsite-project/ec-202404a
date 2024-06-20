@@ -1,6 +1,8 @@
 package com.example.controller;
 
+import com.example.common.PaymentMethod;
 import com.example.domain.CreditCard;
+import com.example.domain.Order;
 import com.example.form.OrderForm;
 import com.example.service.MailSenderService;
 import com.example.service.OrderService;
@@ -44,7 +46,14 @@ public class OrderController {
    */
   @PostMapping("")
   public String order(@Validated OrderForm orderForm, BindingResult result, Model model) {
-    if(orderForm.getPaymentMethod().equals(2)) {
+    Integer paymentMethodKey = 0;
+    for (PaymentMethod paymentMethod: PaymentMethod.values()){
+      if(paymentMethod.getValue().equals("クレジットカード")){
+        paymentMethodKey = paymentMethod.getKey();
+      }
+    }
+
+    if(orderForm.getPaymentMethod().equals(paymentMethodKey)) {
       CreditCard creditCard = new CreditCard();
       creditCard.setUser_id(1);
       creditCard.setOrder_number("12345678912345");
@@ -67,15 +76,17 @@ public class OrderController {
       return orderConfirmController.showConfirmOrder(orderForm.getOrderId(), model, orderForm);
     }
 
-    orderService.order(orderForm);
+    Order order = orderService.order(orderForm);
 
     try {
       Map<String, Object> variables = new HashMap<>();
-      variables.put("body", "これはテストです");
-      mailSenderService.mailSender("tc.kt-hil@toki.waseda.jp", variables);
+      variables.put("order", order);
+      variables.put("paymentMethod", PaymentMethod.of(paymentMethodKey));
+      mailSenderService.mailSender(orderForm.getDestinationEmail(), variables);
     }catch (MessagingException e){
       e.printStackTrace();
     }
+
     return "order-complete";
   }
 }

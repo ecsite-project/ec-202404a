@@ -58,8 +58,9 @@ public class OrderService {
      * 注文の処理.
      *
      * @param form 注文の入力情報
+     * @return 注文情報
      */
-    public void order(OrderForm form){
+    public Order order(OrderForm form){
         Order order = orderRepository.findById(form.getOrderId());
         if(form.getPaymentMethod().equals(1)){
             order.setStatus(1);
@@ -79,5 +80,7 @@ public class OrderService {
         order.setPaymentMethod(form.getPaymentMethod());
 
         orderRepository.update(order);
+
+        return order;
     }
 }
