@@ -11,6 +11,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * order_itemsテーブル操作用のリポジトリ.
  *
@@ -69,11 +71,5 @@ public class OrderItemRepository {
                 """;
         SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
         template.update(sql, param);
-    }
-
-    public void updateOrderId(OrderItem orderItem){
-        SqlParameterSource param = new BeanPropertySqlParameterSource(orderItem);
-        String sql = "UPDATE order_items SET order_id = :orderId WHERE id = :id;";
-        template.update(sql,param);
     }
 }

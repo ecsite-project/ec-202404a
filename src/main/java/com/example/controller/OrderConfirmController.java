@@ -7,6 +7,7 @@ import com.example.domain.User;
 import com.example.form.OrderForm;
 import com.example.service.OrderConfirmService;
 import com.example.service.OrderService;
+import com.example.service.ShoppingCartService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -31,6 +32,9 @@ public class OrderConfirmController {
   private OrderService orderService;
 
   @Autowired
+  private ShoppingCartService shoppingCartService;
+
+  @Autowired
   private HttpSession session;
 
   /**
@@ -42,25 +46,32 @@ public class OrderConfirmController {
    */
   @GetMapping("")
   public String showConfirmOrder(Integer orderId, Model model, OrderForm form, HttpSession session, @AuthenticationPrincipal LoginUser loginUser) {
-    Order loginUserOrder = orderConfirmService.findAllOrderInfoByUserIdAndStatus(orderId, 0);
+    System.out.println("orderId:" + orderId);
+    User user = loginUser.getUser();
+    Order loginUserOrder = shoppingCartService.showOrder(user.getId());
+    System.out.println("loginUserOrder: " + loginUserOrder);
 
     if(session.getAttribute("notLoginUser").equals("true")){
       System.out.println("tmpUserId: " + (Integer) session.getAttribute("tmpUserId"));
-      Order tmpOrder = orderConfirmService.showConfirmOrder((Integer) session.getAttribute("tmpUserId"));
-      System.out.println(tmpOrder);
+      Order tmpOrder = shoppingCartService.showOrder((Integer) session.getAttribute("tmpUserId"));
+      // Order tmpOrder = orderConfirmService.showConfirmOrder(1);
+      System.out.println("tmpOrder: " + tmpOrder);
 
       if(loginUserOrder == null){
-        User user = loginUser.getUser();
+        System.out.println("if文入ってるか確認");
         tmpOrder.setUserId(user.getId());
       }else {
+        System.out.println("else文入ってるか確認");
         for(OrderItem orderItem : tmpOrder.getOrderItemList()){
           orderItem.setOrderId(loginUserOrder.getId());
+          System.out.println("else文のorderItem" + orderItem);
         }
-        
       }
+      System.out.println("if文後tmpOrder: " + tmpOrder);
       orderService.updateUserId(tmpOrder);
     }
 
+    loginUserOrder = shoppingCartService.showOrder(user.getId());
     model.addAttribute("order", loginUserOrder);
     return "order-confirm";
   }
