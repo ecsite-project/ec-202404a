@@ -4,6 +4,9 @@
     th:replace="common/head :: head_fragment(title = '商品一覧', links = ~{::link})"
   >
     <link rel="stylesheet" th:href="@{/css/item-list.css}" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+    <meta name="_csrf" content="${_csrf.token}">
+    <meta name="_csrf_header" content="${_csrf.headerName}">
   </head>
   <body>
     <div th:replace="common/header :: header_fragment"></div>
@@ -55,8 +58,8 @@
       </span>
     </div>
     <div th:replace="common/footer :: footer_fragment"></div>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
     <script th:src="@{/js/item-list/select.js}"></script>
     <script th:src="@{/js/item-list/autoComp.js}"></script>
-    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
   </body>
 </html>

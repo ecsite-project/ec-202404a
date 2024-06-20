@@ -7,14 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static java.lang.Math.ceil;
 
@@ -79,14 +75,4 @@ public class ShowItemListController {
         return "item-list";
     }
 
-    @ResponseBody
-    @PostMapping("/auto-comp")
-    public List<String> autoComp(String input){
-        List<String> itemNameList = new ArrayList<>();
-        List<Item> itemList = showItemListService.showItemsSearchedBySWord(input,0,0);
-        for (Item item : itemList){
-            itemNameList.add(item.getName());
-        }
-        return itemNameList;
-    }
 }

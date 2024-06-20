@@ -1,19 +1,21 @@
 'use strict'
 
 $(function () {
-  $('#btn_change_status').on('click', function () {
-    console.log()
+  $('#searchWord').on('keyup', function () {
     $.ajax({
       type: 'POST',
-      url: 'http://localhost:8080/check-depo/change-status',
+      url: 'http://localhost:8080/ec-202404a/get-item-info',
       data: {
-        status: $('#status').text(),
+        itemNameList: $('#searchWord').text(),
       },
       dataType: 'JSON',
     })
       .done(function (data) {
-        $('#status').text(data.status)
-        $('#btn_change_status').text(data.btn_status + 'へ変更')
+        let names = data.itemNameList
+        console.log(names)
+        $('#searchWord ').autocomplete({
+          source: names,
+        })
       })
       .fail(function (XMLHttpRequest, textStatus, errorThrown) {
         alert('エラー発生')
