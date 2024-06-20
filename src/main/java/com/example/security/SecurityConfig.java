@@ -38,6 +38,7 @@ public class SecurityConfig {
         .deleteCookies("JSESSIONID")
     ).csrf(csrf -> csrf
             .ignoringRequestMatchers(new AntPathRequestMatcher("/get-user/user-info"))
+            .ignoringRequestMatchers(new AntPathRequestMatcher("/get-item-info"))
             .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
     );
 
