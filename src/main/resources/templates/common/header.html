@@ -1,8 +1,12 @@
-<header xmlns:th="http://www.thymeleaf.org" th:fragment="header_fragment">
-  <div>楽楽ヌードル</div>
+<header xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" th:fragment="header_fragment">
+  <div class="header-logo">
+    <a th:href="@{/show-item-list}" class="footer__logo">
+      <img th:src="@{/svg/logo.svg}" alt="企業ロゴ" width="72">
+    </a>
+  </div>
   <div class="header-right">
-    <div>ログアウト</div>
-    <div><a th:href="@{/login}">ログイン</a></div>
+    <div sec:authorize="isAuthenticated()"><a th:href="@{/logout}">ログアウト</a></div>
+    <div sec:authorize="isAnonymous()"><a th:href="@{/login}">ログイン</a></div>
     <div><a th:href="@{/shopping-cart}">カート</a></div>
     <div><a th:href="@{/order-history}">注文履歴</a></div>
   </div>

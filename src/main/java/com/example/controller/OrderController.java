@@ -2,14 +2,24 @@ package com.example.controller;
 
 import com.example.common.PaymentMethod;
 import com.example.domain.CreditCard;
+
+import com.example.domain.LoginUser;
+
 import com.example.domain.Order;
+
 import com.example.form.OrderForm;
 import com.example.service.MailSenderService;
 import com.example.service.OrderService;
+
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,6 +46,10 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+
+  @Autowired
+  private HttpSession session;
+
     @Autowired
     private MailSenderService mailSenderService;
 
@@ -48,7 +62,7 @@ public class OrderController {
      * @return 注文完了画面
      */
     @PostMapping("")
-    public String order(@Validated OrderForm orderForm, BindingResult result, Model model) {
+    public String order(@Validated OrderForm orderForm, BindingResult result, Model model, HttpSession session, @AuthenticationPrincipal LoginUser user) {
         Integer paymentMethodKey = 0;
         for (PaymentMethod paymentMethod : PaymentMethod.values()) {
             if (paymentMethod.getValue().equals("クレジットカード")) {
@@ -75,9 +89,11 @@ public class OrderController {
             }
         }
 
-        if (result.hasErrors()) {
-            return orderConfirmController.showConfirmOrder(orderForm.getOrderId(), model, orderForm);
+        if(result.hasErrors()){
+            return orderConfirmController.showConfirmOrder(orderForm.getOrderId(), model, orderForm, session, user);
         }
+
+        orderService.order(orderForm);
 
         Order order = orderService.order(orderForm);
 
