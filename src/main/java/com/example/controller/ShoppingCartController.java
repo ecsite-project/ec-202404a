@@ -65,16 +65,19 @@ public class ShoppingCartController {
             session.setAttribute("tmpUserId", tmpUserId);
             session.setAttribute("notLoginUser", "true");
             return "shopping-cart";
+        }else {
+            session.setAttribute("notLoginUser", "false");
+            Integer testUserId = 1;
+            Order order = shoppingCartService.showOrder(testUserId);
+            // Order order = shoppingCartService.showOrder(user.getUser().getId());
+            System.out.println("ShoppingCartController: " + order);
+            if (order == null || order.getOrderItemList().isEmpty()) {
+                model.addAttribute("noOrder", "カートに商品は1つもありません");
+            } else {
+                model.addAttribute("order", order);
+            }
+            return "shopping-cart";
         }
-
-        Integer testUserId = 1;
-        Order order = shoppingCartService.showOrder(testUserId);
-        if (order == null || order.getOrderItemList().isEmpty()) {
-            model.addAttribute("noOrder", "カートに商品は1つもありません");
-        } else {
-            model.addAttribute("order", order);
-        }
-        return "shopping-cart";
     }
 
     /**

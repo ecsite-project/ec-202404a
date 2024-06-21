@@ -48,7 +48,10 @@ public class OrderConfirmController {
   public String showConfirmOrder(Integer orderId, Model model, OrderForm form, HttpSession session, @AuthenticationPrincipal LoginUser loginUser) {
     System.out.println("orderId:" + orderId);
     User user = loginUser.getUser();
-    Order loginUserOrder = shoppingCartService.showOrder(user.getId());
+    System.out.println("userID: " + user.getId());
+
+    Integer testUserId = 1;
+    Order loginUserOrder = shoppingCartService.showOrder(testUserId);
     System.out.println("loginUserOrder: " + loginUserOrder);
 
     if(session.getAttribute("notLoginUser").equals("true")){
@@ -72,7 +75,8 @@ public class OrderConfirmController {
     }
 
     // loginUserOrder = shoppingCartService.showOrder(user.getId());
-    model.addAttribute("order", loginUserOrder);
+    Order order = loginUserOrder;
+    model.addAttribute("order", order);
     return "order-confirm";
   }
 }
