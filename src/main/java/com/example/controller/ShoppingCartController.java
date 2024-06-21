@@ -123,7 +123,7 @@ public class ShoppingCartController {
         Matcher matcher = pattern.matcher(str);
 
         while (matcher.find()) {
-            if (tmpId < Integer.parseInt(matcher.group()) && Integer.parseInt(matcher.group()) < MAX_TMP_ID) {
+            if (tmpId < Long.parseLong(matcher.group()) && Long.parseLong(matcher.group()) < MAX_TMP_ID) {
                 tmpId = Integer.parseInt(matcher.group());
             }
         }

@@ -71,7 +71,7 @@ public class OrderConfirmController {
       orderService.updateUserId(tmpOrder);
     }
 
-    loginUserOrder = shoppingCartService.showOrder(user.getId());
+    // loginUserOrder = shoppingCartService.showOrder(user.getId());
     model.addAttribute("order", loginUserOrder);
     return "order-confirm";
   }
