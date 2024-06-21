@@ -7,7 +7,25 @@
   </head>
   <body>
     <div th:replace="~{common/header :: header_fragment}"></div>
-    <h1>注文完了</h1>
+    <main>
+      <div class="complete-section">
+        <p class="complete-section__title">注文が完了しました</p>
+        <div class="complete-section__message">
+          <p>この度はご注文ありがとうございます。</p>
+          <p>
+            お支払い内容は、お送りしたメールに記載してありますのでご確認ください。
+          </p>
+          <p>メールが届かない場合は「注文履歴」からご確認ください。</p>
+        </div>
+        <div class="complete-section__button-wrap">
+          <a
+            th:href="@{/show-item-list}"
+            class="complete-section__button waves-effect waves-light btn-large"
+            ><i class="material-icons right">chevron_right</i>商品一覧へ戻る</a
+          >
+        </div>
+      </div>
+    </main>
     <div th:replace="~{common/footer :: footer_fragment}"></div>
   </body>
 </html>
