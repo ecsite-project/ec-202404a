@@ -69,7 +69,6 @@
         </div>
       </div>
 
-      <button type="button" id="loginInfoBtn">ログイン者情報を入力</button>
       <div class="order-form">
         <form
           action="item-detail.html"
@@ -80,6 +79,12 @@
           <input type="hidden" name="orderId" th:value="${order.id}" />
           <div class="address-section">
             <p class="address-section__title">お届け先情報</p>
+            <a
+              id="loginInfoBtn"
+              class="waves-effect waves-light btn-small address-section__auto-input-button"
+            >
+              <i class="material-icons left">edit</i>ログイン者情報を入力
+            </a>
             <div class="address-section__inputs">
               <div class="row">
                 <div class="input-field col s12">
@@ -196,7 +201,7 @@
               </div>
 
               <div class="row">
-                <div class="input-field col s12">
+                <div class="input-field col s6">
                   <i class="material-icons prefix">calendar_month</i>
                   <input
                     th:field="*{deliveryDate}"
@@ -209,245 +214,148 @@
                     >エラー</span
                   >
                 </div>
+                <div class="input-field col s6">
+                  <select name="deliveryTime">
+                    <option value="10">10時</option>
+                    <option value="11">11時</option>
+                    <option value="12">12時</option>
+                    <option value="13">13時</option>
+                    <option value="14">14時</option>
+                    <option value="15">15時</option>
+                    <option value="16">16時</option>
+                    <option value="17">17時</option>
+                    <option value="18">18時</option>
+                  </select>
+                  <label>配達時間</label>
+                </div>
               </div>
             </div>
           </div>
 
           <div class="payment-section">
             <p class="payment-section__title">お支払方法</p>
+
+            <div class="cash-section">
+              <div>
+                <label>
+                  <input
+                    name="paymentMethod"
+                    type="radio"
+                    class="with-gap"
+                    value="1"
+                    checked="checked"
+                  />
+                  <span>代金引換</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="card-section">
+              <div>
+                <label>
+                  <input
+                    name="paymentMethod"
+                    type="radio"
+                    class="with-gap"
+                    value="2"
+                  />
+                  <span>クレジットカード</span>
+                </label>
+              </div>
+
+              <div class="row">
+                <div class="input-field col s12">
+                  <i class="material-icons prefix">mail</i>
+                  <input
+                    th:field="*{cardNumber}"
+                    id="cardNumber"
+                    type="text"
+                    class="validate"
+                  />
+                  <label for="cardNumber">クレジットカード番号</label>
+                  <span class="helper-text" th:errors="*{cardNumber}"
+                    >エラー</span
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="input-field col s12">
+                  <i class="material-icons prefix">mail</i>
+                  <input
+                    th:field="*{cardExpYear}"
+                    id="cardExpYear"
+                    type="text"
+                    class="validate"
+                  />
+                  <label for="cardExpYear">カード有効期限（年）</label>
+                  <span class="helper-text" th:errors="*{cardExpYear}"
+                    >エラー</span
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="input-field col s12">
+                  <i class="material-icons prefix">mail</i>
+                  <input
+                    th:field="*{cardExpMonth}"
+                    id="cardExpMonth"
+                    type="text"
+                    class="validate"
+                  />
+                  <label for="cardExpMonth">カード有効期限（月）</label>
+                  <span class="helper-text" th:errors="*{cardExpMonth}"
+                    >エラー</span
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="input-field col s12">
+                  <i class="material-icons prefix">mail</i>
+                  <input
+                    th:field="*{cardName}"
+                    id="cardName"
+                    type="text"
+                    class="validate"
+                  />
+                  <label for="cardName">クレジットカード名義人</label>
+                  <span class="helper-text" th:errors="*{cardName}"
+                    >エラー</span
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="input-field col s12">
+                  <i class="material-icons prefix">mail</i>
+                  <input
+                    th:field="*{cardCvv}"
+                    id="cardCvv"
+                    type="text"
+                    class="validate"
+                  />
+                  <label for="cardCvv">セキュリティコード</label>
+                  <span class="helper-text" th:errors="*{cardCvv}">エラー</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="confirm-section">
+              <button class="waves-effect waves-light btn-large">
+                ご購入手続きへ<i class="material-icons right">ramen_dining</i>
+              </button>
+            </div>
           </div>
         </form>
       </div>
-
-      <!-- <div>
-        <h1>お届け先情報</h1>
-        <button type="button" id="loginInfoBtn">ログイン者情報を入力</button>
-        <form
-          action="item-detail.html"
-          th:action="@{/order}"
-          method="post"
-          th:object="${orderForm}"
-        >
-          <input type="hidden" name="orderId" th:value="${order.id}" />
-          <div th:errors="*{destinationName}" style="color: red">エラー</div>
-          <input
-            type="text"
-            name="destinationName"
-            placeholder="お名前"
-            id="destinationName"
-            th:field="*{destinationName}"
-          /><br />
-          <div th:errors="*{destinationEmail}" style="color: red">エラー</div>
-          <input
-            type="email"
-            name="destinationEmail"
-            placeholder="メールアドレス"
-            id="destinationEmail"
-            th:field="*{destinationEmail}"
-          /><br />
-          <div th:errors="*{destinationZipcode}" style="color: red">エラー</div>
-          <input
-            type="text"
-            name="destinationZipcode"
-            placeholder="郵便番号"
-            id="destinationZipcode"
-            th:field="*{destinationZipcode}"
-          /><br />
-          <button type="button" id="searchAddressBtn">住所検索</button>
-          <div th:errors="*{destinationPrefecture}" style="color: red">
-            エラー
-          </div>
-          <select
-            name="destinationPrefecture"
-            id="destinationPrefecture"
-            class="browser-default"
-            th:field="*{destinationPrefecture}"
-          >
-            <option value="" disabled selected>都道府県</option>
-            <option value="北海道">北海道</option>
-            <option value="青森県">青森県</option>
-            <option value="岩手県">岩手県</option>
-            <option value="宮城県">宮城県</option>
-            <option value="秋田県">秋田県</option>
-            <option value="山形県">山形県</option>
-            <option value="福島県">福島県</option>
-            <option value="茨城県">茨城県</option>
-            <option value="栃木県">栃木県</option>
-            <option value="群馬県">群馬県</option>
-            <option value="埼玉県">埼玉県</option>
-            <option value="千葉県">千葉県</option>
-            <option value="東京都">東京都</option>
-            <option value="神奈川県">神奈川県</option>
-            <option value="新潟県">新潟県</option>
-            <option value="富山県">富山県</option>
-            <option value="石川県">石川県</option>
-            <option value="福井県">福井県</option>
-            <option value="山梨県">山梨県</option>
-            <option value="長野県">長野県</option>
-            <option value="岐阜県">岐阜県</option>
-            <option value="静岡県">静岡県</option>
-            <option value="愛知県">愛知県</option>
-            <option value="三重県">三重県</option>
-            <option value="滋賀県">滋賀県</option>
-            <option value="京都府">京都府</option>
-            <option value="大阪府">大阪府</option>
-            <option value="兵庫県">兵庫県</option>
-            <option value="奈良県">奈良県</option>
-            <option value="和歌山県">和歌山県</option>
-            <option value="鳥取県">鳥取県</option>
-            <option value="島根県">島根県</option>
-            <option value="岡山県">岡山県</option>
-            <option value="広島県">広島県</option>
-            <option value="山口県">山口県</option>
-            <option value="徳島県">徳島県</option>
-            <option value="香川県">香川県</option>
-            <option value="愛媛県">愛媛県</option>
-            <option value="高知県">高知県</option>
-            <option value="福岡県">福岡県</option>
-            <option value="佐賀県">佐賀県</option>
-            <option value="長崎県">長崎県</option>
-            <option value="熊本県">熊本県</option>
-            <option value="大分県">大分県</option>
-            <option value="宮崎県">宮崎県</option>
-            <option value="鹿児島県">鹿児島県</option>
-            <option value="沖縄県">沖縄県</option>
-          </select>
-          <div th:errors="*{destinationMunicipalities}" style="color: red">
-            エラー
-          </div>
-          <input
-            type="text"
-            name="destinationMunicipalities"
-            placeholder="市区町村"
-            id="destinationMunicipalities"
-            th:field="*{destinationMunicipalities}"
-          /><br />
-          <div th:errors="*{destinationAddress}" style="color: red">エラー</div>
-          <input
-            type="text"
-            name="destinationAddress"
-            placeholder="住所"
-            id="destinationAddress"
-            th:field="*{destinationAddress}"
-          /><br />
-          <div th:errors="*{destinationTel}" style="color: red">エラー</div>
-          <input
-            type="text"
-            name="destinationTel"
-            placeholder="電話番号"
-            id="destinationTel"
-            th:field="*{destinationTel}"
-          /><br />
-          <div th:errors="*{deliveryDate}" style="color: red">エラー</div>
-          <p>配達日</p>
-          <input
-            type="date"
-            name="deliveryDate"
-            th:field="*{deliveryDate}"
-          /><br />
-          <label class="order-confirm-delivery-time">
-            <input
-              name="deliveryTime"
-              type="radio"
-              value="10"
-              checked="checked"
-            />
-            <span>10時</span>
-          </label>
-          <label class="order-confirm-delivery-time">
-            <input name="deliveryTime" type="radio" value="11" />
-            <span>11時</span>
-          </label>
-          <label class="order-confirm-delivery-time">
-            <input name="deliveryTime" type="radio" value="12" />
-            <span>12時</span>
-          </label>
-          <label class="order-confirm-delivery-time">
-            <input name="deliveryTime" type="radio" value="13" />
-            <span>13時</span>
-          </label>
-          <label class="order-confirm-delivery-time">
-            <input name="deliveryTime" type="radio" value="14" />
-            <span>14時</span>
-          </label>
-          <label class="order-confirm-delivery-time">
-            <input name="deliveryTime" type="radio" value="15" />
-            <span>15時</span>
-          </label>
-          <label class="order-confirm-delivery-time">
-            <input name="deliveryTime" type="radio" value="16" />
-            <span>16時</span>
-          </label>
-          <label class="order-confirm-delivery-time">
-            <input name="deliveryTime" type="radio" value="17" />
-            <span>17時</span>
-          </label>
-          <label class="order-confirm-delivery-time">
-            <input name="deliveryTime" type="radio" value="18" />
-            <span>18時</span>
-          </label>
-          <h1>お支払い方法</h1>
-          <label class="order-confirm-payment-method-radio">
-            <input
-              name="paymentMethod"
-              type="radio"
-              value="1"
-              checked="checked"
-            />
-            <span>代金引換</span>
-          </label>
-          <label class="order-confirm-payment-method-radio">
-            <input name="paymentMethod" type="radio" value="2" />
-            <span>クレジットカード</span>
-          </label>
-
-          <div>
-            <p>クレジットカード情報</p>
-            <div th:errors="*{cardNumber}" style="color: red">エラー</div>
-            <input
-              type="text"
-              name="cardNumber"
-              placeholder="クレジットカード番号"
-              th:field="*{cardNumber}"
-            />
-            <div th:errors="*{cardExpYear}" style="color: red">エラー</div>
-            <input
-              type="text"
-              name="cardExpYear"
-              placeholder="カード有効期限（年）"
-              th:field="*{cardExpYear}"
-            />
-            <div th:errors="*{cardExpMonth}" style="color: red">エラー</div>
-            <input
-              type="text"
-              name="cardExpMonth"
-              placeholder="カード有効期限（月）"
-              th:field="*{cardExpMonth}"
-            />
-            <div th:errors="*{cardName}" style="color: red">エラー</div>
-            <input
-              type="text"
-              name="cardName"
-              placeholder="クレジットカード名義人"
-              th:field="*{cardName}"
-            />
-            <div th:errors="*{cardCvv}" style="color: red">エラー</div>
-            <input
-              type="text"
-              name="cardCvv"
-              placeholder="セキュリティコード"
-              th:field="*{cardCvv}"
-            />
-          </div>
-
-          <button>確定</button>
-        </form>
-      </div> -->
     </main>
     <div th:replace="~{common/footer :: footer_fragment}"></div>
 
     <script th:src="@{/js/zipcode.js}"></script>
-    <script th:src="@{/js/getLoginInfo.js}"></script>
+    <script th:src="@{/js/order-confirm/getLoginInfo.js}"></script>
     <script th:src="@{/js/materialize/date-picker.js}"></script>
+    <script th:src="@{/js/materialize/select.js}"></script>
   </body>
 </html>
