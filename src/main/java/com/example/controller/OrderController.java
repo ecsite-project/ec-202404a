@@ -92,6 +92,11 @@ public class OrderController {
         return "redirect:/order-complete";
     }
 
+    /**
+     * 注文完了画面の表示.
+     *
+     * @return 注文完了画面
+     */
     @GetMapping("/order-complete")
     public String orderComplete(){
         return "order-complete";
