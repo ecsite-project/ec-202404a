@@ -4,7 +4,6 @@
     th:replace="~{common/head :: head_fragment(title = '商品詳細', links = ~{::link})}"
   >
     <link rel="stylesheet" th:href="@{/css/item-detail.css}" />
-
   </head>
   <body>
     <div th:replace="~{common/header :: header_fragment}"></div>
@@ -30,6 +29,81 @@
               class="item-description__content"
               th:text="${item.description}"
             ></p>
+          </div>
+
+          <div class="item-review-section">
+            <p class="item-review-section__title">レビュー</p>
+            <div class="review-description-container">
+              <div class="review-chart">
+                <canvas class="review-chart__canvas" id="myChart"></canvas>
+                <div class="review-chart__legend">
+                  <div>
+                    <p class="legend__label label--positive">ポジティブ</p>
+                    <p id="value--positive" class="legend__value"></p>
+                  </div>
+                  <div>
+                    <p class="legend__label label--negative">ネガティブ</p>
+                    <p id="value--negative" class="legend__value"></p>
+                  </div>
+                  <div>
+                    <p class="legend__label label--neutral">ニュートラル</p>
+                    <p id="value--neutral" class="legend__value"></p>
+                  </div>
+                </div>
+              </div>
+              <div class="review-control">
+                <div class="positive-review">
+                  <p>
+                    ポジティブレビュー<span
+                      class="positive-review__value"
+                      id="positive-review__value"
+                    ></span>
+                  </p>
+                  <p id="positive-review" class="positive-review__content"></p>
+                </div>
+                <div class="negative-review">
+                  <p>
+                    ネガティブレビュー<span
+                      class="negative-review__value"
+                      id="negative-review__value"
+                    ></span>
+                  </p>
+                  <p id="negative-review" class="negative-review__content"></p>
+                </div>
+
+                <div class="write-review-button-wrap">
+                  <a
+                    th:href="@{/review?itemId=} + ${item.id}"
+                    class="write-review-button waves-effect waves-light btn"
+                    ><i class="material-icons left">edit</i>レビューを書く</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="review-content-wrap">
+              <table>
+                <thead>
+                  <th></th>
+                  <th>ポジティブ度</th>
+                  <th>ネガティブ度</th>
+                  <th>ニュートラル度</th>
+                </thead>
+                <tbody>
+                  <tr th:each="review: ${item.reviewList}">
+                    <td th:text="${review.content}"></td>
+                    <td
+                      th:text="${#numbers.formatDecimal(review.positiveValue, 1, 'COMMA', 5, 'POINT')}"
+                    ></td>
+                    <td
+                      th:text="${#numbers.formatDecimal(review.negativeValue, 1, 'COMMA', 5, 'POINT')}"
+                    ></td>
+                    <td
+                      th:text="${#numbers.formatDecimal(review.neutralValue, 1, 'COMMA', 5, 'POINT')}"
+                    ></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
@@ -126,28 +200,14 @@
           </form>
         </div>
       </div>
-
-      <a th:href="@{/review?itemId=} + ${item.id}">レビューする</a>
-      <table>
-        <thead>
-        <th></th>
-        <th>ポジティブ度</th>
-        <th>ネガティブ度</th>
-        <th>ニュートラル度</th>
-        </thead>
-        <tbody>
-        <tr th:each="review: ${item.reviewList}">
-          <td th:text="${review.content}"></td>
-          <td th:text="${#numbers.formatDecimal(review.positiveValue, 1, 'COMMA', 5, 'POINT')}"></td>
-          <td th:text="${#numbers.formatDecimal(review.negativeValue, 1, 'COMMA', 5, 'POINT')}"></td>
-          <td th:text="${#numbers.formatDecimal(review.neutralValue, 1, 'COMMA', 5, 'POINT')}"></td>
-        </tr>
-        </tbody>
-      </table>
     </main>
 
     <div th:replace="~{common/footer :: footer_fragment}"></div>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script th:inline="javascript">
+      const reviewList = /*[[${item.reviewList}]]*/ 'item.reviewList'
+    </script>
+    <script th:src="@{/js/item-detail/review-chart.js}"></script>
     <script th:src="@{/js/totalPrice.js}"></script>
     <script th:src="@{/js/materialize/select.js}"></script>
     <script th:src="@{/js/bookmark.js}"></script>
