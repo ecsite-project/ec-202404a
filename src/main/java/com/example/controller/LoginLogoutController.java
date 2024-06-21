@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 /**
  * ログイン・ログアウトをするコントローラ.
@@ -31,7 +30,6 @@ public class LoginLogoutController {
   public String toLogin(String error, Model model) {
     if ("true".equals(error)){
       model.addAttribute("notMatchError","メールアドレスまたはパスワードが一致しません");
-      return "login";
     }
 
     return "login";

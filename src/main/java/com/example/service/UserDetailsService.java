@@ -53,19 +53,17 @@ public class UserDetailsService implements org.springframework.security.core.use
             throw new UsernameNotFoundException("Not found mail address:" + email);
         }
 
-        // ログイン中のユーザ情報持ってくる
         Integer loginUserId = user.getId();
 
-        // 得たログイン情報が持つ未注文のオーダーがあれば持ってくる
         Order loginUserOrder = shoppingCartService.showOrder(loginUserId);
 
         Order tmpOrder = shoppingCartService.showOrder((Integer) session.getAttribute("tmpUserId"));
         if (tmpOrder != null) {
-            if (loginUserOrder == null) { // ログイン中の未注文が無ければ、仮注文を正式な注文化
+            if (loginUserOrder == null) {
                 tmpOrder.setUserId(loginUserId);
                 orderConfirmService.updateUserId(tmpOrder);
-            } else { // ログイン中の未注文がある
-                for (OrderItem orderItem : tmpOrder.getOrderItemList()) { // 仮注文の商品情報をログイン中の注文IDで書き換え
+            } else {
+                for (OrderItem orderItem : tmpOrder.getOrderItemList()) {
                     orderItem.setOrderId(loginUserOrder.getId());
                     orderConfirmService.updateOrderItem(orderItem);
                 }

@@ -16,18 +16,15 @@ public class SecurityConfig {
   @Bean
   protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests(authz -> authz
-        //.requestMatchers("/**").permitAll()
-        .requestMatchers("/css/**").permitAll()
-        .requestMatchers("/js/**").permitAll()
-        .requestMatchers("/img/**").permitAll()
+        .requestMatchers("/css/**", "/js/**", "/img/**", "/svg/**").permitAll()
         .requestMatchers("/").permitAll()
         .requestMatchers("/toRegister").permitAll()
         .requestMatchers("/register").permitAll()
-            .requestMatchers("/login").permitAll()
-            .requestMatchers("/shopping-cart").permitAll()
-            .requestMatchers("/shopping-cart/**").permitAll()
-            .requestMatchers("/show-item-list").permitAll()
-            .requestMatchers("/show-item-detail").permitAll()
+        .requestMatchers("/login").permitAll()
+        .requestMatchers("/shopping-cart").permitAll()
+        .requestMatchers("/shopping-cart/**").permitAll()
+        .requestMatchers("/show-item-list").permitAll()
+        .requestMatchers("/show-item-detail").permitAll()
         .anyRequest().authenticated()
     ).formLogin(login -> login
         .loginPage("/login")
@@ -42,10 +39,10 @@ public class SecurityConfig {
         .invalidateHttpSession(true)
         .deleteCookies("JSESSIONID")
     ).csrf(csrf -> csrf
-            .ignoringRequestMatchers(new AntPathRequestMatcher("/get-user/user-info"))
-            .ignoringRequestMatchers(new AntPathRequestMatcher("/get-item-info"))
-            .ignoringRequestMatchers(new AntPathRequestMatcher("/bookmark"))
-            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+        .ignoringRequestMatchers(new AntPathRequestMatcher("/get-user/user-info"))
+        .ignoringRequestMatchers(new AntPathRequestMatcher("/get-item-info"))
+        .ignoringRequestMatchers(new AntPathRequestMatcher("/bookmark"))
+        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
     );
 
     return http.build();

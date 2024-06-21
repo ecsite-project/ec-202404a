@@ -1,10 +1,13 @@
 package com.example.controller;
 
+import com.example.domain.LoginUser;
 import com.example.domain.Review;
+import com.example.domain.User;
 import com.example.form.ReviewForm;
 import com.example.service.ReviewService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -48,14 +51,15 @@ public class ReviewController {
      * @return 商品詳細ページへリダイレクト
      */
     @PostMapping("/add")
-    public String add(@Validated ReviewForm form, BindingResult result, Model model){
+    public String add(@Validated ReviewForm form, BindingResult result, Model model, @AuthenticationPrincipal LoginUser loginUser){
+        User user = loginUser.getUser();
         if(result.hasErrors()){
             return showReviewPost(model, form.getItemId(), form);
         }
 
         Review review = new Review();
         BeanUtils.copyProperties(form, review);
-        reviewService.addReview(review);
+        reviewService.addReview(review, user.getId());
         return "redirect:/show-item-detail?id=" + form.getItemId();
     }
 }

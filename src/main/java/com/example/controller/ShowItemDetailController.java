@@ -28,6 +28,7 @@ public class ShowItemDetailController {
    *
    * @param id 商品のid
    * @param model 商品の格納
+   * @param loginUser ログインしているユーザ
    * @return 商品詳細画面
    */
   @GetMapping()
@@ -38,7 +39,7 @@ public class ShowItemDetailController {
     boolean bookmarkFlag = false;
     if(loginUser != null){
       User user = loginUser.getUser();
-      if(user.getBookmarkList().contains(item)){
+      if(user.getBookmarkList() != null && user.getBookmarkList().contains(item)) {
         bookmarkFlag = true;
       }
     }

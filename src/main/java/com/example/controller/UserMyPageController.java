@@ -4,7 +4,6 @@ import com.example.domain.LoginUser;
 import com.example.domain.User;
 import com.example.form.UserMyPageUpdateForm;
 import com.example.service.UserMyPageService;
-import com.example.service.UserRegisterService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -38,16 +37,20 @@ public class UserMyPageController {
    * @param loginUser ログイン情報
    * @return ユーザマイページ画面
    */
-  @GetMapping("/to-my-page")
-  public String toMyPage(Model model, UserMyPageUpdateForm form,@AuthenticationPrincipal LoginUser loginUser) {
-    if (loginUser == null){
-      return "redirect:/show-item-list";
-    }
-    if (form.getEmail() == null){
-      User user = loginUser.getUser();
-      BeanUtils.copyProperties(user, form);
-      model.addAttribute("bookMarkList",user.getBookmarkList());
-    }
+//  @GetMapping("/to-my-page")
+//  public String toMyPage(Model model, UserMyPageUpdateForm form,@AuthenticationPrincipal LoginUser loginUser) {
+//    if (loginUser == null){
+//      return "redirect:/show-item-list";
+//    }
+//    if (form.getEmail() == null){
+//      User user = loginUser.getUser();
+//      BeanUtils.copyProperties(user, form);
+//      model.addAttribute("bookMarkList",user.getBookmarkList());
+//    }
+  public String toMyPage(Model model, UserMyPageUpdateForm form, @AuthenticationPrincipal LoginUser loginUser) {
+    User user = loginUser.getUser();
+    BeanUtils.copyProperties(user, form);
+
     return "my-page";
   }
 
@@ -62,7 +65,6 @@ public class UserMyPageController {
    */
   @PostMapping("/my-page")
   public String myPage(@Validated UserMyPageUpdateForm form, BindingResult result, @AuthenticationPrincipal LoginUser loginUser , Model model){
-
     User newUserInfo = new User();
     BeanUtils.copyProperties(form, newUserInfo);
     newUserInfo.setId(loginUser.getUser().getId());
@@ -73,9 +75,8 @@ public class UserMyPageController {
       return toMyPage(model, form,loginUser);
     }
     userMyPageService.updateUserInfo(newUserInfo);
-    BeanUtils.copyProperties(newUserInfo, form);
 
-    return toMyPage(model,form,loginUser);
+    return "redirect:/to-my-page";
   }
 
   /**
