@@ -2,33 +2,22 @@ package com.example.controller;
 
 import com.example.common.PaymentMethod;
 import com.example.domain.CreditCard;
-
 import com.example.domain.LoginUser;
-
 import com.example.domain.Order;
-
+import com.example.domain.User;
 import com.example.form.OrderForm;
 import com.example.service.MailSenderService;
 import com.example.service.OrderService;
-
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-
 import jakarta.mail.MessagingException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 注文処理の制御のコントローラ.
@@ -46,10 +35,6 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-
-  @Autowired
-  private HttpSession session;
-
     @Autowired
     private MailSenderService mailSenderService;
 
@@ -59,11 +44,13 @@ public class OrderController {
      * @param orderForm 入力情報
      * @param result    バリデーションチェック
      * @param model     注文画面に渡すmodel
+     * @param loginUser ログインしているユーザ
      * @return 注文完了画面
      */
     @PostMapping("")
-    public String order(@Validated OrderForm orderForm, BindingResult result, Model model, HttpSession session, @AuthenticationPrincipal LoginUser user) {
-        Integer paymentMethodKey = 0;
+    public String order(@Validated OrderForm orderForm, BindingResult result, Model model, @AuthenticationPrincipal LoginUser loginUser) {
+        User user = loginUser.getUser();
+        int paymentMethodKey = 0;
         for (PaymentMethod paymentMethod : PaymentMethod.values()) {
             if (paymentMethod.getValue().equals("クレジットカード")) {
                 paymentMethodKey = paymentMethod.getKey();
@@ -72,11 +59,9 @@ public class OrderController {
 
         if (orderForm.getPaymentMethod().equals(paymentMethodKey)) {
             CreditCard creditCard = new CreditCard();
-            creditCard.setUser_id(1);
+            creditCard.setUser_id(user.getId());
             creditCard.setOrder_number("12345678912345");
-            if (orderForm.getCardNumber() != null) {
-                creditCard.setCard_number(orderForm.getCardNumber().toString());
-            }
+            creditCard.setCard_number(orderForm.getCardNumber());
             creditCard.setCard_exp_year(orderForm.getCardExpYear());
             creditCard.setCard_exp_month(orderForm.getCardExpMonth());
             creditCard.setCard_name(orderForm.getCardName());
@@ -90,7 +75,7 @@ public class OrderController {
         }
 
         if(result.hasErrors()){
-            return orderConfirmController.showConfirmOrder(orderForm.getOrderId(), model, orderForm, session, user);
+            return orderConfirmController.showConfirmOrder(model, loginUser, orderForm);
         }
 
         orderService.order(orderForm);

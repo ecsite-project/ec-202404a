@@ -2,7 +2,6 @@ package com.example.service;
 
 import com.example.domain.CreditCard;
 import com.example.domain.Order;
-import com.example.domain.OrderItem;
 import com.example.form.OrderForm;
 import com.example.repository.OrderItemRepository;
 import com.example.repository.OrderRepository;
@@ -50,13 +49,13 @@ public class OrderService {
         }
 
         card.setAmount(order.getCalcTotalPrice() + order.getTax());
-        card.setCard_exp_year(2020);
         RestTemplate restTemplate = new RestTemplate();
         JsonNode jsonNode = restTemplate.postForObject(creditCardCheckApi, card, JsonNode.class);
 
-        if(jsonNode.findValue("status").toString().equals("success")){
+        if("success".equals(jsonNode.findValue("status").toString())){
             return true;
         }
+
         return false;
     }
 

@@ -40,9 +40,6 @@ public class UserRegisterService {
      * @return 存在しない場合false,する場合true
      */
     public boolean checkEmail(String email){
-        if (userRepository.findByEmail(email) == null) {
-            return false;
-        }
-        return true;
+        return userRepository.findByEmail(email) != null;
     }
 }

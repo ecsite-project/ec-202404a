@@ -7,7 +7,6 @@ import com.example.form.AddItemForm;
 import com.example.service.ShoppingCartService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,13 +39,14 @@ public class ShoppingCartController {
      * カート画面の表示.
      *
      * @param model 注文情報の格納
+     * @param loginUser ログインしているユーザ
      * @return カート画面
      */
     @GetMapping("")
-    public String toShoppingCart(Model model, HttpSession session, @AuthenticationPrincipal LoginUser user) {
+    public String toShoppingCart(Model model, @AuthenticationPrincipal LoginUser loginUser) {
         String sessionId = session.getId();
 
-        if (user == null) {
+        if (loginUser == null) {
             Integer tmpUserId = extractNumbers(sessionId);
             Order order = shoppingCartService.showOrder(tmpUserId);
             if (order == null || order.getOrderItemList().isEmpty()) {
@@ -59,7 +59,7 @@ public class ShoppingCartController {
             return "shopping-cart";
         }else {
             session.setAttribute("notLoginUser", "false");
-            Order order = shoppingCartService.showOrder(user.getUser().getId());
+            Order order = shoppingCartService.showOrder(loginUser.getUser().getId());
             if (order == null || order.getOrderItemList().isEmpty()) {
                 model.addAttribute("noOrder", "カートに商品は1つもありません");
             } else {
@@ -73,10 +73,11 @@ public class ShoppingCartController {
      * 商品をカートに追加.
      *
      * @param form 入力情報
+     * @param loginUser ログインしているユーザ
      * @return カートの画面へリダイレクト
      */
     @PostMapping("/add-item")
-    public String addItem(AddItemForm form, HttpSession session, @AuthenticationPrincipal LoginUser loginUser) {
+    public String addItem(AddItemForm form, @AuthenticationPrincipal LoginUser loginUser) {
         if (loginUser == null) {
             String sessionId = session.getId();
             Integer tmpUserId = extractNumbers(sessionId);
@@ -122,7 +123,7 @@ public class ShoppingCartController {
             }
         }
 
-        tmpId += MARGIN; // 登録されてるユーザとの重複を避けるため
+        tmpId += MARGIN;
 
         return tmpId;
     }

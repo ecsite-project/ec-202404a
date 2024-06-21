@@ -1,6 +1,5 @@
 package com.example.service;
 
-import com.example.common.PaymentMethod;
 import com.example.domain.Order;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
