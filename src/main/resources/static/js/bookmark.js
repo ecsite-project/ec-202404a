@@ -1,33 +1,32 @@
 "use strict";
 
 $(function() {
-    if($("#bookmark-icon").data("flag") === true){
-        $("#bookmark-icon").css("color", "blue");
+    const $bookmarkIcon = $("#bookmark-icon");
+    const bookmarkUrl = "http://localhost:8080/ec-202404a/bookmark";
+    const bookmarkColor = "blue";
+
+    if ($bookmarkIcon.data("flag")) {
+        $bookmarkIcon.css("color", bookmarkColor);
     }
 
-    $("#bookmark-icon").on("click", () => {
-        if($("#bookmark-icon").data("flag") === true){
-            $("#bookmark-icon").css("color", "red");
-            $("#bookmark-icon").data("flag", false);
-        }else{
-            $("#bookmark-icon").css("color", "blue");
-            $("#bookmark-icon").data("flag", true);
-        }
+    $bookmarkIcon.on("click", () => {
+        const isBookmarked = $bookmarkIcon.data("flag");
+
+        $bookmarkIcon.css("color", isBookmarked ? "" : bookmarkColor);
+        $bookmarkIcon.data("flag", !isBookmarked);
 
         $.ajax({
-            url: "http://localhost:8080/ec-202404a/bookmark",
+            url: bookmarkUrl,
             type: "post",
             dataType: "json",
-            data: {
-                itemId: $("#bookmark-icon").data("itemid")
-            },
+            data: { itemId: $bookmarkIcon.data("itemid") },
             async: true
-        }).done((data) => {
-            console.log(data);
-        }).fail((XMLHttpRequest, textStatus, errorThrown) => {
-            console.log(XMLHttpRequest);
-            console.log(textStatus);
-            console.log(errorThrown);
         })
-    })
-})
+        .done(data => {
+            console.log(data);
+        })
+        .fail((xhr, textStatus, errorThrown) => {
+            console.error(xhr, textStatus, errorThrown);
+        });
+    });
+});
