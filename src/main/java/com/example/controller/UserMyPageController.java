@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDateTime;
 
+/**
+ * ユーザマイページでユーザ情報の操作を行うコントローラ.
+ *
+ * @author krkrHotaru
+ */
 @Controller
 @RequestMapping("")
 public class UserMyPageController {
@@ -80,7 +85,7 @@ public class UserMyPageController {
   }
 
   /**
-   * ユーザ情報の削除を行います.
+   * ユーザ情報の論理削除を行い、ログアウトします.
    *
    * @param loginUser ログイン情報
    * @return ログイン画面へ遷移
