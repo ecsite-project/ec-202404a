@@ -10,6 +10,11 @@
 
     <main>
       <div class="item-container">
+        <i class="fas fa-bookmark"
+           id="bookmark-icon"
+           th:data-flag="${bookmarkFlag}"
+           th:data-itemid="${item.id}"
+        ></i>
         <div class="item-content">
           <img th:src="@{/img/} + ${item.imagePath}" />
           <div class="item-description">
@@ -138,5 +143,6 @@
 
     <script th:src="@{/js/totalPrice.js}"></script>
     <script th:src="@{/js/materialize/select.js}"></script>
+    <script th:src="@{/js/bookmark.js}"></script>
   </body>
 </html>
