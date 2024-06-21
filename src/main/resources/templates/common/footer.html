@@ -1,3 +1,16 @@
 <footer xmlns:th="http://www.thymeleaf.org" th:fragment="footer_fragment">
-  <h1>フッター</h1>
+  <div class="md-flex md-justify-between">
+    <a th:href="@{/show-item-list}" class="footer__logo">
+      <img th:src="@{/svg/logo.svg}" alt="企業ロゴ" width="70">
+    </a>
+    <ul class="footer__navi flex">
+      <li><a href="#">About</a></li>
+      <li><a href="#">サイトマップ</a></li>
+      <li><a href="#">プライバシーポリシー</a></li>
+    </ul>
+  </div>
+  <hr />
+  <p class="copyright">
+    © 2024 <a href="https://jajaaan.co.jp/">OKAMOTO Inc.</a> All Rights Reserved.
+  </p>
 </footer>

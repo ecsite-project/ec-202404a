@@ -1,5 +1,9 @@
 <header xmlns:th="http://www.thymeleaf.org" th:fragment="header_fragment">
-  <div>楽楽ヌードル</div>
+  <div class="header-logo">
+    <a th:href="@{/show-item-list}" class="footer__logo">
+      <img th:src="@{/svg/logo.svg}" alt="企業ロゴ" width="72">
+    </a>
+  </div>
   <div class="header-right">
     <div>ログアウト</div>
     <div><a th:href="@{/login}">ログイン</a></div>

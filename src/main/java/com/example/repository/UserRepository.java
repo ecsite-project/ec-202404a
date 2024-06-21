@@ -108,6 +108,26 @@ public class UserRepository {
     }
 
     /**
+     * ユーザ自身を除いてメールアドレスが重複しているユーザを検索.
+     *
+     * @param user 重複チェックを行いたいユーザ自身の情報
+     * @return 重複がなければnull、あれば重複しているユーザを返します。
+     */
+    public User findEmailDuplicateUser(User user){
+        BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(user);
+        String sql = """
+                    SELECT id, name, email, password, zipcode, prefecture, municipalities, address, telephone, admin_flag
+                    FROM users
+                    WHERE email=:email AND id<>:id
+                    """;
+        List<User> userListList = template.query(sql, param, USER_ROW_MAPPER);
+        if (userListList.isEmpty()) {
+            return null;
+        }
+        return userListList.get(0);
+    }
+
+    /**
      * 主キー検索.
      *
      * @param id ユーザの主キー
@@ -152,5 +172,21 @@ public class UserRepository {
             return null;
         }
         return userList.get(0);
+    }
+
+    /**
+     * ユーザ情報の更新.
+     *
+     * @param user ユーザ情報
+     */
+    public void update(User user){
+        SqlParameterSource param = new BeanPropertySqlParameterSource(user);
+        String sql = """
+                    UPDATE users
+                    SET
+                      name=:name, email=:email, zipcode=:zipcode, prefecture=:prefecture, municipalities=:municipalities, address=:address, telephone=:telephone,deleted_at=:deletedAt
+                    WHERE id=:id AND deleted_at IS NULL;
+                    """;
+        template.update(sql,param);
     }
 }
