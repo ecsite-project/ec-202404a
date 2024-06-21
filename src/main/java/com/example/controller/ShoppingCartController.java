@@ -44,17 +44,7 @@ public class ShoppingCartController {
      */
     @GetMapping("")
     public String toShoppingCart(Model model, HttpSession session, @AuthenticationPrincipal LoginUser user) {
-        // ここから下デバッグ用
-        if (user == null) {
-            System.out.println("user: " + user);
-        } else {
-            System.out.println("user: " + user.getUser());
-        }
-        System.out.println("sessionID: " + session.getId());
         String sessionId = session.getId();
-        int sessionIdNumber = extractNumbers(sessionId);
-        System.out.println("数字抽出: " + sessionIdNumber);
-        // ここまで
 
         if (user == null) {
             Integer tmpUserId = extractNumbers(sessionId);
@@ -69,10 +59,7 @@ public class ShoppingCartController {
             return "shopping-cart";
         }else {
             session.setAttribute("notLoginUser", "false");
-//            Integer testUserId = 1;
-//            Order order = shoppingCartService.showOrder(testUserId);
             Order order = shoppingCartService.showOrder(user.getUser().getId());
-            System.out.println("ShoppingCartController: " + order);
             if (order == null || order.getOrderItemList().isEmpty()) {
                 model.addAttribute("noOrder", "カートに商品は1つもありません");
             } else {
@@ -97,8 +84,6 @@ public class ShoppingCartController {
 
             return "redirect:/shopping-cart";
         }else {
-            // Integer testUserId = 1;
-            System.out.println(loginUser.getUser());
             User user = loginUser.getUser();
             shoppingCartService.addItem(user.getId(), form);
 

@@ -33,8 +33,4 @@ public class OrderConfirmService {
     public Order showConfirmOrder(Integer orderId){
         return orderRepository.findById(orderId);
     }
-
-    public Order findAllOrderInfoByOrderIdAndStatus(Integer orderId, Integer status){
-        return orderRepository.findAllOrderInfoByOrderIdAndStatus(orderId, status);
-    }
 }
