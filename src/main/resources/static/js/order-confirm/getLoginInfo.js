@@ -4,11 +4,8 @@ $(function () {
   $('#loginInfoBtn').on('click', () => {
     $.ajax({
       url: 'http://localhost:8080/ec-202404a/get-user/user-info',
-      type: 'post',
+      type: 'get',
       dataType: 'json',
-      data: {
-        userId: 1,
-      },
       async: true,
     })
       .done((data) => {

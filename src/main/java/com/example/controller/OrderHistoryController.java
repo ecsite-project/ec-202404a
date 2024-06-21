@@ -28,13 +28,11 @@ public class OrderHistoryController {
     /**
      * 注文履歴の表示
      * @param model 注文情報のリストの格納
+     * @param loginUser ログインしているユーザ
      * @return 注文履歴画面
      */
     @GetMapping()
     public String orderHistory(Model model, @AuthenticationPrincipal LoginUser loginUser){
-//        Integer testUserId = 1;
-//        List<Order> orderList = orderHistoryService.showOrderHistory(testUserId);
-
         User user = loginUser.getUser();
         List<Order> orderList = orderHistoryService.showOrderHistory(user.getId());
         model.addAttribute("orderList", orderList);

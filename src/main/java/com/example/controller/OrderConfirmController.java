@@ -4,11 +4,8 @@ import com.example.domain.LoginUser;
 import com.example.domain.Order;
 import com.example.domain.User;
 import com.example.form.OrderForm;
-import com.example.service.OrderConfirmService;
-import com.example.service.OrderService;
 import com.example.service.ShoppingCartService;
 import com.example.service.UserDetailsService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -26,16 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class OrderConfirmController {
 
   @Autowired
-  private OrderConfirmService orderConfirmService;
-
-  @Autowired
-  private OrderService orderService;
-
-  @Autowired
   private ShoppingCartService shoppingCartService;
-
-  @Autowired
-  private HttpSession session;
 
   @Autowired
   private UserDetailsService userDetailsService;
@@ -43,18 +31,18 @@ public class OrderConfirmController {
   /**
    * 注文確認画面の表示.
    *
-   * @param orderId 注文情報の主キー
    * @param model 注文情報の格納
+   * @param loginUser ログインしているユーザ
+   * @param orderForm 注文情報の入力
    * @return 注文確認画面
    */
   @GetMapping("")
-  public String showConfirmOrder(Integer orderId, Model model, OrderForm form, HttpSession session, @AuthenticationPrincipal LoginUser loginUser) {
-    // ログイン中のユーザ情報持ってくる
+  public String showConfirmOrder(Model model, @AuthenticationPrincipal LoginUser loginUser, OrderForm orderForm) {
     User user = loginUser.getUser();
     Integer loginUserId = user.getId();
 
-    Order updateUserOrder = shoppingCartService.showOrder(loginUserId);
-    model.addAttribute("order", updateUserOrder);
+    Order order = shoppingCartService.showOrder(loginUserId);
+    model.addAttribute("order", order);
     return "order-confirm";
   }
 }

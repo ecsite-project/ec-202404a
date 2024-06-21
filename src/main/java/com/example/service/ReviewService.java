@@ -29,9 +29,10 @@ public class ReviewService {
      * レビューの保存.
      *
      * @param review レビュー情報
+     * @param userId ユーザid
      */
-    public void addReview(Review review){
-        review.setUserId(1);
+    public void addReview(Review review, Integer userId){
+        review.setUserId(userId);
 
         RestTemplate restTemplate = new RestTemplate();
         EmotionalAnalysisApiText text = new EmotionalAnalysisApiText();

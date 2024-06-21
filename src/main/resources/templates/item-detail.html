@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head
     th:replace="~{common/head :: head_fragment(title = '商品詳細', links = ~{::link})}"
   >
@@ -11,11 +11,17 @@
 
     <main>
       <div class="item-container">
-        <i class="fas fa-bookmark"
-           id="bookmark-icon"
-           th:data-flag="${bookmarkFlag}"
-           th:data-itemid="${item.id}"
-        ></i>
+        <div sec:authorize="isAuthenticated()">
+          <i class="fas fa-bookmark"
+             id="bookmark-icon"
+             th:data-flag="${bookmarkFlag}"
+             th:data-itemid="${item.id}"
+          ></i>
+        </div>
+        <div sec:authorize="isAnonymous()">
+          <i class="fas fa-bookmark"
+          ></i>
+        </div>
         <div class="item-content">
           <img th:src="@{/img/} + ${item.imagePath}" />
           <div class="item-description">
