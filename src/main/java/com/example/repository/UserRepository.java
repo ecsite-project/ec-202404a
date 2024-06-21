@@ -147,7 +147,10 @@ public class UserRepository {
                  	u.id=:id
                 """;
         SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
-        User user = template.queryForObject(sql, param, USER_ROW_MAPPER);
-        return user;
+        List<User> userList = template.query(sql, param, USER_RESULT_SET_EXTRACTOR);
+        if(userList.isEmpty()){
+            return null;
+        }
+        return userList.get(0);
     }
 }
