@@ -55,9 +55,7 @@ public class OrderService {
         if("success".equals(jsonNode.findValue("status").toString())){
             return true;
         }
-        System.out.println(card);
-        System.out.println(jsonNode);
-        System.out.println(jsonNode.findValue("status").toString());
+
         return false;
     }
 
