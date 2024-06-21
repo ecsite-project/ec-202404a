@@ -44,6 +44,7 @@ public class SecurityConfig {
     ).csrf(csrf -> csrf
             .ignoringRequestMatchers(new AntPathRequestMatcher("/get-user/user-info"))
             .ignoringRequestMatchers(new AntPathRequestMatcher("/get-item-info"))
+            .ignoringRequestMatchers(new AntPathRequestMatcher("/bookmark"))
             .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
     );
 

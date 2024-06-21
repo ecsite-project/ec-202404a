@@ -1,8 +1,11 @@
 package com.example.controller;
 
 import com.example.domain.Item;
+import com.example.domain.LoginUser;
+import com.example.domain.User;
 import com.example.service.ShowItemDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,9 +31,18 @@ public class ShowItemDetailController {
    * @return 商品詳細画面
    */
   @GetMapping()
-  public String toItemDetail(Integer id, Model model) {
+  public String toItemDetail(Integer id, Model model, @AuthenticationPrincipal LoginUser loginUser) {
     Item item = showItemDetailService.showItem(id);
     model.addAttribute("item", item);
+
+    boolean bookmarkFlag = false;
+    if(loginUser != null){
+      User user = loginUser.getUser();
+      if(user.getBookmarkList().contains(item)){
+        bookmarkFlag = true;
+      }
+    }
+    model.addAttribute("bookmarkFlag", bookmarkFlag);
     return "item-detail";
   }
 }
