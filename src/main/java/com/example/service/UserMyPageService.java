@@ -20,21 +20,11 @@ public class UserMyPageService {
     private UserRepository userRepository;
 
     /**
-     * 重複しないEmail情報で一意のユーザ情報を持ってくる.
-     *
-     * @param email メールアドレス
-     * @return ユーザ情報
-     */
-    public User loadUserByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    /**
      * 受け取ったユーザ情報で登録情報を上書きする.
      *
      * @param user ユーザ情報
      */
-    public void updateUserInfo(User user,Integer id){
+    public void updateUserInfoById(User user, Integer id){
         userRepository.update(user,id);
     }
 }
