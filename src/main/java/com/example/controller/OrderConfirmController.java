@@ -2,7 +2,6 @@ package com.example.controller;
 
 import com.example.domain.LoginUser;
 import com.example.domain.Order;
-import com.example.domain.OrderItem;
 import com.example.domain.User;
 import com.example.form.OrderForm;
 import com.example.service.OrderConfirmService;
@@ -53,25 +52,6 @@ public class OrderConfirmController {
     // ログイン中のユーザ情報持ってくる
     User user = loginUser.getUser();
     Integer loginUserId = user.getId();
-
-    // 得たログイン情報が持つ未注文のオーダーがあれば持ってくる
-    Order loginUserOrder = shoppingCartService.showOrder(loginUserId);
-
-    if(session.getAttribute("notLoginUser").equals("true")){
-      // ログイン前のカート情報持ってくる
-      Order tmpOrder = shoppingCartService.showOrder((Integer) session.getAttribute("tmpUserId"));
-
-      if(loginUserOrder == null){ // ログイン中の未注文が無ければ、仮注文を正式な注文化
-        tmpOrder.setUserId(loginUserId);
-        userDetailsService.updateUserId(tmpOrder);
-      }else { // ログイン中の未注文がある
-        for(OrderItem orderItem : tmpOrder.getOrderItemList()){ // 仮注文の商品情報をログイン中の注文IDで書き換え
-          orderItem.setOrderId(loginUserOrder.getId());
-          userDetailsService.updateOrderItem(orderItem);
-        }
-        userDetailsService.deleteById(tmpOrder.getId());
-      }
-    }
 
     Order updateUserOrder = shoppingCartService.showOrder(loginUserId);
     model.addAttribute("order", updateUserOrder);

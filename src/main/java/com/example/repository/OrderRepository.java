@@ -236,11 +236,8 @@ public class OrderRepository {
         SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId).addValue("status", status);
         List<Order> orderList = template.query(sql, param, ORDER_RESULT_SET_EXTRACTOR);
         if(orderList.get(0).getId() == null){
-            System.out.println("Repositoryのifの中: " + orderList.get(0));
             return null;
         }
-
-        System.out.println("Repositoryのifの外: " + orderList.get(0));
 
         return orderList.get(0);
     }

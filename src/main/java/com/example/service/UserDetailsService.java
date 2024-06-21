@@ -7,6 +7,7 @@ import com.example.domain.User;
 import com.example.repository.OrderItemRepository;
 import com.example.repository.OrderRepository;
 import com.example.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -35,43 +36,47 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Autowired
     private OrderItemRepository orderItemRepository;
 
+    @Autowired
+    private OrderConfirmService orderConfirmService;
+
+    @Autowired
+    private ShoppingCartService shoppingCartService;
+
+    @Autowired
+    private HttpSession session;
+
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException{
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email);
 
-        if(user == null){
+        if (user == null) {
             throw new UsernameNotFoundException("Not found mail address:" + email);
         }
+
+        // ログイン中のユーザ情報持ってくる
+        Integer loginUserId = user.getId();
+
+        // 得たログイン情報が持つ未注文のオーダーがあれば持ってくる
+        Order loginUserOrder = shoppingCartService.showOrder(loginUserId);
+
+        Order tmpOrder = shoppingCartService.showOrder((Integer) session.getAttribute("tmpUserId"));
+        if (tmpOrder != null) {
+            if (loginUserOrder == null) { // ログイン中の未注文が無ければ、仮注文を正式な注文化
+                tmpOrder.setUserId(loginUserId);
+                orderConfirmService.updateUserId(tmpOrder);
+            } else { // ログイン中の未注文がある
+                for (OrderItem orderItem : tmpOrder.getOrderItemList()) { // 仮注文の商品情報をログイン中の注文IDで書き換え
+                    orderItem.setOrderId(loginUserOrder.getId());
+                    orderConfirmService.updateOrderItem(orderItem);
+                }
+                orderConfirmService.deleteById(tmpOrder.getId());
+            }
+        }
+
 
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         return new LoginUser(user, authorities);
     }
 
-    /**
-     * 注文情報のIDの更新.
-     *
-     * @param order 注文情報
-     */
-    public void updateUserId(Order order){
-        orderRepository.update(order);
-    }
-
-    /**
-     * 商品情報のIDの更新.
-     *
-     * @param orderItem 注文情報にある商品
-     */
-    public void updateOrderItem(OrderItem orderItem){
-        orderItemRepository.updateOrderItem(orderItem);
-    }
-
-    /**
-     * IDに基づいたオーダーを削除.
-     *
-     * @param id 削除するオーダーID
-     */
-    public void deleteById(Integer id){
-        orderRepository.deleteById(id);
-    }
 }
