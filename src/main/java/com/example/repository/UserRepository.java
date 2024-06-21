@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -60,6 +59,26 @@ public class UserRepository {
     public User findByEmail(String email){
         String sql = "SELECT id, name, email, password, zipcode, prefecture, municipalities, address, telephone, admin_flag FROM users WHERE email=:email";
         SqlParameterSource param = new MapSqlParameterSource().addValue("email", email);
+        List<User> userListList = template.query(sql, param, USER_ROW_MAPPER);
+        if (userListList.isEmpty()) {
+            return null;
+        }
+        return userListList.get(0);
+    }
+
+    /**
+     * ユーザ自身を除いてメールアドレスが重複しているユーザを検索.
+     *
+     * @param user 重複チェックを行いたいユーザ自身の情報
+     * @return 重複がなければnull、あれば重複しているユーザを返します。
+     */
+    public User findEmailDuplicateUser(User user){
+        BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(user);
+        String sql = """
+                    SELECT id, name, email, password, zipcode, prefecture, municipalities, address, telephone, admin_flag
+                    FROM users
+                    WHERE email=:email AND id<>:id
+                    """;
         List<User> userListList = template.query(sql, param, USER_ROW_MAPPER);
         if (userListList.isEmpty()) {
             return null;

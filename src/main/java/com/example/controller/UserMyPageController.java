@@ -65,19 +65,15 @@ public class UserMyPageController {
   @PostMapping("/my-page")
   public String myPage(@Validated UserMyPageUpdateForm form, BindingResult result, @AuthenticationPrincipal LoginUser loginUser , Model model){
 
-    String inputEmail = form.getEmail();
-    boolean isEmailChanged = !(inputEmail.equals(loginUser.getUser().getEmail()));
-
-    if(userRegisterService.checkEmail(inputEmail) && isEmailChanged){
+    User newUserInfo = new User();
+    BeanUtils.copyProperties(form, newUserInfo);
+    newUserInfo.setId(loginUser.getUser().getId());
+    if (userMyPageService.isExistDuplicateEmailExceptUser(newUserInfo)){
       result.rejectValue("email", "duplicate", "メールアドレスが既に使用されています");
     }
     if(result.hasErrors()){
       return toMyPage(model, form,loginUser);
     }
-
-    User newUserInfo = new User();
-    BeanUtils.copyProperties(form, newUserInfo);
-    newUserInfo.setId(loginUser.getUser().getId());
     userMyPageService.updateUserInfo(newUserInfo);
     BeanUtils.copyProperties(newUserInfo, form);
 

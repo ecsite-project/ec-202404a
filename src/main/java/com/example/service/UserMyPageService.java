@@ -27,4 +27,13 @@ public class UserMyPageService {
     public void updateUserInfo(User user){
         userRepository.update(user);
     }
+
+    /**
+     * 受け取ったユーザ以外にemail重複がないか確認.
+     *
+     * @param user 重複確認をしたいユーザの情報
+     */
+    public boolean isExistDuplicateEmailExceptUser(User user){
+        return userRepository.findEmailDuplicateUser(user) != null;
+    }
 }
