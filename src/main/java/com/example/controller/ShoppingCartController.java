@@ -45,28 +45,24 @@ public class ShoppingCartController {
     @GetMapping("")
     public String toShoppingCart(Model model, @AuthenticationPrincipal LoginUser loginUser) {
         String sessionId = session.getId();
+        User user = new User();
 
-        if (loginUser == null) {
-            Integer tmpUserId = extractNumbers(sessionId);
-            Order order = shoppingCartService.showOrder(tmpUserId);
-            if (order == null || order.getOrderItemList().isEmpty()) {
-                model.addAttribute("noOrder", "カートに商品は1つもありません");
-            } else {
-                model.addAttribute("order", order);
-            }
-            session.setAttribute("tmpUserId", tmpUserId);
-            session.setAttribute("notLoginUser", "true");
-            return "shopping-cart";
+        if(loginUser == null){
+            Integer temUserId = extractNumbers(sessionId);
+            user.setId(temUserId);
         }else {
-            session.setAttribute("notLoginUser", "false");
-            Order order = shoppingCartService.showOrder(loginUser.getUser().getId());
-            if (order == null || order.getOrderItemList().isEmpty()) {
-                model.addAttribute("noOrder", "カートに商品は1つもありません");
-            } else {
-                model.addAttribute("order", order);
-            }
-            return "shopping-cart";
+            user = loginUser.getUser();
         }
+
+        Order order = shoppingCartService.showOrder(user.getId());
+
+        if(order == null || order.getOrderItemList().isEmpty()){
+            model.addAttribute("noOrder", "カートに商品は1つもありません");
+        }else {
+            model.addAttribute("order", order);
+        }
+
+        return "shopping-cart";
     }
 
     /**
@@ -78,18 +74,18 @@ public class ShoppingCartController {
      */
     @PostMapping("/add-item")
     public String addItem(AddItemForm form, @AuthenticationPrincipal LoginUser loginUser) {
+        User user = new User();
+
         if (loginUser == null) {
             String sessionId = session.getId();
             Integer tmpUserId = extractNumbers(sessionId);
-            shoppingCartService.addItem(tmpUserId, form);
-
-            return "redirect:/shopping-cart";
+            user.setId(tmpUserId);
         }else {
-            User user = loginUser.getUser();
-            shoppingCartService.addItem(user.getId(), form);
-
-            return "redirect:/shopping-cart";
+            user = loginUser.getUser();
         }
+
+        shoppingCartService.addItem(user.getId(), form);
+        return "redirect:/shopping-cart";
     }
 
     /**

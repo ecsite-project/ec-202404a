@@ -32,11 +32,11 @@ public class BookmarkApiController {
      * @return 成功かどうか
      */
     @PostMapping()
-    public Map<String, Boolean> bookmark(Integer itemId, @AuthenticationPrincipal LoginUser loginUser){
+    public Map<String, String> bookmark(Integer itemId, @AuthenticationPrincipal LoginUser loginUser){
         User user = loginUser.getUser();
-        Map<String, Boolean> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         bookmarkService.bookmark(user.getId(), itemId);
-        map.put("status", true);
+        map.put("status", "success");
         return map;
     }
 }
