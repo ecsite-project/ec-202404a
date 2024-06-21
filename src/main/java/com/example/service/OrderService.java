@@ -89,31 +89,4 @@ public class OrderService {
 
         return order;
     }
-
-    /**
-     * 注文情報のIDの更新.
-     *
-     * @param order 注文情報
-     */
-    public void updateUserId(Order order){
-        orderRepository.update(order);
-    }
-
-    /**
-     * 商品情報のIDの更新.
-     *
-     * @param orderItem 注文情報にある商品
-     */
-    public void updateOrderItem(OrderItem orderItem){
-        orderItemRepository.updateOrderItem(orderItem);
-    }
-
-    /**
-     * IDに基づいたオーダーを削除.
-     *
-     * @param id 削除するオーダーID
-     */
-    public void deleteById(Integer id){
-        orderRepository.deleteById(id);
-    }
 }

@@ -8,6 +8,7 @@ import com.example.form.OrderForm;
 import com.example.service.OrderConfirmService;
 import com.example.service.OrderService;
 import com.example.service.ShoppingCartService;
+import com.example.service.UserDetailsService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -37,6 +38,9 @@ public class OrderConfirmController {
   @Autowired
   private HttpSession session;
 
+  @Autowired
+  private UserDetailsService userDetailsService;
+
   /**
    * 注文確認画面の表示.
    *
@@ -59,14 +63,14 @@ public class OrderConfirmController {
 
       if(loginUserOrder == null){ // ログイン中の未注文が無ければ、仮注文を正式な注文化
         tmpOrder.setUserId(loginUserId);
+        userDetailsService.updateUserId(tmpOrder);
       }else { // ログイン中の未注文がある
         for(OrderItem orderItem : tmpOrder.getOrderItemList()){ // 仮注文の商品情報をログイン中の注文IDで書き換え
           orderItem.setOrderId(loginUserOrder.getId());
-          orderService.updateOrderItem(orderItem);
+          userDetailsService.updateOrderItem(orderItem);
         }
+        userDetailsService.deleteById(tmpOrder.getId());
       }
-      orderService.updateUserId(tmpOrder);
-      orderService.deleteById(tmpOrder.getId());
     }
 
     Order updateUserOrder = shoppingCartService.showOrder(loginUserId);
