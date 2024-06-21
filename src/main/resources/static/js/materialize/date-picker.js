@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const options = {
     autoClose: true,
-    format: 'yyyy/m/d',
+    format: 'yyyy-mm-dd',
     defaultDate: today,
     setDefaultDate: true,
     minDate: today,
