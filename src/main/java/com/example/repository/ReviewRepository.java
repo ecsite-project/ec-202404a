@@ -3,9 +3,12 @@ package com.example.repository;
 import com.example.domain.Review;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -53,5 +56,32 @@ public class ReviewRepository {
         SqlParameterSource param = new MapSqlParameterSource().addValue("itemId", itemId);
         List<Review> reviewList = template.query(sql, param, REVIEW_ROW_MAPPER);
         return reviewList;
+    }
+
+    /**
+     * レビューのinsert.
+     *
+     * @param review レビュー情報
+     * @return idをセットしたレビュー情報
+     */
+    public Review insert(Review review){
+        SqlParameterSource param = new BeanPropertySqlParameterSource(review);
+        String sql = """
+                INSERT INTO reviews (
+                    content,
+                    user_id,
+                    item_id,
+                    positive_value,
+                    negative_value,
+                    neutral_value
+                ) VALUES (
+                    :content, :userId, :itemId, :positiveValue, :negativeValue, :neutralValue
+                );
+                """;
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        String[] keyColumnNames = {"id"};
+        template.update(sql, param, keyHolder, keyColumnNames);
+        review.setId(keyHolder.getKey().intValue());
+        return review;
     }
 }
