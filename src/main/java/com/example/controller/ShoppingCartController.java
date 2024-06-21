@@ -2,10 +2,12 @@ package com.example.controller;
 
 import com.example.domain.LoginUser;
 import com.example.domain.Order;
+import com.example.domain.User;
 import com.example.form.AddItemForm;
 import com.example.service.ShoppingCartService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,9 +69,9 @@ public class ShoppingCartController {
             return "shopping-cart";
         }else {
             session.setAttribute("notLoginUser", "false");
-            Integer testUserId = 1;
-            Order order = shoppingCartService.showOrder(testUserId);
-            // Order order = shoppingCartService.showOrder(user.getUser().getId());
+//            Integer testUserId = 1;
+//            Order order = shoppingCartService.showOrder(testUserId);
+            Order order = shoppingCartService.showOrder(user.getUser().getId());
             System.out.println("ShoppingCartController: " + order);
             if (order == null || order.getOrderItemList().isEmpty()) {
                 model.addAttribute("noOrder", "カートに商品は1つもありません");
@@ -87,17 +89,21 @@ public class ShoppingCartController {
      * @return カートの画面へリダイレクト
      */
     @PostMapping("/add-item")
-    public String addItem(AddItemForm form, HttpSession session, @AuthenticationPrincipal LoginUser user) {
-        if (user == null) {
+    public String addItem(AddItemForm form, HttpSession session, @AuthenticationPrincipal LoginUser loginUser) {
+        if (loginUser == null) {
             String sessionId = session.getId();
             Integer tmpUserId = extractNumbers(sessionId);
             shoppingCartService.addItem(tmpUserId, form);
+
+            return "redirect:/shopping-cart";
+        }else {
+            // Integer testUserId = 1;
+            System.out.println(loginUser.getUser());
+            User user = loginUser.getUser();
+            shoppingCartService.addItem(user.getId(), form);
+
+            return "redirect:/shopping-cart";
         }
-
-        Integer testUserId = 1;
-        shoppingCartService.addItem(testUserId, form);
-
-        return "redirect:/shopping-cart";
     }
 
     /**

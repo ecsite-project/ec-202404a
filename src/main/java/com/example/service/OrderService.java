@@ -2,7 +2,9 @@ package com.example.service;
 
 import com.example.domain.CreditCard;
 import com.example.domain.Order;
+import com.example.domain.OrderItem;
 import com.example.form.OrderForm;
+import com.example.repository.OrderItemRepository;
 import com.example.repository.OrderRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,9 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     /**
      * クレジットカードの有効性確認.
@@ -87,5 +92,9 @@ public class OrderService {
 
     public void updateUserId(Order order){
         orderRepository.update(order);
+    }
+
+    public void updateOrderItem(OrderItem orderItem){
+        orderItemRepository.updateOrderItem(orderItem);
     }
 }
