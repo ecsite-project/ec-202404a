@@ -37,16 +37,13 @@ public class UserMyPageController {
    * @param loginUser ログイン情報
    * @return ユーザマイページ画面
    */
-//  @GetMapping("/to-my-page")
 //  public String toMyPage(Model model, UserMyPageUpdateForm form,@AuthenticationPrincipal LoginUser loginUser) {
-//    if (loginUser == null){
-//      return "redirect:/show-item-list";
-//    }
 //    if (form.getEmail() == null){
 //      User user = loginUser.getUser();
 //      BeanUtils.copyProperties(user, form);
 //      model.addAttribute("bookMarkList",user.getBookmarkList());
 //    }
+  @GetMapping("/to-my-page")
   public String toMyPage(Model model, UserMyPageUpdateForm form, @AuthenticationPrincipal LoginUser loginUser) {
     User user = loginUser.getUser();
     BeanUtils.copyProperties(user, form);
@@ -75,6 +72,7 @@ public class UserMyPageController {
       return toMyPage(model, form,loginUser);
     }
     userMyPageService.updateUserInfo(newUserInfo);
+    BeanUtils.copyProperties(newUserInfo, form);
 
     return "redirect:/to-my-page";
   }
