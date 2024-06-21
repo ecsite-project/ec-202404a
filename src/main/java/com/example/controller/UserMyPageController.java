@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDateTime;
+
 @Controller
 @RequestMapping("")
 public class UserMyPageController {
@@ -37,10 +39,12 @@ public class UserMyPageController {
   @GetMapping("/to-my-page")
   public String toMyPage(Model model, UserMyPageUpdateForm form,@AuthenticationPrincipal LoginUser loginUser) {
     if (loginUser == null){
-      return ":redirect/show-item-list";
+      return "redirect:/show-item-list";
     }
-    User user = loginUser.getUser();
-    BeanUtils.copyProperties(user, form);
+    if (form.getEmail() == null){
+      User user = loginUser.getUser();
+      BeanUtils.copyProperties(user, form);
+    }
     return "my-page";
   }
 
@@ -58,19 +62,34 @@ public class UserMyPageController {
 
     String inputEmail = form.getEmail();
     boolean isEmailChanged = !(inputEmail.equals(loginUser.getUser().getEmail()));
+
     if(userRegisterService.checkEmail(inputEmail) && isEmailChanged){
       result.rejectValue("email", "duplicate", "メールアドレスが既に使用されています");
     }
-
     if(result.hasErrors()){
       return toMyPage(model, form,loginUser);
     }
 
     User newUserInfo = new User();
     BeanUtils.copyProperties(form, newUserInfo);
-    userMyPageService.updateUserInfoById(newUserInfo,loginUser.getUser().getId());
-
+    newUserInfo.setId(loginUser.getUser().getId());
+    userMyPageService.updateUserInfo(newUserInfo);
     BeanUtils.copyProperties(newUserInfo, form);
-    return "my-page";
+
+    return toMyPage(model,form,loginUser);
+  }
+
+  /**
+   * ユーザ情報の削除を行います.
+   *
+   * @param loginUser ログイン情報
+   * @return ログイン画面へ遷移
+   */
+  @GetMapping("/delete-account")
+  public String deleteAccount(@AuthenticationPrincipal LoginUser loginUser){
+    User user = loginUser.getUser();
+    user.setDeletedAt(LocalDateTime.now());
+    userMyPageService.updateUserInfo(user);
+    return "redirect:/logout";
   }
 }

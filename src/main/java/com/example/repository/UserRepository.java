@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -79,7 +80,7 @@ public class UserRepository {
                 FROM
                     users
                 WHERE
-                    id=:id
+                    id=:id AND deleted_at IS NULL
                 ;
                 """;
         SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
@@ -92,14 +93,14 @@ public class UserRepository {
      *
      * @param user ユーザ情報
      */
-    public void update(User user,Integer id){
+    public void update(User user){
         SqlParameterSource param = new BeanPropertySqlParameterSource(user);
         String sql = """
                     UPDATE users
                     SET
-                      name=:name, email=:email, zipcode=:zipcode, prefecture=:prefecture, municipalities=:municipalities, address=:address, telephone=:telephone
+                      name=:name, email=:email, zipcode=:zipcode, prefecture=:prefecture, municipalities=:municipalities, address=:address, telephone=:telephone,deleted_at=:deletedAt
+                    WHERE id=:id AND deleted_at IS NULL;
                     """;
-        sql += " WHERE id = " + id;
         template.update(sql,param);
     }
 }

@@ -24,7 +24,7 @@ public class UserMyPageService {
      *
      * @param user ユーザ情報
      */
-    public void updateUserInfoById(User user, Integer id){
-        userRepository.update(user,id);
+    public void updateUserInfo(User user){
+        userRepository.update(user);
     }
 }
