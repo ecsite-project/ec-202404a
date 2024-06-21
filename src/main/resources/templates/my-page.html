@@ -7,6 +7,7 @@
   <head
     th:replace="~{common/head :: head_fragment(title = 'マイページ', links = ~{::link})}"
   >
+    <link rel="stylesheet" th:href="@{/css/item-list.css}" />
     <link rel="stylesheet" th:href="@{/css/register.css}" />
   </head>
   <body>
@@ -16,19 +17,17 @@
     <div>
       <h3>ブックマーク一覧</h3>
       <div class="item-section">
-        <div th:each="item : ${itemList}" class="item-container">
-          <a th:href="@{/show-item-detail?id=} + ${item.id}" class="item-wrap">
+        <div th:each="bookMarkItem : ${bookMarkList}" class="item-container">
+          <a th:href="@{/show-item-detail?id=} + ${bookMarkItem.id}" class="item-wrap">
             <div>
-              <img th:src="@{'img/'} + ${item.imagePath}" alt="" />
+              <img th:src="@{'img/'} + ${bookMarkItem.imagePath}" alt="" />
             </div>
             <div class="item-info">
-              <p class="item-name" th:text="${item.name}"></p>
-              <p class="item-price" th:text="並盛+' '+${item.priceM}+円"></p>
+              <p class="item-name" th:text="${bookMarkItem.name}"></p>
             </div>
           </a>
         </div>
       </div>
-
       <hr />
       <h3>登録情報更新</h3>
       <main>

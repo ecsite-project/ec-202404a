@@ -48,6 +48,7 @@ public class UserRepository {
         while (rs.next()){
             if(formerId != rs.getInt("u_id")){
                 User user = new User();
+                userList.add(user);
                 user.setId(rs.getInt("u_id"));
                 user.setName(rs.getString("u_name"));
                 user.setEmail(rs.getString("u_email"));

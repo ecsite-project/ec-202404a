@@ -28,9 +28,6 @@ import java.time.LocalDateTime;
 public class UserMyPageController {
 
   @Autowired
-  private UserRegisterService userRegisterService;
-
-  @Autowired
   private UserMyPageService userMyPageService;
 
   /**
@@ -49,6 +46,7 @@ public class UserMyPageController {
     if (form.getEmail() == null){
       User user = loginUser.getUser();
       BeanUtils.copyProperties(user, form);
+      model.addAttribute("bookMarkList",user.getBookmarkList());
     }
     return "my-page";
   }
