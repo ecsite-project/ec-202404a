@@ -4,12 +4,18 @@
     th:replace="~{common/head :: head_fragment(title = '商品詳細', links = ~{::link})}"
   >
     <link rel="stylesheet" th:href="@{/css/item-detail.css}" />
+
   </head>
   <body>
     <div th:replace="~{common/header :: header_fragment}"></div>
 
     <main>
       <div class="item-container">
+        <i class="fas fa-bookmark"
+           id="bookmark-icon"
+           th:data-flag="${bookmarkFlag}"
+           th:data-itemid="${item.id}"
+        ></i>
         <div class="item-content">
           <img th:src="@{/img/} + ${item.imagePath}" />
           <div class="item-description">
@@ -138,5 +144,6 @@
 
     <script th:src="@{/js/totalPrice.js}"></script>
     <script th:src="@{/js/materialize/select.js}"></script>
+    <script th:src="@{/js/bookmark.js}"></script>
   </body>
 </html>
