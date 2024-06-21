@@ -16,13 +16,18 @@ public class SecurityConfig {
   @Bean
   protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests(authz -> authz
-        .requestMatchers("/**").permitAll()
+        //.requestMatchers("/**").permitAll()
         .requestMatchers("/css/**").permitAll()
         .requestMatchers("/js/**").permitAll()
         .requestMatchers("/img/**").permitAll()
         .requestMatchers("/").permitAll()
-        .requestMatchers("/toInsert").permitAll()
-        .requestMatchers("/insert").permitAll()
+        .requestMatchers("/toRegister").permitAll()
+        .requestMatchers("/register").permitAll()
+            .requestMatchers("/login").permitAll()
+            .requestMatchers("/shopping-cart").permitAll()
+            .requestMatchers("/shopping-cart/**").permitAll()
+            .requestMatchers("/show-item-list").permitAll()
+            .requestMatchers("/show-item-detail").permitAll()
         .anyRequest().authenticated()
     ).formLogin(login -> login
         .loginPage("/login")

@@ -1,9 +1,12 @@
 package com.example.controller;
 
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 /**
  * ログイン・ログアウトをするコントローラ.
@@ -13,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("")
 public class LoginLogoutController {
+
+  @Autowired
+  private HttpSession session;
 
   /**
    * ログインする.
@@ -38,6 +44,7 @@ public class LoginLogoutController {
    */
   @GetMapping("/logout")
   public String toLogout(){
+    session.invalidate();
     return "login";
   }
 }

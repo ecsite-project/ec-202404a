@@ -61,7 +61,6 @@ public class UserRegisterController {
 
     userRegisterService.insert(user);
 
-    // 一旦ユーザ登録画面へリダイレクト
-    return "redirect:/toRegister";
+    return "redirect:/login";
   }
 }
