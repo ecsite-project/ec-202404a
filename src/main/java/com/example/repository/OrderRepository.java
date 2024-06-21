@@ -238,6 +238,7 @@ public class OrderRepository {
         if(orderList.get(0).getId() == null){
             return null;
         }
+
         return orderList.get(0);
     }
 
@@ -381,5 +382,18 @@ public class OrderRepository {
         SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
         List<Order> orderList = template.query(sql, param, ORDER_RESULT_SET_EXTRACTOR);
         return orderList;
+    }
+
+    /**
+     * IDに基づいたオーダーを削除.
+     *
+     * @param id 削除するオーダーID
+     */
+    public void deleteById(Integer id){
+        String sql = """
+                DELETE FROM orders WHERE id=:id;
+                """;
+        SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+        template.update(sql, param);
     }
 }

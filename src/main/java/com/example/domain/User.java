@@ -1,5 +1,6 @@
 package com.example.domain;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -28,6 +29,8 @@ public class User {
     private String telephone;
     /** 管理者フラグ */
     private boolean adminFlag;
+    /** 削除フラグ */
+    private LocalDateTime deletedAt;
     /** ブックマークした商品リスト */
     private List<Item> bookmarkList;
 
@@ -44,6 +47,7 @@ public class User {
                 ", address='" + address + '\'' +
                 ", telephone='" + telephone + '\'' +
                 ", adminFlag=" + adminFlag +
+                ", deletedAt=" + deletedAt +
                 ", bookmarkList=" + bookmarkList +
                 '}';
     }
@@ -126,6 +130,14 @@ public class User {
 
     public void setAdminFlag(boolean adminFlag) {
         this.adminFlag = adminFlag;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
     public List<Item> getBookmarkList() {
