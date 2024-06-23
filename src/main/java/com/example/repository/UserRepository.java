@@ -149,6 +149,10 @@ public class UserRepository {
         if (user.getId() != null && user.getEmail() != null){
             sql += " WHERE u.id<>:id AND u.email=:email ";
         }
-        return Objects.requireNonNullElse(template.query(sql, param, USER_RESULT_SET_EXTRACTOR).get(0),null);
+        List<User> results = template.query(sql, param, USER_RESULT_SET_EXTRACTOR);
+        if (results.isEmpty()){
+            return null;
+        }
+        return results.get(0);
     }
 }
