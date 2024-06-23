@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
@@ -94,26 +93,6 @@ public class UserRepository {
     }
 
     /**
-     * ユーザ自身を除いてメールアドレスが重複しているユーザを検索.
-     *
-     * @param user 重複チェックを行いたいユーザ自身の情報
-     * @return 重複がなければnull、あれば重複しているユーザを返します。
-     */
-    public User findEmailDuplicateUser(User user){
-        BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(user);
-        String sql = """
-                    SELECT id, name, email, password, zipcode, prefecture, municipalities, address, telephone, admin_flag
-                    FROM users
-                    WHERE email=:email AND id<>:id
-                    """;
-        List<User> userListList = template.query(sql, param, USER_ROW_MAPPER);
-        if (userListList.isEmpty()) {
-            return null;
-        }
-        return userListList.get(0);
-    }
-
-    /**
      * ユーザ情報の更新.
      *
      * @param user ユーザ情報
@@ -129,15 +108,8 @@ public class UserRepository {
         template.update(sql,param);
     }
 
-    public User findById(Integer id){
-        return findByUserInfo(null,id);
-    }
-
-    public User findByEmail(String email){
-        return findByUserInfo(email,null);
-    }
-
-    public User findByUserInfo(String email,Integer id){
+    public User findByUserInfo(User user){
+        SqlParameterSource param = new BeanPropertySqlParameterSource(user);
         String sql = """
                 SELECT
                  	u.id AS u_id,
@@ -168,13 +140,15 @@ public class UserRepository {
                  ON
                  	b.item_id=i.id
                 """;
-        if (email != null){
-            sql += " WHERE u.email=:email ";
-            SqlParameterSource param = new MapSqlParameterSource().addValue("email", email);
-            return Objects.requireNonNullElse(template.query(sql,param,USER_RESULT_SET_EXTRACTOR).get(0),null);
+        if (user.getId() != null && user.getEmail() == null){
+            sql += " WHERE u.id=:id ";
         }
-        sql += " WHERE u.id=:id ";
-        SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+        if (user.getId() == null && user.getEmail() != null){
+            sql += " WHERE u.email=:email ";
+        }
+        if (user.getId() != null && user.getEmail() != null){
+            sql += " WHERE u.id<>:id AND u.email=:email ";
+        }
         return Objects.requireNonNullElse(template.query(sql, param, USER_RESULT_SET_EXTRACTOR).get(0),null);
     }
 }

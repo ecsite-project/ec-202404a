@@ -34,6 +34,6 @@ public class UserMyPageService {
      * @param user 重複確認をしたいユーザの情報
      */
     public boolean isExistDuplicateEmailExceptUser(User user){
-        return userRepository.findEmailDuplicateUser(user) != null;
+        return userRepository.findByUserInfo(user) != null;
     }
 }

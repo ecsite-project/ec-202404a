@@ -32,6 +32,9 @@ public class UserDetailsService implements org.springframework.security.core.use
     private UserRepository userRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private ShoppingCartController shoppingCartController;
 
     @Autowired
@@ -45,7 +48,7 @@ public class UserDetailsService implements org.springframework.security.core.use
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
+        User user = userService.getUserByEmail(email);
 
         if (user == null) {
             throw new UsernameNotFoundException("Not found mail address:" + email);
