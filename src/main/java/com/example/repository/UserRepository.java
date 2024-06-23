@@ -102,12 +102,26 @@ public class UserRepository {
         String sql = """
                     UPDATE users
                     SET
-                      name=:name, email=:email, zipcode=:zipcode, prefecture=:prefecture, municipalities=:municipalities, address=:address, telephone=:telephone,deleted_at=:deletedAt
-                    WHERE id=:id AND deleted_at IS NULL;
+                      name=:name,
+                      email=:email,
+                      zipcode=:zipcode,
+                      prefecture=:prefecture,
+                      municipalities=:municipalities,
+                      address=:address,
+                      telephone=:telephone,
+                      deleted_at=:deletedAt
+                    WHERE id=:id;
                     """;
         template.update(sql,param);
     }
 
+    /**
+     * 受け取ったユーザ条件に一致したユーザを返します.
+     * この時、削除済みのユーザは検索結果に含みません。
+     *
+     * @param user ユーザ情報
+     * @return 検索条件に一致した一意のユーザ情報
+     */
     public User findByUserInfo(User user){
         SqlParameterSource param = new BeanPropertySqlParameterSource(user);
         String sql = """
@@ -149,6 +163,7 @@ public class UserRepository {
         if (user.getId() != null && user.getEmail() != null){
             sql += " WHERE u.id<>:id AND u.email=:email ";
         }
+        sql += " AND u.deleted_at IS NULL ";
         List<User> results = template.query(sql, param, USER_RESULT_SET_EXTRACTOR);
         if (results.isEmpty()){
             return null;

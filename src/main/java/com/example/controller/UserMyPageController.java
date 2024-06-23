@@ -37,17 +37,11 @@ public class UserMyPageController {
    * @param loginUser ログイン情報
    * @return ユーザマイページ画面
    */
-//  public String toMyPage(Model model, UserMyPageUpdateForm form,@AuthenticationPrincipal LoginUser loginUser) {
-//    if (form.getEmail() == null){
-//      User user = loginUser.getUser();
-//      BeanUtils.copyProperties(user, form);
-//      model.addAttribute("bookMarkList",user.getBookmarkList());
-//    }
   @GetMapping("/to-my-page")
   public String toMyPage(Model model, UserMyPageUpdateForm form, @AuthenticationPrincipal LoginUser loginUser) {
     User user = loginUser.getUser();
     BeanUtils.copyProperties(user, form);
-
+    model.addAttribute("bookMarkList",user.getBookmarkList());
     return "my-page";
   }
 
@@ -62,17 +56,17 @@ public class UserMyPageController {
    */
   @PostMapping("/my-page")
   public String myPage(@Validated UserMyPageUpdateForm form, BindingResult result, @AuthenticationPrincipal LoginUser loginUser , Model model){
-    User newUserInfo = new User();
-    BeanUtils.copyProperties(form, newUserInfo);
-    newUserInfo.setId(loginUser.getUser().getId());
-    if (userMyPageService.isExistDuplicateEmailExceptUser(newUserInfo)){
+    User fixedUserInfo = new User();
+    BeanUtils.copyProperties(form, fixedUserInfo);
+    fixedUserInfo.setId(loginUser.getUser().getId());
+    if (userMyPageService.isExistDuplicateEmailExceptUser(fixedUserInfo)){
       result.rejectValue("email", "duplicate", "メールアドレスが既に使用されています");
     }
     if(result.hasErrors()){
-      return toMyPage(model, form,loginUser);
+      return toMyPage(model, form, loginUser);
     }
-    userMyPageService.updateUserInfo(newUserInfo);
-    BeanUtils.copyProperties(newUserInfo, form);
+    userMyPageService.updateUserInfo(fixedUserInfo);
+    BeanUtils.copyProperties(fixedUserInfo, form);
 
     return "redirect:/to-my-page";
   }

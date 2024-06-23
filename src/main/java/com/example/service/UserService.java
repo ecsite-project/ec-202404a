@@ -30,6 +30,12 @@ public class UserService {
         return userRepository.findByUserInfo(user);
     }
 
+    /**
+     * メールアドレスによるユーザ情報の取得.
+     *
+     * @param email メールアドレス
+     * @return ユーザ情報
+     */
     public User getUserByEmail(String email){
         User user = new User();
         user.setEmail(email);
