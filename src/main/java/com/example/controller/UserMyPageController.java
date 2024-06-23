@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.domain.LoginUser;
 import com.example.domain.User;
 import com.example.form.UserMyPageUpdateForm;
+import com.example.service.UserDetailsService;
 import com.example.service.UserMyPageService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class UserMyPageController {
 
   @Autowired
   private UserMyPageService userMyPageService;
+
+  @Autowired
+  private UserDetailsService userDetailsService;
 
   /**
    * ユーザマイページ画面を表示します.
@@ -66,8 +70,9 @@ public class UserMyPageController {
       return toMyPage(model, form, loginUser);
     }
     userMyPageService.updateUserInfo(fixedUserInfo);
-    BeanUtils.copyProperties(fixedUserInfo, form);
+    userDetailsService.updateEmail(fixedUserInfo.getEmail());
 
+    BeanUtils.copyProperties(fixedUserInfo, form);
     return "redirect:/to-my-page";
   }
 

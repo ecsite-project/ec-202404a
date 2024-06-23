@@ -10,8 +10,11 @@ import com.example.repository.OrderRepository;
 import com.example.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -45,6 +48,25 @@ public class UserDetailsService implements org.springframework.security.core.use
 
     @Autowired
     private HttpSession session;
+
+    /**
+     * メールアドレスの変更時の再認証処理.
+     *
+     * @param newEmail 新しいメールアドレス
+     */
+    public void updateEmail(String newEmail) {
+        Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
+
+        // 新しいメールアドレスでユーザー情報を再取得
+        UserDetails newUserDetails = loadUserByUsername(newEmail);
+
+        // 新しい認証情報を作成
+        UsernamePasswordAuthenticationToken newAuth = new UsernamePasswordAuthenticationToken(
+                newUserDetails, currentAuth.getCredentials(), newUserDetails.getAuthorities());
+
+        // 新しい認証情報をセッションに設定
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
