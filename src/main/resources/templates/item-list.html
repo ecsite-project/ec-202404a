@@ -53,26 +53,19 @@
       </div>
     </div>
 
-    <div>
-      <span th:each="page : ${pages}">
-        <a
-          th:if="${searchError == null}"
-          th:href="@{/show-item-list} + '?searchWord=' + ${searchWord} + '&sortType=' + ${sortType} + '&page=' + ${page}"
-        >
-          <span th:text="${page}"></span>
-        </a>
-        <a
-          th:if="${searchError != null}"
-          th:href="@{/show-item-list} + '?searchWord=' + '&sortType=' + ${sortType} + '&page=' + ${page}"
-        >
-          <span th:text="${page}"></span>
-        </a>
-      </span>
+    <div class="content_detail__pagination cdp" th:actpage="${currentPage}">
+      <a
+        class="cdp_i"
+        th:each="page : ${pages}"
+        th:href="@{/show-item-list} + '?searchWord=' + ${searchWord} + '&sortType=' + ${sortType} + '&page=' + ${page}"
+        th:text="${page}"
+      ></a>
     </div>
 
     <div th:replace="~{common/footer :: footer_fragment}"></div>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
     <script th:src="@{/js/item-list/select.js}"></script>
     <script th:src="@{/js/item-list/autoComp.js}"></script>
+    <script th:src="@{/js/pagination.js}"></script>
   </body>
 </html>
