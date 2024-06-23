@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -50,14 +51,14 @@ public class OrderController {
     @PostMapping("")
     public String order(@Validated OrderForm orderForm, BindingResult result, Model model, @AuthenticationPrincipal LoginUser loginUser) {
         User user = loginUser.getUser();
-        int paymentMethodKey = 0;
+        Integer paymentMethodKey = 0;
         for (PaymentMethod paymentMethod : PaymentMethod.values()) {
-            if (paymentMethod.getValue().equals("クレジットカード")) {
+            if ("クレジットカード".equals(paymentMethod.getValue())) {
                 paymentMethodKey = paymentMethod.getKey();
             }
         }
 
-        if (orderForm.getPaymentMethod().equals(paymentMethodKey)) {
+        if (paymentMethodKey.equals(orderForm.getPaymentMethod())) {
             CreditCard creditCard = new CreditCard();
             creditCard.setUser_id(user.getId());
             creditCard.setOrder_number("12345678912345");
@@ -88,6 +89,16 @@ public class OrderController {
             e.printStackTrace();
         }
 
+        return "redirect:/order-complete";
+    }
+
+    /**
+     * 注文完了画面の表示.
+     *
+     * @return 注文完了画面
+     */
+    @GetMapping("/order-complete")
+    public String orderComplete(){
         return "order-complete";
     }
 }

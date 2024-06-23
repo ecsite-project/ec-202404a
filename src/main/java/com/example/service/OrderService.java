@@ -1,11 +1,14 @@
 package com.example.service;
 
+import com.example.common.PaymentMethod;
+import com.example.common.Status;
 import com.example.domain.CreditCard;
 import com.example.domain.Order;
 import com.example.form.OrderForm;
 import com.example.repository.OrderItemRepository;
 import com.example.repository.OrderRepository;
 import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -52,11 +55,7 @@ public class OrderService {
         RestTemplate restTemplate = new RestTemplate();
         JsonNode jsonNode = restTemplate.postForObject(creditCardCheckApi, card, JsonNode.class);
 
-        if("success".equals(jsonNode.findValue("status").toString())){
-            return true;
-        }
-
-        return false;
+        return "success".equals(jsonNode.findValue("status").toString());
     }
 
     /**
@@ -67,22 +66,17 @@ public class OrderService {
      */
     public Order order(OrderForm form){
         Order order = orderRepository.findById(form.getOrderId());
-        if(form.getPaymentMethod().equals(1)){
-            order.setStatus(1);
-        }else {
-            order.setStatus(2);
+        BeanUtils.copyProperties(form, order);
+
+        if(PaymentMethod.MONEY.getKey() == order.getPaymentMethod()){
+            order.setStatus(Status.NOT_PAYMENT.getKey());
+        } else if (PaymentMethod.CREDIT.getKey() == order.getPaymentMethod()) {
+            order.setStatus(Status.DEPOSIT.getKey());
         }
-        order.setDestinationName(form.getDestinationName());
-        order.setDestinationEmail(form.getDestinationEmail());
-        order.setDestinationZipcode(form.getDestinationZipcode());
-        order.setDestinationPrefecture(form.getDestinationPrefecture());
-        order.setDestinationMunicipalities(form.getDestinationMunicipalities());
-        order.setDestinationAddress(form.getDestinationAddress());
-        order.setDestinationTel(form.getDestinationTel());
+        order.setTotalPrice(order.getCalcTotalPrice() + order.getTax());
         LocalDate deliveryDate = LocalDate.parse(form.getDeliveryDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         LocalTime deliveryTime = LocalTime.of(Integer.parseInt(form.getDeliveryTime()), 0, 0);
         order.setDeliveryTime(LocalDateTime.of(deliveryDate, deliveryTime));
-        order.setPaymentMethod(form.getPaymentMethod());
 
         orderRepository.update(order);
 

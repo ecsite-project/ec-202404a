@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Objects;
+
 /**
  * 商品の詳細表示機能を操作するコントローラ.
  *
@@ -36,14 +38,34 @@ public class ShowItemDetailController {
     Item item = showItemDetailService.showItem(id);
     model.addAttribute("item", item);
 
-    boolean bookmarkFlag = false;
-    if(loginUser != null){
-      User user = loginUser.getUser();
-      if(user.getBookmarkList() != null && user.getBookmarkList().contains(item)) {
-        bookmarkFlag = true;
-      }
-    }
+    boolean bookmarkFlag = isBookMark(loginUser, item);
+
     model.addAttribute("bookmarkFlag", bookmarkFlag);
     return "item-detail";
+  }
+
+  /**
+   * ログインユーザが商品をブックマークしているかの判定.
+   *
+   * @param loginUser ログインユーザ
+   * @param item 商品
+   * @return ブックマークしているかの真理値
+   */
+  public boolean isBookMark(LoginUser loginUser, Item item){
+    if(loginUser == null){
+      return false;
+    }
+
+    User user = loginUser.getUser();
+    if(user.getBookmarkList() == null){
+      return false;
+    }else {
+      for (Item userItem: user.getBookmarkList()){
+        if(userItem.getId().equals(item.getId())){
+          return true;
+        }
+      }
+      return false;
+    }
   }
 }
