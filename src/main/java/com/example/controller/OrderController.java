@@ -51,14 +51,14 @@ public class OrderController {
     @PostMapping("")
     public String order(@Validated OrderForm orderForm, BindingResult result, Model model, @AuthenticationPrincipal LoginUser loginUser) {
         User user = loginUser.getUser();
-        int paymentMethodKey = 0;
+        Integer paymentMethodKey = 0;
         for (PaymentMethod paymentMethod : PaymentMethod.values()) {
-            if (paymentMethod.getValue().equals("クレジットカード")) {
+            if ("クレジットカード".equals(paymentMethod.getValue())) {
                 paymentMethodKey = paymentMethod.getKey();
             }
         }
 
-        if (orderForm.getPaymentMethod().equals(paymentMethodKey)) {
+        if (paymentMethodKey.equals(orderForm.getPaymentMethod())) {
             CreditCard creditCard = new CreditCard();
             creditCard.setUser_id(user.getId());
             creditCard.setOrder_number("12345678912345");

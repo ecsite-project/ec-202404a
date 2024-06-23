@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.example.common.Status;
 import com.example.domain.Order;
 import com.example.domain.OrderItem;
 import com.example.domain.OrderTopping;
@@ -39,11 +40,11 @@ public class ShoppingCartService {
      * @return 注文情報
      */
     public Order addItem(Integer userId, AddItemForm form){
-        Order order = orderRepository.findByUserIdAndStatus(userId, 0);
+        Order order = orderRepository.findByUserIdAndStatus(userId, Status.BEFORE_ORDER.getKey());
         if(order == null){
             order = new Order();
             order.setUserId(userId);
-            order.setStatus(0);
+            order.setStatus(Status.BEFORE_ORDER.getKey());
             order.setTotalPrice(0);
             order.setOrderTime(LocalDateTime.now());
             order = orderRepository.insert(order);
@@ -75,7 +76,7 @@ public class ShoppingCartService {
      * @return 注文情報
      */
     public Order showOrder(Integer userId){
-        return orderRepository.findAllOrderInfoByUserIdAndStatus(userId, 0);
+        return orderRepository.findAllOrderInfoByUserIdAndStatus(userId, Status.BEFORE_ORDER.getKey());
     }
 
     /**
