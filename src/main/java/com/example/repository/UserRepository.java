@@ -48,6 +48,7 @@ public class UserRepository {
         while (rs.next()){
             if(formerId != rs.getInt("u_id")){
                 User user = new User();
+                userList.add(user);
                 user.setId(rs.getInt("u_id"));
                 user.setName(rs.getString("u_name"));
                 user.setEmail(rs.getString("u_email"));
@@ -98,13 +99,44 @@ public class UserRepository {
      * @return 一致したユーザ情報
      */
     public User findByEmail(String email){
-        String sql = "SELECT id, name, email, password, zipcode, prefecture, municipalities, address, telephone, admin_flag FROM users WHERE email=:email";
+        String sql = """
+                SELECT
+                 	u.id AS u_id,
+                 	u.name AS u_name,
+                 	u.email AS u_email,
+                 	u.password AS u_password,
+                 	u.zipcode AS u_zipcode,
+                 	u.prefecture AS u_prefecture,
+                 	u.municipalities AS u_municipalities,
+                 	u.address AS u_address,
+                 	u.telephone AS u_telephone,
+                 	u.admin_flag AS u_admin_flag,
+                 	i.id AS i_id,
+                 	i.name AS i_name,
+                 	i.description AS i_description,
+                 	i.price_s AS i_price_s,
+                 	i.price_m AS i_price_m,
+                 	i.price_l AS i_price_l,
+                 	i.image_path AS i_image_path
+                 FROM
+                 	users AS u
+                 LEFT OUTER JOIN
+                 	bookmarks AS b
+                 ON
+                 	u.id=b.user_id
+                 LEFT OUTER JOIN
+                 	items AS i
+                 ON
+                 	b.item_id=i.id
+                 WHERE
+                 	u.email=:email
+                """;
         SqlParameterSource param = new MapSqlParameterSource().addValue("email", email);
-        List<User> userListList = template.query(sql, param, USER_ROW_MAPPER);
-        if (userListList.isEmpty()) {
+        List<User> userList = template.query(sql, param, USER_RESULT_SET_EXTRACTOR);
+        if (userList.isEmpty()) {
             return null;
         }
-        return userListList.get(0);
+        return userList.get(0);
     }
 
     /**
