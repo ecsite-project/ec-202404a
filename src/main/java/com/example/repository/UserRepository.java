@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * usersテーブルを操作するリポジトリ.
@@ -93,22 +94,6 @@ public class UserRepository {
     }
 
     /**
-     * メールアドレスによる検索する.
-     *
-     * @param email 検索するメールアドレス
-     * @return 一致したユーザ情報
-     */
-    public User findByEmail(String email){
-        String sql = "SELECT id, name, email, password, zipcode, prefecture, municipalities, address, telephone, admin_flag FROM users WHERE email=:email";
-        SqlParameterSource param = new MapSqlParameterSource().addValue("email", email);
-        List<User> userListList = template.query(sql, param, USER_ROW_MAPPER);
-        if (userListList.isEmpty()) {
-            return null;
-        }
-        return userListList.get(0);
-    }
-
-    /**
      * ユーザ自身を除いてメールアドレスが重複しているユーザを検索.
      *
      * @param user 重複チェックを行いたいユーザ自身の情報
@@ -129,12 +114,30 @@ public class UserRepository {
     }
 
     /**
-     * 主キー検索.
+     * ユーザ情報の更新.
      *
-     * @param id ユーザの主キー
-     * @return ユーザ情報
+     * @param user ユーザ情報
      */
+    public void update(User user){
+        SqlParameterSource param = new BeanPropertySqlParameterSource(user);
+        String sql = """
+                    UPDATE users
+                    SET
+                      name=:name, email=:email, zipcode=:zipcode, prefecture=:prefecture, municipalities=:municipalities, address=:address, telephone=:telephone,deleted_at=:deletedAt
+                    WHERE id=:id AND deleted_at IS NULL;
+                    """;
+        template.update(sql,param);
+    }
+
     public User findById(Integer id){
+        return findByUserInfo(null,id);
+    }
+
+    public User findByEmail(String email){
+        return findByUserInfo(email,null);
+    }
+
+    public User findByUserInfo(String email,Integer id){
         String sql = """
                 SELECT
                  	u.id AS u_id,
@@ -164,30 +167,14 @@ public class UserRepository {
                  	items AS i
                  ON
                  	b.item_id=i.id
-                 WHERE
-                 	u.id=:id
                 """;
-        SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
-        List<User> userList = template.query(sql, param, USER_RESULT_SET_EXTRACTOR);
-        if(userList.isEmpty()){
-            return null;
+        if (email != null){
+            sql += " WHERE u.email=:email ";
+            SqlParameterSource param = new MapSqlParameterSource().addValue("email", email);
+            return Objects.requireNonNullElse(template.query(sql,param,USER_RESULT_SET_EXTRACTOR).get(0),null);
         }
-        return userList.get(0);
-    }
-
-    /**
-     * ユーザ情報の更新.
-     *
-     * @param user ユーザ情報
-     */
-    public void update(User user){
-        SqlParameterSource param = new BeanPropertySqlParameterSource(user);
-        String sql = """
-                    UPDATE users
-                    SET
-                      name=:name, email=:email, zipcode=:zipcode, prefecture=:prefecture, municipalities=:municipalities, address=:address, telephone=:telephone,deleted_at=:deletedAt
-                    WHERE id=:id AND deleted_at IS NULL;
-                    """;
-        template.update(sql,param);
+        sql += " WHERE u.id=:id ";
+        SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+        return Objects.requireNonNullElse(template.query(sql, param, USER_RESULT_SET_EXTRACTOR).get(0),null);
     }
 }
