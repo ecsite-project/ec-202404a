@@ -20,11 +20,7 @@
           ></p>
         </div>
         <div class="control__sort-type">
-          <form
-            th:action="@{/}"
-            method="get"
-            id="itemListSearchForm"
-          >
+          <form th:action="@{/}" method="get" id="itemListSearchForm">
             <input
               type="hidden"
               name="searchWord"
@@ -67,7 +63,10 @@
               </div>
               <div class="item-info">
                 <p class="item-name" th:text="${item.name}"></p>
-                <p class="item-price" th:text="並盛+' '+${#numbers.formatInteger(item.priceM, 0, 'COMMA')}+円"></p>
+                <p
+                  class="item-price"
+                  th:text="並盛+' '+${#numbers.formatInteger(item.priceM, 0, 'COMMA')}+円"
+                ></p>
               </div>
             </a>
           </div>
@@ -84,6 +83,11 @@
       </div>
     </main>
     <div th:replace="~{common/footer :: footer_fragment}"></div>
+    <script th:inline="javascript">
+      const isAddedItemToCart = /*[[${isAddedItemToCart}]]*/ 'isAddedItemToCart'
+      isAddedItemToCart &&
+        M.toast({ html: 'カートに商品を追加しました', classes: 'header-logo' })
+    </script>
     <script th:src="@{/js/item-list/select.js}"></script>
     <script th:src="@{/js/pagination.js}"></script>
   </body>

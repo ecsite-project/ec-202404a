@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -73,7 +74,7 @@ public class ShoppingCartController {
      * @return カートの画面へリダイレクト
      */
     @PostMapping("/add-item")
-    public String addItem(AddItemForm form, @AuthenticationPrincipal LoginUser loginUser) {
+    public String addItem(AddItemForm form, @AuthenticationPrincipal LoginUser loginUser, RedirectAttributes redirectAttributes) {
         User user = new User();
 
         if (loginUser == null) {
@@ -85,6 +86,7 @@ public class ShoppingCartController {
         }
 
         shoppingCartService.addItem(user.getId(), form);
+        redirectAttributes.addFlashAttribute("isAddedItemToCart", true);
         return "redirect:/";
     }
 
