@@ -13,25 +13,37 @@
     <div th:replace="~{common/header :: header_fragment}"></div>
 
     <div class="control">
-      <form th:action="@{/show-item-list}" method="get" id="searchForm">
-        <input
-          type="hidden"
-          name="searchWord"
-          id="searchWord"
-          th:value="${searchWord}"
-        />
-        <div class="input-field">
-          <select name="sortType" id="sortType">
-            <option value="0" th:selected="${sortType == 0}">名前順</option>
-            <option value="1" th:selected="${sortType == 1}">
-              価格の安い順
-            </option>
-            <option value="2" th:selected="${sortType == 2}">
-              価格の高い順
-            </option>
-          </select>
-        </div>
-      </form>
+      <div class="control__search-word">
+        <p
+          th:if="${searchWord} != null and ${!searchWord.equals('')}"
+          th:text="検索：+${searchWord}"
+        ></p>
+      </div>
+      <div class="control__sort-type">
+        <form
+          th:action="@{/show-item-list}"
+          method="get"
+          id="itemListSearchForm"
+        >
+          <input
+            type="hidden"
+            name="searchWord"
+            id="searchWord"
+            th:value="${searchWord}"
+          />
+          <div class="input-field">
+            <select name="sortType" id="sortType">
+              <option value="0" th:selected="${sortType == 0}">名前順</option>
+              <option value="1" th:selected="${sortType == 1}">
+                価格の安い順
+              </option>
+              <option value="2" th:selected="${sortType == 2}">
+                価格の高い順
+              </option>
+            </select>
+          </div>
+        </form>
+      </div>
     </div>
 
     <div>

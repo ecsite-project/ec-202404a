@@ -1,5 +1,20 @@
 @charset "UTF-8";
 
+.control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 70%;
+  margin: 0 auto;
+}
+.control__search-word {
+  width: 60%;
+}
+
+.control__sort-type {
+  width: 36%;
+}
+
 .item-section {
   display: flex;
   flex-wrap: wrap;

@@ -9,5 +9,5 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 
 $('#sortType').on('change', function () {
-  $('#searchForm').submit()
+  $('#itemListSearchForm').submit()
 })
