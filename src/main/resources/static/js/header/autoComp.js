@@ -1,6 +1,6 @@
 'use strict'
 
-const config = {
+const autoConfig = {
   placeHolder: '商品検索',
   selector: '#searchInput',
   data: {
@@ -40,4 +40,4 @@ const config = {
   },
   submit: true,
 }
-const autoCompleteJS = new autoComplete(config)
+const autoCompleteJS = new autoComplete(autoConfig)
