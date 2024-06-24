@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
@@ -93,120 +92,6 @@ public class UserRepository {
     }
 
     /**
-     * メールアドレスによる検索する.
-     *
-     * @param email 検索するメールアドレス
-     * @return 一致したユーザ情報
-     */
-    public User findByEmail(String email){
-        String sql = """
-                SELECT
-                 	u.id AS u_id,
-                 	u.name AS u_name,
-                 	u.email AS u_email,
-                 	u.password AS u_password,
-                 	u.zipcode AS u_zipcode,
-                 	u.prefecture AS u_prefecture,
-                 	u.municipalities AS u_municipalities,
-                 	u.address AS u_address,
-                 	u.telephone AS u_telephone,
-                 	u.admin_flag AS u_admin_flag,
-                 	i.id AS i_id,
-                 	i.name AS i_name,
-                 	i.description AS i_description,
-                 	i.price_s AS i_price_s,
-                 	i.price_m AS i_price_m,
-                 	i.price_l AS i_price_l,
-                 	i.image_path AS i_image_path
-                 FROM
-                 	users AS u
-                 LEFT OUTER JOIN
-                 	bookmarks AS b
-                 ON
-                 	u.id=b.user_id
-                 LEFT OUTER JOIN
-                 	items AS i
-                 ON
-                 	b.item_id=i.id
-                 WHERE
-                 	u.email=:email
-                """;
-        SqlParameterSource param = new MapSqlParameterSource().addValue("email", email);
-        List<User> userList = template.query(sql, param, USER_RESULT_SET_EXTRACTOR);
-        if (userList.isEmpty()) {
-            return null;
-        }
-        return userList.get(0);
-    }
-
-    /**
-     * ユーザ自身を除いてメールアドレスが重複しているユーザを検索.
-     *
-     * @param user 重複チェックを行いたいユーザ自身の情報
-     * @return 重複がなければnull、あれば重複しているユーザを返します。
-     */
-    public User findEmailDuplicateUser(User user){
-        BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(user);
-        String sql = """
-                    SELECT id, name, email, password, zipcode, prefecture, municipalities, address, telephone, admin_flag
-                    FROM users
-                    WHERE email=:email AND id<>:id
-                    """;
-        List<User> userListList = template.query(sql, param, USER_ROW_MAPPER);
-        if (userListList.isEmpty()) {
-            return null;
-        }
-        return userListList.get(0);
-    }
-
-    /**
-     * 主キー検索.
-     *
-     * @param id ユーザの主キー
-     * @return ユーザ情報
-     */
-    public User findById(Integer id){
-        String sql = """
-                SELECT
-                 	u.id AS u_id,
-                 	u.name AS u_name,
-                 	u.email AS u_email,
-                 	u.password AS u_password,
-                 	u.zipcode AS u_zipcode,
-                 	u.prefecture AS u_prefecture,
-                 	u.municipalities AS u_municipalities,
-                 	u.address AS u_address,
-                 	u.telephone AS u_telephone,
-                 	u.admin_flag AS u_admin_flag,
-                 	i.id AS i_id,
-                 	i.name AS i_name,
-                 	i.description AS i_description,
-                 	i.price_s AS i_price_s,
-                 	i.price_m AS i_price_m,
-                 	i.price_l AS i_price_l,
-                 	i.image_path AS i_image_path
-                 FROM
-                 	users AS u
-                 LEFT OUTER JOIN
-                 	bookmarks AS b
-                 ON
-                 	u.id=b.user_id
-                 LEFT OUTER JOIN
-                 	items AS i
-                 ON
-                 	b.item_id=i.id
-                 WHERE
-                 	u.id=:id
-                """;
-        SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
-        List<User> userList = template.query(sql, param, USER_RESULT_SET_EXTRACTOR);
-        if(userList.isEmpty()){
-            return null;
-        }
-        return userList.get(0);
-    }
-
-    /**
      * ユーザ情報の更新.
      *
      * @param user ユーザ情報
@@ -216,9 +101,71 @@ public class UserRepository {
         String sql = """
                     UPDATE users
                     SET
-                      name=:name, email=:email, zipcode=:zipcode, prefecture=:prefecture, municipalities=:municipalities, address=:address, telephone=:telephone,deleted_at=:deletedAt
-                    WHERE id=:id AND deleted_at IS NULL;
+                      name=:name,
+                      email=:email,
+                      zipcode=:zipcode,
+                      prefecture=:prefecture,
+                      municipalities=:municipalities,
+                      address=:address,
+                      telephone=:telephone,
+                      deleted_at=:deletedAt
+                    WHERE id=:id;
                     """;
         template.update(sql,param);
+    }
+
+    /**
+     * テーブル中で一意のユーザ情報を受け取り、それに一致したユーザを返します.
+     * この時、削除済みのユーザは検索結果に含みません。
+     * IDとメールアドレスはどちらも一意なので、両方を渡した際はそのユーザ以外でメールアドレスの重複があれば返します。
+     *
+     * @param user ユーザ情報
+     * @return 検索条件に一致した一意のユーザ情報
+     */
+    public User findByUniqueUserAttribute(User user){
+        SqlParameterSource param = new BeanPropertySqlParameterSource(user);
+        String sql = """
+                SELECT
+                 	u.id AS u_id,
+                 	u.name AS u_name,
+                 	u.email AS u_email,
+                 	u.password AS u_password,
+                 	u.zipcode AS u_zipcode,
+                 	u.prefecture AS u_prefecture,
+                 	u.municipalities AS u_municipalities,
+                 	u.address AS u_address,
+                 	u.telephone AS u_telephone,
+                 	u.admin_flag AS u_admin_flag,
+                 	i.id AS i_id,
+                 	i.name AS i_name,
+                 	i.description AS i_description,
+                 	i.price_s AS i_price_s,
+                 	i.price_m AS i_price_m,
+                 	i.price_l AS i_price_l,
+                 	i.image_path AS i_image_path
+                 FROM
+                 	users AS u
+                 LEFT OUTER JOIN
+                 	bookmarks AS b
+                 ON
+                 	u.id=b.user_id
+                 LEFT OUTER JOIN
+                 	items AS i
+                 ON
+                 	b.item_id=i.id
+                """;
+        if (user.getId() != null && user.getEmail() != null){
+            sql += " WHERE u.id<>:id AND u.email=:email ";
+        } else if (user.getId() != null) {
+            sql += " WHERE u.id=:id ";
+        } else if (user.getEmail() != null) {
+            sql += " WHERE u.email=:email ";
+        }
+        sql += " AND u.deleted_at IS NULL ";
+        List<User> results = template.query(sql, param, USER_RESULT_SET_EXTRACTOR);
+        if (results.isEmpty()){
+            return null;
+        }
+        return results.get(0);
     }
 }

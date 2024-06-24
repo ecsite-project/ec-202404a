@@ -25,6 +25,20 @@ public class UserService {
      * @return ユーザ情報
      */
     public User getUser(Integer userId){
-        return userRepository.findById(userId);
+        User user = new User();
+        user.setId(userId);
+        return userRepository.findByUniqueUserAttribute(user);
+    }
+
+    /**
+     * メールアドレスによるユーザ情報の取得.
+     *
+     * @param email メールアドレス
+     * @return ユーザ情報
+     */
+    public User getUserByEmail(String email){
+        User user = new User();
+        user.setEmail(email);
+        return userRepository.findByUniqueUserAttribute(user);
     }
 }

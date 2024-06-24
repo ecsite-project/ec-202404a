@@ -89,7 +89,7 @@ public class OrderController {
             e.printStackTrace();
         }
 
-        return "redirect:/order-complete";
+        return "redirect:/order/order-complete";
     }
 
     /**
