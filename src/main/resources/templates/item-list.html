@@ -58,7 +58,12 @@
               class="item-wrap"
             >
               <div>
-                <img th:src="@{'img/'} + ${item.imagePath}" alt="" />
+                <img
+                  style="aspect-ratio: 4 / 3; width: 100%"
+                  th:src="@{'img/webp/'} + ${item.imagePath.replace('jpg', 'webp')}"
+                  alt=""
+                  loading="lazy"
+                />
               </div>
               <div class="item-info">
                 <p class="item-name" th:text="${item.name}"></p>

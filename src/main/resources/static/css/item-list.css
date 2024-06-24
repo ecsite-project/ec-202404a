@@ -34,6 +34,10 @@
   cursor: pointer;
 }
 
+.item-wrap img {
+  background-color: rgb(80, 79, 79);
+}
+
 .item-info {
   padding-top: 8px;
 }
@@ -76,7 +80,8 @@
   font-size: 14px;
   text-decoration: none;
 
-  transition: background-color 250ms ease-in-out, border-color 250ms ease-in-out, color 250ms ease-in-out;
+  transition: background-color 250ms ease-in-out, border-color 250ms ease-in-out,
+    color 250ms ease-in-out;
 
   display: inline-flex;
   justify-content: center;
@@ -90,7 +95,7 @@
   padding: 0;
   color: #fff;
   font-weight: 700;
-  letter-spacing: .03em;
+  letter-spacing: 0.03em;
   transition: border 500ms ease;
 }
 
