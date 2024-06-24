@@ -6,8 +6,23 @@
     <link rel="stylesheet" th:href="@{/css/4xx.css}" />
   </head>
   <body>
-    <div th:replace="~{common/header :: header_fragment}"></div>
-    <h1>４エラー</h1>
-    <div th:replace="~{common/footer :: footer_fragment}"></div>
+   <div th:replace="~{common/header :: header_fragment}"></div>
+
+   <main>
+    <div class="container">
+      <img th:src="@{/img/bowl.png}" alt="画像" class="ramen">
+      <div class="steam-container">
+        <div class="steam"></div>
+        <div class="steam"></div>
+        <div class="steam"></div>
+        <div class="steam"></div>
+        <div class="steam"></div>
+        <div class="steam"></div>
+      </div>
+      <p class="message">このページはただいまメンテナンス中です</p>
+    </div>
+  </main>
+  
+   <div th:replace="~{common/footer :: footer_fragment}"></div>
   </body>
 </html>

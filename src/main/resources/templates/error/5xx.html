@@ -7,7 +7,22 @@
   </head>
   <body>
     <div th:replace="~{common/header :: header_fragment}"></div>
-    <h1>５エラー</h1>
+    
+    <main>
+      <div class="container">
+        <img th:src="@{/img/bowl.png}" alt="画像" class="ramen">
+        <div class="steam-container">
+          <div class="steam"></div>
+          <div class="steam"></div>
+          <div class="steam"></div>
+          <div class="steam"></div>
+          <div class="steam"></div>
+          <div class="steam"></div>
+        </div>
+        <p class="message">このページはただいまメンテナンス中です</p>
+      </div>
+    </main>
+    
     <div th:replace="~{common/footer :: footer_fragment}"></div>
   </body>
 </html>
