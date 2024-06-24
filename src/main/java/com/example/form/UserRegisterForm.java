@@ -21,6 +21,10 @@ public class UserRegisterForm {
     @NotBlank(message = "メールアドレスは必須です")
     private String email;
     /** パスワード */
+    @Pattern(
+            regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=/*_!?-])(?=\\S+$).{8,}$",
+            message = "パスワードは、8文字以上で、大文字、小文字、数字、および記号を含める必要があります。(使用可能な記号：@#$%^&+=/*_!?-)"
+    )
     @NotBlank(message = "パスワードは必須です")
     private String password;
     /** 確認用パスワード */
