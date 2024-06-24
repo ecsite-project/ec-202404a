@@ -99,6 +99,22 @@
   color: white;
 }
 
+.review-content-wrap {
+  margin-top: 12px;
+}
+
+.review-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.review-content__number-wrap {
+  width: 24%;
+}
+.review-content__text-wrap {
+  width: 72%;
+}
+
 .item-form {
   width: 30%;
 }

@@ -85,7 +85,40 @@
               </div>
             </div>
             <div class="review-content-wrap">
-              <table>
+              <div th:each="review: ${item.reviewList}" class="review-content">
+                <div
+                  th:if="${review.positiveValue > review.negativeValue and  review.positiveValue > review.neutralValue}"
+                  class="review-content__number-warp review-content__number-warp--positive"
+                >
+                  <span>ポジティブ</span>
+                  <span
+                    th:text="${#numbers.formatDecimal(review.positiveValue, 1, 'COMMA', 5, 'POINT')}"
+                  ></span>
+                </div>
+                <div
+                  th:if="${review.negativeValue > review.positiveValue and  review.negativeValue > review.neutralValue}"
+                  class="review-content__number-warp review-content__number-warp--negative"
+                >
+                  <span>ネガティブ</span>
+                  <span
+                    th:text="${#numbers.formatDecimal(review.negativeValue, 1, 'COMMA', 5, 'POINT')}"
+                  ></span>
+                </div>
+                <div
+                  th:if="${review.neutralValue > review.negativeValue and  review.neutralValue > review.positiveValue}"
+                  class="review-content__number-warp review-content__number-warp--neutral"
+                >
+                  <span>ニュートラル</span>
+                  <span
+                    th:text="${#numbers.formatDecimal(review.neutralValue, 1, 'COMMA', 5, 'POINT')}"
+                  ></span>
+                </div>
+
+                <div class="review-content__text-wrap">
+                  <p th:text="${review.content}"></p>
+                </div>
+              </div>
+              <!-- <table>
                 <thead>
                   <th></th>
                   <th>ポジティブ度</th>
@@ -106,7 +139,7 @@
                     ></td>
                   </tr>
                 </tbody>
-              </table>
+              </table> -->
             </div>
           </div>
         </div>
