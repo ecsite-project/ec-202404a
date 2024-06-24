@@ -8,6 +8,7 @@ $(function() {
         $links.css("display", "inline-flex");
 
         $links.eq(currentPage - 1).addClass("active");
+        $links.eq(currentPage - 1).css("pointer-events", "none");
         $links.eq(currentPage - 1).on("click", (e) => {
             e.preventDefault();
         })
