@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.common.Status;
 import com.example.domain.LoginUser;
 import com.example.domain.Order;
 import com.example.domain.User;
@@ -34,7 +35,8 @@ public class OrderHistoryController {
     @GetMapping()
     public String orderHistory(Model model, @AuthenticationPrincipal LoginUser loginUser){
         User user = loginUser.getUser();
-        List<Order> orderList = orderHistoryService.showOrderHistory(user.getId());
+        Integer[] statuses = {Status.NOT_PAYMENT.getKey(), Status.DEPOSIT.getKey(), Status.SHIPPED.getKey(), Status.DELIVERY_COMPLETED.getKey()};
+        List<Order> orderList = orderHistoryService.showOrderHistory(user.getId(), statuses);
         model.addAttribute("orderList", orderList);
 
         return "order-history";
