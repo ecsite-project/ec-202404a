@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * usersテーブルを操作するリポジトリ.
@@ -116,13 +115,14 @@ public class UserRepository {
     }
 
     /**
-     * 受け取ったユーザ条件に一致したユーザを返します.
+     * テーブル中で一意のユーザ情報を受け取り、それに一致したユーザを返します.
      * この時、削除済みのユーザは検索結果に含みません。
+     * IDとメールアドレスはどちらも一意なので、両方を渡した際はそのユーザ以外でメールアドレスの重複があれば返します。
      *
      * @param user ユーザ情報
      * @return 検索条件に一致した一意のユーザ情報
      */
-    public User findByUserInfo(User user){
+    public User findByUniqueUserAttribute(User user){
         SqlParameterSource param = new BeanPropertySqlParameterSource(user);
         String sql = """
                 SELECT

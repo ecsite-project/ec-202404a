@@ -70,9 +70,8 @@ public class UserMyPageController {
       return toMyPage(model, form, loginUser);
     }
     userMyPageService.updateUserInfo(fixedUserInfo);
-    userDetailsService.updateEmail(fixedUserInfo.getEmail());
+    userMyPageService.updateEmail(fixedUserInfo.getEmail());
 
-    BeanUtils.copyProperties(fixedUserInfo, form);
     return "redirect:/to-my-page";
   }
 

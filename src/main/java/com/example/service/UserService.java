@@ -27,7 +27,7 @@ public class UserService {
     public User getUser(Integer userId){
         User user = new User();
         user.setId(userId);
-        return userRepository.findByUserInfo(user);
+        return userRepository.findByUniqueUserAttribute(user);
     }
 
     /**
@@ -39,6 +39,6 @@ public class UserService {
     public User getUserByEmail(String email){
         User user = new User();
         user.setEmail(email);
-        return userRepository.findByUserInfo(user);
+        return userRepository.findByUniqueUserAttribute(user);
     }
 }
