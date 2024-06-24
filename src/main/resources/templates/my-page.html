@@ -12,28 +12,9 @@
   </head>
   <body>
     <div th:replace="~{common/header :: header_fragment}"></div>
-    <h1 class="page-title">マイページ</h1>
-    <hr />
     <main>
-      <h3>ブックマーク一覧</h3>
-      <div class="item-section">
-        <div th:each="bookMarkItem : ${bookMarkList}" class="item-container">
-          <a
-            th:href="@{/show-item-detail?id=} + ${bookMarkItem.id}"
-            class="item-wrap"
-          >
-            <div>
-              <img th:src="@{'img/'} + ${bookMarkItem.imagePath}" alt="" />
-            </div>
-            <div class="item-info">
-              <p class="item-name" th:text="${bookMarkItem.name}"></p>
-            </div>
-          </a>
-        </div>
-      </div>
-      <hr />
-      <h3>登録情報更新</h3>
-      <div class="section2">
+      <div class="section1">
+        <h3 class="page-title">登録情報更新</h3>
         <div class="change-form">
           <form
             th:action="@{/my-page}"
@@ -158,6 +139,24 @@
           <p>
             <a th:href="@{/delete-account}">アカウント削除</a>
           </p>
+        </div>
+      </div>
+      <div class="section2">
+        <h3 class="page-title">ブックマーク一覧</h3>
+        <div class="item-section">
+          <div th:each="bookMarkItem : ${bookMarkList}" class="item-container">
+            <a
+              th:href="@{/show-item-detail?id=} + ${bookMarkItem.id}"
+              class="item-wrap"
+            >
+              <div>
+                <img th:src="@{'img/'} + ${bookMarkItem.imagePath}" alt="" />
+              </div>
+              <div class="item-info">
+                <p class="item-name" th:text="${bookMarkItem.name}"></p>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
     </main>
