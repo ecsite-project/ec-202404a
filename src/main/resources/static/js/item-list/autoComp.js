@@ -12,12 +12,11 @@ $(function () {
     })
       .done(function (data) {
         let names = data.itemNameList
-        $('#searchWord ').autocomplete({
+        $('#searchWord').autocomplete({
           source: names,
         })
       })
       .fail(function (XMLHttpRequest, textStatus, errorThrown) {
-        alert('エラー発生')
         console.log(XMLHttpRequest.status)
         console.log(textStatus)
         console.log(errorThrown.message)

@@ -69,6 +69,7 @@ public class ShowItemListController {
         for (int i = 0; i < maxPage; i++) {
             pages.add(i + 1);
         }
+        model.addAttribute("currentPage", page==0 ? 1 : page);
         model.addAttribute("pages", pages);
         model.addAttribute("searchWord", searchWord);
         model.addAttribute("sortType", sortType);
