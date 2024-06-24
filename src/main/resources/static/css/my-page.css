@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+.main {
+  width: 76%;
+  min-width: 600px;
+}
+
+.page-title {
+  text-align: center;
+  margin-bottom: 12px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.section2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.change-form {
+  width: 95%;
+  max-width: 500px;
+  padding: 24px 0;
+}
+
+.change-form button i.right {
+  margin-left: 4px;
+}
+
+.change-form button {
+  background-color: white;
+  color: rgb(34, 34, 34);
+  width: 100%;
+  font-weight: bold;
+}
+
+.change-form button:hover {
+  background-color: #ffc107;
+  color: white;
+}
+
+.row {
+  margin-bottom: 0;
+}
