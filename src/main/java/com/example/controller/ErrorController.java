@@ -11,7 +11,6 @@ public class ErrorController {
     @GetMapping("/4xx")
     public String handle4xx() {
         // resources/templates/error/4xx.html にフォワード
-        System.out.println("ErrorController");
         return "error/4xx";
     }
 }
