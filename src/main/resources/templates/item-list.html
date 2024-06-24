@@ -21,7 +21,7 @@
         </div>
         <div class="control__sort-type">
           <form
-            th:action="@{/show-item-list}"
+            th:action="@{/}"
             method="get"
             id="itemListSearchForm"
           >
@@ -73,7 +73,7 @@
         <a
           class="cdp_i"
           th:each="page : ${pages}"
-          th:href="@{/show-item-list} + '?searchWord=' + ${searchWord} + '&sortType=' + ${sortType} + '&page=' + ${page}"
+          th:href="@{/} + '?searchWord=' + ${searchWord} + '&sortType=' + ${sortType} + '&page=' + ${page}"
           th:text="${page}"
         ></a>
       </div>
