@@ -47,7 +47,7 @@ public class ItemRepository {
                         WHERE deleted = false
                         """;
         if (searchWord != null) {
-            sql += " AND name LIKE :searchWord";
+            sql += " AND name iLIKE :searchWord";
         }
         if (sortStr != null){
             sql += " ORDER BY " + sortStr;
@@ -92,7 +92,7 @@ public class ItemRepository {
     public Integer countItemRows(String searchWord) {
         String sql = """
                 SELECT count(*) FROM items
-                WHERE name LIKE :searchWord;
+                WHERE name iLIKE :searchWord;
                 """;
         if (searchWord == null) {
             searchWord = "";
