@@ -12,24 +12,25 @@
   <body>
     <div th:replace="~{common/header :: header_fragment}"></div>
 
-    <div>
+    <div class="control">
       <form th:action="@{/show-item-list}" method="get" id="searchForm">
-        <label for="searchWord">
-          <i class="material-icons prefix">search</i>
-        </label>
-
         <input
-          type="text"
+          type="hidden"
           name="searchWord"
           id="searchWord"
           th:value="${searchWord}"
         />
-        <button type="submit">検索</button>
-        <select name="sortType" id="sortType" class="browser-default">
-          <option value="0" th:selected="${sortType == 0}">名前順</option>
-          <option value="1" th:selected="${sortType == 1}">価格の安い順</option>
-          <option value="2" th:selected="${sortType == 2}">価格の高い順</option>
-        </select>
+        <div class="input-field">
+          <select name="sortType" id="sortType">
+            <option value="0" th:selected="${sortType == 0}">名前順</option>
+            <option value="1" th:selected="${sortType == 1}">
+              価格の安い順
+            </option>
+            <option value="2" th:selected="${sortType == 2}">
+              価格の高い順
+            </option>
+          </select>
+        </div>
       </form>
     </div>
 
@@ -71,8 +72,6 @@
     </div>
 
     <div th:replace="~{common/footer :: footer_fragment}"></div>
-    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
     <script th:src="@{/js/item-list/select.js}"></script>
-    <script th:src="@{/js/item-list/autoComp.js}"></script>
   </body>
 </html>

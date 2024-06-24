@@ -1,5 +1,13 @@
 'use strict'
 
-$('#sortType').on('change',function() {
-   $('#searchForm').submit();
-});
+document.addEventListener('DOMContentLoaded', function () {
+  var elems = document.querySelectorAll('select')
+  var instances = M.FormSelect.init(
+    elems,
+    document.querySelectorAll('select option')
+  )
+})
+
+$('#sortType').on('change', function () {
+  $('#searchForm').submit()
+})

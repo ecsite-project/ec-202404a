@@ -1,13 +1,25 @@
-<header xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" th:fragment="header_fragment">
+<header
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+  th:fragment="header_fragment"
+>
   <div class="header-logo">
     <a th:href="@{/show-item-list}" class="header-logo">
-      <img th:src="@{/svg/logo.svg}" alt="企業ロゴ">
+      <img th:src="@{/svg/logo.svg}" alt="企業ロゴ" />
     </a>
   </div>
+  <div class="header-center">
+    <form id="searchForm" th:action="@{/show-item-list}" method="get">
+      <input id="searchInput" name="searchWord" />
+    </form>
+  </div>
   <div class="header-right">
-    <div sec:authorize="isAuthenticated()"><a th:href="@{/logout}">ログアウト</a></div>
+    <div sec:authorize="isAuthenticated()">
+      <a th:href="@{/logout}">ログアウト</a>
+    </div>
     <div sec:authorize="isAnonymous()"><a th:href="@{/login}">ログイン</a></div>
     <div><a th:href="@{/shopping-cart}">カート</a></div>
     <div><a th:href="@{/order-history}">注文履歴</a></div>
   </div>
+  <script th:src="@{/js/header/autoComp.js}"></script>
 </header>

@@ -25,6 +25,7 @@ public class SecurityConfig {
         .requestMatchers("/shopping-cart/**").permitAll()
         .requestMatchers("/show-item-list").permitAll()
         .requestMatchers("/show-item-detail").permitAll()
+        .requestMatchers("/get-item-info").permitAll()
         .anyRequest().authenticated()
     ).formLogin(login -> login
         .loginPage("/login")
