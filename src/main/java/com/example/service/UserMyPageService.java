@@ -27,16 +27,17 @@ public class UserMyPageService {
     private UserDetailsService userDetailsService;
 
     /**
-     * 受け取ったユーザ情報で登録情報を上書きする.
+     * 受け取ったユーザ情報でテーブルとセッション双方の登録情報を上書きします.
      *
      * @param user ユーザ情報
      */
     public void updateUserInfo(User user){
         userRepository.update(user);
+        updateUserDetails(user.getEmail());
     }
 
     /**
-     * 受け取ったユーザ以外にemail重複がないか確認.
+     * 受け取ったユーザ以外にemailの重複がないか確認します.
      *
      * @param user 重複確認をしたいユーザの情報
      */
@@ -45,11 +46,11 @@ public class UserMyPageService {
     }
 
     /**
-     * メールアドレスの変更時の再認証処理.
+     * ユーザ情報変更時の再認証処理を行います.
      *
      * @param newEmail 新しいメールアドレス
      */
-    public void updateEmail(String newEmail) {
+    public void updateUserDetails(String newEmail) {
         Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
 
         UserDetails newUserDetails = userDetailsService.loadUserByUsername(newEmail);

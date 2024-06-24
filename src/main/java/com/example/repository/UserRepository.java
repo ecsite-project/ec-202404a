@@ -154,14 +154,12 @@ public class UserRepository {
                  ON
                  	b.item_id=i.id
                 """;
-        if (user.getId() != null && user.getEmail() == null){
-            sql += " WHERE u.id=:id ";
-        }
-        if (user.getId() == null && user.getEmail() != null){
-            sql += " WHERE u.email=:email ";
-        }
         if (user.getId() != null && user.getEmail() != null){
             sql += " WHERE u.id<>:id AND u.email=:email ";
+        } else if (user.getId() != null) {
+            sql += " WHERE u.id=:id ";
+        } else if (user.getEmail() != null) {
+            sql += " WHERE u.email=:email ";
         }
         sql += " AND u.deleted_at IS NULL ";
         List<User> results = template.query(sql, param, USER_RESULT_SET_EXTRACTOR);

@@ -70,7 +70,6 @@ public class UserMyPageController {
       return toMyPage(model, form, loginUser);
     }
     userMyPageService.updateUserInfo(fixedUserInfo);
-    userMyPageService.updateEmail(fixedUserInfo.getEmail());
 
     return "redirect:/to-my-page";
   }
