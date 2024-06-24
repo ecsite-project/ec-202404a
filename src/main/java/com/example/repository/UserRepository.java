@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
@@ -48,6 +47,7 @@ public class UserRepository {
         while (rs.next()){
             if(formerId != rs.getInt("u_id")){
                 User user = new User();
+                userList.add(user);
                 user.setId(rs.getInt("u_id"));
                 user.setName(rs.getString("u_name"));
                 user.setEmail(rs.getString("u_email"));
@@ -92,48 +92,38 @@ public class UserRepository {
     }
 
     /**
-     * メールアドレスによる検索する.
+     * ユーザ情報の更新.
      *
-     * @param email 検索するメールアドレス
-     * @return 一致したユーザ情報
+     * @param user ユーザ情報
      */
-    public User findByEmail(String email){
-        String sql = "SELECT id, name, email, password, zipcode, prefecture, municipalities, address, telephone, admin_flag FROM users WHERE email=:email";
-        SqlParameterSource param = new MapSqlParameterSource().addValue("email", email);
-        List<User> userListList = template.query(sql, param, USER_ROW_MAPPER);
-        if (userListList.isEmpty()) {
-            return null;
-        }
-        return userListList.get(0);
-    }
-
-    /**
-     * ユーザ自身を除いてメールアドレスが重複しているユーザを検索.
-     *
-     * @param user 重複チェックを行いたいユーザ自身の情報
-     * @return 重複がなければnull、あれば重複しているユーザを返します。
-     */
-    public User findEmailDuplicateUser(User user){
-        BeanPropertySqlParameterSource param = new BeanPropertySqlParameterSource(user);
+    public void update(User user){
+        SqlParameterSource param = new BeanPropertySqlParameterSource(user);
         String sql = """
-                    SELECT id, name, email, password, zipcode, prefecture, municipalities, address, telephone, admin_flag
-                    FROM users
-                    WHERE email=:email AND id<>:id
+                    UPDATE users
+                    SET
+                      name=:name,
+                      email=:email,
+                      zipcode=:zipcode,
+                      prefecture=:prefecture,
+                      municipalities=:municipalities,
+                      address=:address,
+                      telephone=:telephone,
+                      deleted_at=:deletedAt
+                    WHERE id=:id;
                     """;
-        List<User> userListList = template.query(sql, param, USER_ROW_MAPPER);
-        if (userListList.isEmpty()) {
-            return null;
-        }
-        return userListList.get(0);
+        template.update(sql,param);
     }
 
     /**
-     * 主キー検索.
+     * テーブル中で一意のユーザ情報を受け取り、それに一致したユーザを返します.
+     * この時、削除済みのユーザは検索結果に含みません。
+     * IDとメールアドレスはどちらも一意なので、両方を渡した際はそのユーザ以外でメールアドレスの重複があれば返します。
      *
-     * @param id ユーザの主キー
-     * @return ユーザ情報
+     * @param user ユーザ情報
+     * @return 検索条件に一致した一意のユーザ情報
      */
-    public User findById(Integer id){
+    public User findByUniqueUserAttribute(User user){
+        SqlParameterSource param = new BeanPropertySqlParameterSource(user);
         String sql = """
                 SELECT
                  	u.id AS u_id,
@@ -163,30 +153,19 @@ public class UserRepository {
                  	items AS i
                  ON
                  	b.item_id=i.id
-                 WHERE
-                 	u.id=:id
                 """;
-        SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
-        List<User> userList = template.query(sql, param, USER_RESULT_SET_EXTRACTOR);
-        if(userList.isEmpty()){
+        if (user.getId() != null && user.getEmail() != null){
+            sql += " WHERE u.id<>:id AND u.email=:email ";
+        } else if (user.getId() != null) {
+            sql += " WHERE u.id=:id ";
+        } else if (user.getEmail() != null) {
+            sql += " WHERE u.email=:email ";
+        }
+        sql += " AND u.deleted_at IS NULL ";
+        List<User> results = template.query(sql, param, USER_RESULT_SET_EXTRACTOR);
+        if (results.isEmpty()){
             return null;
         }
-        return userList.get(0);
-    }
-
-    /**
-     * ユーザ情報の更新.
-     *
-     * @param user ユーザ情報
-     */
-    public void update(User user){
-        SqlParameterSource param = new BeanPropertySqlParameterSource(user);
-        String sql = """
-                    UPDATE users
-                    SET
-                      name=:name, email=:email, zipcode=:zipcode, prefecture=:prefecture, municipalities=:municipalities, address=:address, telephone=:telephone,deleted_at=:deletedAt
-                    WHERE id=:id AND deleted_at IS NULL;
-                    """;
-        template.update(sql,param);
+        return results.get(0);
     }
 }

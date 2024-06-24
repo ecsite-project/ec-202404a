@@ -1,12 +1,10 @@
 package com.example.service;
 
+import com.example.controller.ShoppingCartController;
 import com.example.domain.LoginUser;
 import com.example.domain.Order;
 import com.example.domain.OrderItem;
 import com.example.domain.User;
-import com.example.repository.OrderItemRepository;
-import com.example.repository.OrderRepository;
-import com.example.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,13 +26,10 @@ import java.util.Collection;
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
-    private OrderRepository orderRepository;
-
-    @Autowired
-    private OrderItemRepository orderItemRepository;
+    private ShoppingCartController shoppingCartController;
 
     @Autowired
     private OrderConfirmService orderConfirmService;
@@ -47,20 +42,19 @@ public class UserDetailsService implements org.springframework.security.core.use
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
+        User user = userService.getUserByEmail(email);
 
         if (user == null) {
             throw new UsernameNotFoundException("Not found mail address:" + email);
         }
 
-        Integer loginUserId = user.getId();
+        Order loginUserOrder = shoppingCartService.showOrder(user.getId());
+        Integer tmpId = shoppingCartController.extractNumbers(session.getId());
 
-        Order loginUserOrder = shoppingCartService.showOrder(loginUserId);
-
-        Order tmpOrder = shoppingCartService.showOrder((Integer) session.getAttribute("tmpUserId"));
+        Order tmpOrder = shoppingCartService.showOrder(tmpId);
         if (tmpOrder != null) {
             if (loginUserOrder == null) {
-                tmpOrder.setUserId(loginUserId);
+                tmpOrder.setUserId(user.getId());
                 orderConfirmService.updateUserId(tmpOrder);
             } else {
                 for (OrderItem orderItem : tmpOrder.getOrderItemList()) {

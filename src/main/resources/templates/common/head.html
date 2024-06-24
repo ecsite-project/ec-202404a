@@ -7,8 +7,12 @@
   <!-- Import reset css -->
   <link
     rel="stylesheet"
-    href="https://unpkg.com/modern-css-reset/dist/reset.min.css"
+    href="https://unpkg.com/modern-css-reset@1.4.0/dist/reset.min.css"
   />
+  <!-- <link
+    rel="stylesheet"
+    href="https://unpkg.com/modern-css-reset/dist/reset.min.css"
+  /> -->
   <!--Import Google Icon Font-->
   <link
     href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -27,8 +31,15 @@
   />
   <!-- Import Jquery -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 
-  <link rel="stylesheet" th:href="@{css/common.css}" />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.min.css"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script>
+
+  <link rel="stylesheet" th:href="@{/css/common.css}" />
 
   <th:block th:replace="${links} ?: _" />
 </head>
