@@ -49,16 +49,19 @@
 }
 
 .label--positive + p,
-.positive-review__value {
+.positive-review__value,
+.review-number-wrap--positive span:nth-last-child(1) {
   color: #00e676;
 }
 
 .label--negative + p,
-.negative-review__value {
+.negative-review__value,
+.review-number-wrap--negative span:nth-last-child(1) {
   color: #f44336;
 }
 
-.label--neutral + p {
+.label--neutral + p,
+.review-number-wrap--neutral span:nth-last-child(1) {
   color: rgb(255, 205, 86);
 }
 
@@ -100,19 +103,26 @@
 }
 
 .review-content-wrap {
-  margin-top: 12px;
+  margin-top: 20px;
 }
 
 .review-content {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 8px;
 }
 
-.review-content__number-wrap {
-  width: 24%;
+.review-number-wrap {
+  width: 28%;
+  font-weight: bold;
 }
 .review-content__text-wrap {
   width: 72%;
+}
+
+.review-number-wrap span:nth-last-child(1) {
+  font-size: 24px;
+  margin-left: 8px;
 }
 
 .item-form {
