@@ -5,9 +5,6 @@ import com.example.domain.LoginUser;
 import com.example.domain.Order;
 import com.example.domain.OrderItem;
 import com.example.domain.User;
-import com.example.repository.OrderItemRepository;
-import com.example.repository.OrderRepository;
-import com.example.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,7 +26,7 @@ import java.util.Collection;
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
     private ShoppingCartController shoppingCartController;
@@ -45,7 +42,7 @@ public class UserDetailsService implements org.springframework.security.core.use
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
+        User user = userService.getUserByEmail(email);
 
         if (user == null) {
             throw new UsernameNotFoundException("Not found mail address:" + email);

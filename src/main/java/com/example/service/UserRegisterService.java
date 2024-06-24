@@ -20,6 +20,9 @@ public class UserRegisterService {
     private UserRepository userRepository;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     /**
@@ -34,12 +37,12 @@ public class UserRegisterService {
     }
 
     /**
-     * メールアドレスが登録済みかチェックする.
+     * ユーザ自身を除いてメールアドレスが重複しているユーザがいないか検索.
      *
-     * @param email 照合するメールアドレス
+     * @param email 重複チェックを行いたいユーザのメールアドレス
      * @return 存在しない場合false,する場合true
      */
     public boolean checkEmail(String email){
-        return userRepository.findByEmail(email) != null;
+        return userService.getUserByEmail(email) != null;
     }
 }
