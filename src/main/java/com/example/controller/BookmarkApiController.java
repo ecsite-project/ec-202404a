@@ -35,7 +35,7 @@ public class BookmarkApiController {
     public Map<String, String> bookmark(Integer itemId, @AuthenticationPrincipal LoginUser loginUser){
         User user = loginUser.getUser();
         Map<String, String> map = new HashMap<>();
-        bookmarkService.bookmark(user.getId(), itemId);
+        bookmarkService.bookmark(loginUser, itemId);
         map.put("status", "success");
         return map;
     }
