@@ -1,7 +1,6 @@
 $(function() {
     const $pagination = $(".cdp");
     const $links = $pagination.find(".cdp_i");
-    const toralPages = $links.length;
     const currentPage = parseInt($pagination.attr("actpage"), 10);
 
     const updatePagination = () => {
