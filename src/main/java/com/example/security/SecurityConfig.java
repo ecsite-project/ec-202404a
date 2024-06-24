@@ -23,7 +23,7 @@ public class SecurityConfig {
         .requestMatchers("/login").permitAll()
         .requestMatchers("/shopping-cart").permitAll()
         .requestMatchers("/shopping-cart/**").permitAll()
-        .requestMatchers("/show-item-list").permitAll()
+        .requestMatchers("/").permitAll()
         .requestMatchers("/show-item-detail").permitAll()
         .requestMatchers("/get-item-info").permitAll()
         .requestMatchers("/error").permitAll()
