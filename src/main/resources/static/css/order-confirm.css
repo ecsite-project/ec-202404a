@@ -233,6 +233,7 @@
 }
 
 .confirm-section button {
+  margin-top: 10px;
   background-color: #ffc107;
   color: white;
   padding: 0 4px 0 12px;
