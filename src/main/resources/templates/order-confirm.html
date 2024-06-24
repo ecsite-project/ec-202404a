@@ -127,7 +127,7 @@
                     type="text"
                     class="validate"
                   />
-                  <label for="destinationZipcode">郵便番号</label>
+                  <label for="destinationZipcode">郵便番号(ハイフンあり 例：000-0000)</label>
                   <span class="helper-text" th:errors="*{destinationZipcode}"
                     >エラー</span
                   >
@@ -193,7 +193,7 @@
                     type="text"
                     class="validate"
                   />
-                  <label for="destinationTel">電話番号</label>
+                  <label for="destinationTel">電話番号(ハイフンあり 例：000-0000-0000)</label>
                   <span class="helper-text" th:errors="*{destinationTel}"
                     >エラー</span
                   >
@@ -272,7 +272,7 @@
                     type="text"
                     class="validate"
                   />
-                  <label for="cardNumber">クレジットカード番号</label>
+                  <label for="cardNumber">クレジットカード番号(ハイフンなし 例：12345678901234)</label>
                   <span class="helper-text" th:errors="*{cardNumber}"
                     >エラー</span
                   >
