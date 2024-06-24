@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>注文完了</title>
   </head>
   <body>
@@ -40,7 +40,6 @@
       th:text="'お届け時間: ' + ${#temporals.format(order.deliveryTime, 'yyyy年MM月dd日 HH:mm')}"
     ></p>
 
-    <a href="http://localhost:8080/ec-202404a/show-item-list">ホームページへ</a>
-
+    <a href="http://localhost:8080/ec-202404a/">ホームページへ</a>
   </body>
 </html>
