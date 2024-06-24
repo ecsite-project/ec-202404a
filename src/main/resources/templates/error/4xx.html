@@ -1,8 +1,32 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
-  <head
-    th:replace="~{common/head :: head_fragment(title = 'エラー', links = ~{::link})}"
-  >
+
+    <title>エラー</title>
+    <!-- Import reset css -->
+    <link
+          rel="stylesheet"
+          href="https://unpkg.com/modern-css-reset/dist/reset.min.css"
+    />
+    <!--Import Google Icon Font-->
+    <link
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet"
+    />
+    <!-- Import Materialize CSS & JS -->
+    <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- Import Font Awesome -->
+    <link
+          href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+          rel="stylesheet"
+    />
+    <!-- Import Jquery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <link rel="stylesheet" th:href="@{/css/common.css}" />
     <link rel="stylesheet" th:href="@{/css/4xx.css}" />
   </head>
   <body>
@@ -19,7 +43,7 @@
         <div class="steam"></div>
         <div class="steam"></div>
       </div>
-      <p class="message">このページはただいまメンテナンス中です</p>
+      <p class="message">ページが見つかりません</p>
     </div>
   </main>
   
