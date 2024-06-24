@@ -85,7 +85,7 @@ public class ShoppingCartController {
         }
 
         shoppingCartService.addItem(user.getId(), form);
-        return "redirect:/shopping-cart";
+        return "redirect:/";
     }
 
     /**
@@ -97,7 +97,7 @@ public class ShoppingCartController {
     @PostMapping("/delete-item")
     public String deleteItem(Integer orderItemId) {
         shoppingCartService.deleteItem(orderItemId);
-        return "redirect:/shopping-cart";
+        return "redirect:/";
     }
 
     /**

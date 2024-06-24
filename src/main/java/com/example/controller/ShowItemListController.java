@@ -21,7 +21,7 @@ import static java.lang.Math.ceil;
  */
 
 @Controller
-@RequestMapping("/show-item-list")
+@RequestMapping("/")
 public class ShowItemListController {
 
     @Autowired

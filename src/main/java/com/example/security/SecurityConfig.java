@@ -32,12 +32,12 @@ public class SecurityConfig {
         .loginPage("/login")
         .loginProcessingUrl("/login")
         .failureUrl("/login?error=true")
-        .defaultSuccessUrl("/show-item-list", false)
+        .defaultSuccessUrl("/", false)
         .usernameParameter("email")
         .passwordParameter("password")
     ).logout(logout -> logout
         .logoutRequestMatcher(new AntPathRequestMatcher("/logout**"))
-        .logoutSuccessUrl("/login")
+        .logoutSuccessUrl("/")
         .invalidateHttpSession(true)
         .deleteCookies("JSESSIONID")
     ).csrf(csrf -> csrf
