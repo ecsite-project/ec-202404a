@@ -46,7 +46,7 @@
             </div>
             <div class="item-info">
               <p class="item-name" th:text="${item.name}"></p>
-              <p class="item-price" th:text="並盛+' '+${item.priceM}+円"></p>
+              <p class="item-price" th:text="並盛+' '+${#numbers.formatInteger(item.priceM, 0, 'COMMA')}+円"></p>
             </div>
           </a>
         </div>

@@ -57,7 +57,7 @@ public class UserRegisterController {
 
     User user = new User();
     BeanUtils.copyProperties(form, user);
-    user.setName(form.getLastName() + form.getLastName());
+    user.setName(form.getLastName() + form.getFirstName());
 
     userRegisterService.insert(user);
 
