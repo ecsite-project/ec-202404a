@@ -1,5 +1,6 @@
 package com.example.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
@@ -13,6 +14,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 public class SecurityConfig {
+  @Autowired
+  private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
   @Bean
   protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests(authz -> authz
@@ -25,6 +28,7 @@ public class SecurityConfig {
         .requestMatchers("/shopping-cart/**").permitAll()
         .requestMatchers("/show-item-list").permitAll()
         .requestMatchers("/show-item-detail").permitAll()
+        .requestMatchers("/error/**").permitAll()
         .anyRequest().authenticated()
     ).formLogin(login -> login
         .loginPage("/login")
@@ -43,6 +47,8 @@ public class SecurityConfig {
         .ignoringRequestMatchers(new AntPathRequestMatcher("/get-item-info"))
         .ignoringRequestMatchers(new AntPathRequestMatcher("/bookmark"))
         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+    ).exceptionHandling(exceptionHandling -> exceptionHandling
+            .authenticationEntryPoint(customAuthenticationEntryPoint) // ここでカスタム認証エントリーポイントを設定
     );
 
     return http.build();
