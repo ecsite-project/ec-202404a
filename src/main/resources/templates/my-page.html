@@ -148,11 +148,31 @@
           </div>
         </div>
         <div class="section2">
-          <h3 class="page-title">ブックマーク一覧</h3>
+          <h2 class="page-title">ブックマーク一覧</h2>
           <div class="item-section">
             <div
               th:each="bookMarkItem : ${bookMarkList}"
               class="item-container"
+            >
+              <a
+                th:href="@{/show-item-detail?id=} + ${bookMarkItem.id}"
+                class="item-wrap"
+              >
+                <div>
+                  <img th:src="@{'img/'} + ${bookMarkItem.imagePath}" alt="" />
+                </div>
+                <div class="item-info">
+                  <p class="item-name" th:text="${bookMarkItem.name}"></p>
+                </div>
+              </a>
+            </div>
+          </div>
+          <hr />
+          <h2 class="page-title">あなたにおすすめ</h2>
+          <div class="item-section">
+            <div
+              th:each="bookMarkItem : ${recommends}"
+              class="rcmnd-item-container"
             >
               <a
                 th:href="@{/show-item-detail?id=} + ${bookMarkItem.id}"

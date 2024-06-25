@@ -84,6 +84,26 @@ public class ItemRepository {
     }
 
     /**
+     * 渡されたid以外の商品の検索.
+     *
+     * @param values 検索から除外する商品id
+     * @return 商品情報
+     */
+    public List<Item> findExceptIdValues(String values){
+        String sql = """
+                SELECT
+                    id, name, description, price_s, price_m, price_l, image_path
+                FROM
+                    items
+                WHERE
+                    id NOT IN 
+                """;
+        sql += "(" + values + ")";
+        List<Item> itemList = template.query(sql, ITEM_ROW_MAPPER);
+        return itemList;
+    }
+
+    /**
      * 条件に沿って検索された商品情報の全行数を取得.
      *
      * @param searchWord 文字列が入るとあいまい検索結果数カウント、nullが入ると全件検索の検索結果数カウント

@@ -22,14 +22,12 @@ main {
 }
 
 .section1 {
-  display: block;
-  width: 32%;
+  width: 28%;
   margin: 20px;
 }
 
 .section2 {
-  display: block;
-  width: 68%;
+  width: 72%;
   margin: 20px;
 }
 
@@ -57,6 +55,14 @@ main {
 
 .row {
   margin-bottom: 0;
+}
+
+.rcmnd-item-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 33%;
+  padding: 12px 0;
 }
 
 /* 以下注文履歴転用部分 */
