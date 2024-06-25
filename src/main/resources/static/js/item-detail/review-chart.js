@@ -32,10 +32,18 @@ $('#value--positive').text(reviewListValues[0])
 $('#value--negative').text(reviewListValues[1])
 $('#value--neutral').text(reviewListValues[2])
 
-$('#positive-review__value').text(mostPositiveReview[0])
-$('#negative-review__value').text(mostNegativeReview[0])
-$('#positive-review').text(mostPositiveReview[1])
-$('#negative-review').text(mostNegativeReview[1])
+if (mostPositiveReview[0] > 30) {
+  $('#positive-review__value').text(mostPositiveReview[0])
+  $('#positive-review').text(mostPositiveReview[1])
+} else {
+  $('#positive-review__value').text('---')
+}
+if (mostNegativeReview[0] > 30) {
+  $('#negative-review__value').text(mostNegativeReview[0])
+  $('#negative-review').text(mostNegativeReview[1])
+} else {
+  $('#negative-review__value').text('---')
+}
 
 const data = {
   labels: ['ポジティブ', 'ネガティブ', 'ニュートラル'],
