@@ -222,7 +222,7 @@
                   class="input-field col s6"
                   id="deliveryTimeSelectInputField"
                 >
-                  <select name="deliveryTime" id="deliveryTimeSelect">
+                  <select name="deliveryTime" id="deliveryTimeSelect" th:field="*{deliveryTime}">
                     <option selected value="10">10時</option>
                     <option value="11">11時</option>
                     <option value="12">12時</option>
@@ -254,6 +254,7 @@
                     class="with-gap money-method"
                     value="1"
                     checked="checked"
+                    th:field="*{paymentMethod}"
                   />
                   <span>代金引換</span>
                 </label>
@@ -268,6 +269,7 @@
                     type="radio"
                     class="with-gap credit-method"
                     value="2"
+                    th:field="*{paymentMethod}"
                   />
                   <span>クレジットカード</span>
                 </label>
@@ -303,9 +305,6 @@
                       class="validate"
                     />
                     <label for="cardExpYear">カード有効期限（年）</label>
-                    <span class="helper-text" th:errors="*{cardExpYear}"
-                      >エラー</span
-                    >
                   </div>
                 </div>
 
@@ -319,9 +318,6 @@
                       class="validate"
                     />
                     <label for="cardExpMonth">カード有効期限（月）</label>
-                    <span class="helper-text" th:errors="*{cardExpMonth}"
-                      >エラー</span
-                    >
                   </div>
                 </div>
 
@@ -335,9 +331,6 @@
                       class="validate"
                     />
                     <label for="cardName">クレジットカード名義人</label>
-                    <span class="helper-text" th:errors="*{cardName}"
-                      >エラー</span
-                    >
                   </div>
                 </div>
 
@@ -351,9 +344,6 @@
                       class="validate"
                     />
                     <label for="cardCvv">セキュリティコード</label>
-                    <span class="helper-text" th:errors="*{cardCvv}"
-                      >エラー</span
-                    >
                   </div>
                 </div>
               </div>
