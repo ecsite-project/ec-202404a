@@ -5,8 +5,8 @@ const ctx = document.getElementById('myChart')
 const [reviewListValues, mostPositiveReview, mostNegativeReview] = ((arr) => {
   const sum = arr.slice(0, 3).reduce((acc, v) => acc + v)
   return [
-    arr.map((v) => Math.floor((v / sum) * 10000) / 100),
-    ...arr.slice(3).map((v) => [Math.floor(v[0] * 10000) / 100, v[1]]),
+    arr.map((v) => Math.round((v / sum) * 10000) / 100),
+    ...arr.slice(3).map((v) => [Math.round(v[0] * 10000) / 100, v[1]]),
   ]
 })(
   reviewList.reduce(
