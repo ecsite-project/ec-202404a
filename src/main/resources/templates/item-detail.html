@@ -76,12 +76,40 @@
 
                 <div class="write-review-button-wrap">
                   <a
-                    th:href="@{/review?itemId=} + ${item.id}"
+                    id="openReviewFormButton"
                     class="write-review-button waves-effect waves-light btn"
                     ><i class="material-icons left">edit</i>レビューを書く</a
                   >
                 </div>
               </div>
+            </div>
+            <div class="review-form" id="reviewForm" style="display: none">
+              <form
+                action="review.html"
+                th:action="@{/review/add}"
+                method="post"
+                th:object="${reviewForm}"
+              >
+                <input type="hidden" name="itemId" th:value="${itemId}" />
+                <div class="input-field">
+                  <textarea
+                    id="textarea1"
+                    class="materialize-textarea"
+                    th:field="*{content}"
+                  ></textarea>
+                  <label for="textarea1">レビュー内容</label>
+                  <span class="helper-text" th:errors="*{content}">エラー</span>
+                </div>
+
+                <button
+                  class="btn waves-effect waves-light review-submit-button"
+                  type="submit"
+                  name="action"
+                >
+                  投稿
+                  <i class="material-icons right">rate_review</i>
+                </button>
+              </form>
             </div>
             <div class="review-content-wrap" id="review-content-wrap"></div>
           </div>
@@ -186,7 +214,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script th:inline="javascript">
       const reviewList = /*[[${item.reviewList}]]*/ 'item.reviewList'
+      const isOpenReviewForm = /*[[${isOpenReviewForm}]]*/ 'isOpenReviewForm'
     </script>
+    <script th:src="@{/js/item-detail/control-review-form.js}"></script>
     <script th:src="@{/js/item-detail/review-chart.js}"></script>
     <script th:src="@{/js/item-detail/review-list.js}"></script>
     <script th:src="@{/js/totalPrice.js}"></script>

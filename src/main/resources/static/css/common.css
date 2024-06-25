@@ -126,17 +126,20 @@ footer hr {
   color: #ffc107 !important;
 }
 
-.input-field input:focus {
+.input-field input:focus,
+.input-field textarea:focus {
   border-bottom: 1px solid #ffc107 !important;
   box-shadow: 0 1px 0 0 #ffc107 !important;
 }
 
-.input-field input.valid {
+.input-field input.valid,
+.input-field textarea.valid {
   border-bottom: 1px solid #ffc107 !important;
   box-shadow: 0 1px 0 0 #ffc107 !important;
 }
 
-.input-field input {
+.input-field input,
+.input-field textarea {
   color: white;
 }
 

@@ -102,6 +102,32 @@
   color: white;
 }
 
+.review-form {
+  margin-top: 24px;
+}
+
+.review-form > form {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.review-form > form .input-field {
+  width: 80%;
+  color: white;
+}
+
+.review-submit-button {
+  background-color: #ffc107;
+  color: white;
+  font-weight: 700;
+}
+
+.review-submit-button:hover {
+  background-color: #fdd86a;
+  color: white;
+}
+
 .review-content-wrap {
   margin-top: 20px;
 }
