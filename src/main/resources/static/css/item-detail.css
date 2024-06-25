@@ -248,3 +248,17 @@
   height: 100%;
   cursor: pointer;
 }
+
+.bookmark-card {
+  display: none;
+  position: fixed;
+  top: 5%;
+  left: 20%;
+  transform: translateX(-50%);
+  background-color: #000;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
