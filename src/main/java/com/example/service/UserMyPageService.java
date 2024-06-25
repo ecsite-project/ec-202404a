@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -69,11 +70,10 @@ public class UserMyPageService {
     }
 
     public List<Item> getItemListNotBookMark(List<Item> bookmarkItemList){
-        String notInValue = "";
+        List<Integer> notInValue = new ArrayList<>();
         for (Item item : bookmarkItemList){
-            notInValue += item.getId() + ",";
+            notInValue.add(item.getId());
         }
-        notInValue = notInValue.substring(0, notInValue.length() - 1);
 
         return itemRepository.findExceptIdValues(notInValue);
     }

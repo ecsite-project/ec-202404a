@@ -89,17 +89,17 @@ public class ItemRepository {
      * @param values 検索から除外する商品id
      * @return 商品情報
      */
-    public List<Item> findExceptIdValues(String values){
+    public List<Item> findExceptIdValues(List<Integer> values){
         String sql = """
                 SELECT
                     id, name, description, price_s, price_m, price_l, image_path
                 FROM
                     items
                 WHERE
-                    id NOT IN 
+                    id NOT IN (:values)
                 """;
-        sql += "(" + values + ")";
-        List<Item> itemList = template.query(sql, ITEM_ROW_MAPPER);
+        SqlParameterSource param = new MapSqlParameterSource().addValue("values",values);
+        List<Item> itemList = template.query(sql,param, ITEM_ROW_MAPPER);
         return itemList;
     }
 
