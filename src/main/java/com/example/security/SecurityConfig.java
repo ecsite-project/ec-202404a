@@ -28,7 +28,7 @@ public class SecurityConfig {
         .requestMatchers("/shopping-cart/**").permitAll()
         .requestMatchers("/").permitAll()
         .requestMatchers("/show-item-detail").permitAll()
-        .requestMatchers("/get-item-info").permitAll()
+        .requestMatchers("/get-item-info/**").permitAll()
         .requestMatchers("/error/**").permitAll()
         .anyRequest().authenticated()
     ).formLogin(login -> login
@@ -44,9 +44,9 @@ public class SecurityConfig {
         .invalidateHttpSession(true)
         .deleteCookies("JSESSIONID")
     ).csrf(csrf -> csrf
-        .ignoringRequestMatchers(new AntPathRequestMatcher("/get-user/user-info"))
-        .ignoringRequestMatchers(new AntPathRequestMatcher("/get-item-info"))
-        .ignoringRequestMatchers(new AntPathRequestMatcher("/bookmark"))
+        .ignoringRequestMatchers(new AntPathRequestMatcher("/get-user/**"))
+        .ignoringRequestMatchers(new AntPathRequestMatcher("/get-item-info/**"))
+        .ignoringRequestMatchers(new AntPathRequestMatcher("/bookmark/**"))
         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
     );
 

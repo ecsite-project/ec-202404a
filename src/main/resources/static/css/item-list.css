@@ -115,8 +115,8 @@
 .add-item-card {
   display: none;
   position: fixed;
-  top: 20%;
-  right: 25%;
+  top: 10%;
+  right: 10%;
   transform: translateX(25%);
   background-color: #000;
   color: #fff;

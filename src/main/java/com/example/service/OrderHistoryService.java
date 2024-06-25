@@ -24,6 +24,7 @@ public class OrderHistoryService {
      * ユーザidによる注文情報の取得.
      *
      * @param userId ユーザid
+     * @param statuses 注文状況の配列
      * @return 注文情報のリスト
      */
     public List<Order> showOrderHistory(Integer userId, Integer[] statuses){

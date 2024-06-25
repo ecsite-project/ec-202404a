@@ -89,13 +89,14 @@
       </div>
     </main>
 
-    <div id="popup" class="add-item-card">
+    <div id="popup" class="add-item-card" th:data-flag="${addFlag}">
       カートに追加されました。
     </div>
 
     <div th:replace="~{common/footer :: footer_fragment}"></div>
     <script th:src="@{/js/item-list/select.js}"></script>
     <script th:src="@{/js/pagination.js}"></script>
+    <script th:src="@{/js/popup.js}"></script>
     <script th:src="@{/js/loading.js}"></script>
   </body>
 </html>
