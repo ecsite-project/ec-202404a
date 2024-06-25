@@ -40,6 +40,7 @@ public class OrderForm {
     @NotBlank(message = "配達日が未入力です")
     private String deliveryDate;
     /** 配達時間 */
+    @NotBlank(message = "配達時間が未入力です")
     private String deliveryTime;
     /** 支払い方法 */
     private Integer paymentMethod;
