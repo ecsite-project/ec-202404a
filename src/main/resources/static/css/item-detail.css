@@ -129,7 +129,7 @@
 }
 
 .review-content-wrap {
-  margin-top: 20px;
+  margin: 20px 0 24px;
 }
 
 .review-content {
@@ -144,8 +144,13 @@
 }
 .review-content__text-wrap {
   width: 72%;
+  padding-top: 4px;
 }
 
+.review-number-wrap span:nth-last-child(2) {
+  width: 6rem;
+  display: inline-block;
+}
 .review-number-wrap span:nth-last-child(1) {
   font-size: 24px;
   margin-left: 8px;
@@ -249,7 +254,6 @@
   background-color: #fdd86a;
   color: white;
 }
-
 
 .bookmark-item {
   height: 25px;
