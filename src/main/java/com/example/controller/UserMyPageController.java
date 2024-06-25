@@ -50,8 +50,8 @@ public class UserMyPageController {
     BeanUtils.copyProperties(user, form);
     if (!user.getBookmarkList().isEmpty()){
       model.addAttribute("bookMarkList",user.getBookmarkList());
-      model.addAttribute("recommends",userMyPageService.getItemListNotBookMark(user.getBookmarkList()).subList(0,3));
     }
+    model.addAttribute("recommends",userMyPageService.getItemListNotBookMark(user.getBookmarkList()).subList(0,3));
     orderHistoryController.orderHistory(model,loginUser);
     return "my-page";
   }
