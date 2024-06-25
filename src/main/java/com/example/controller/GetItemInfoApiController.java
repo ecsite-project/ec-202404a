@@ -65,9 +65,15 @@ public class GetItemInfoApiController {
             user = loginUser.getUser();
         }
         Order order = shoppingCartService.showOrder(user.getId());
-        Integer countOrder = order.getOrderItemList().size();
+        Integer countItem;
 
-        map.put("countOrder", countOrder);
+        if(order == null){
+            countItem = 0;
+        }else {
+            countItem = order.getOrderItemList().size();
+        }
+
+        map.put("countItem", countItem);
         return map;
     }
 }

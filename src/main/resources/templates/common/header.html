@@ -21,8 +21,14 @@
     <div sec:authorize="isAuthenticated()">
       <a th:href="@{/to-my-page}">マイページ</a>
     </div>
-    <div><a th:href="@{/shopping-cart}"><i class="fas fa-shopping-cart"></i></a></div>
+    <div class="cart-icon-container">
+      <a th:href="@{/shopping-cart}">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="cartItemCount" class="cart-badge"></span>
+      </a>
+    </div>
     <div><a th:href="@{/order-history}">注文履歴</a></div>
   </div>
   <script th:src="@{/js/header/autoComp.js}"></script>
+  <script th:src="@{js/header/countInCart.js}"></script>
 </header>
