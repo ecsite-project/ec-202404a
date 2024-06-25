@@ -26,7 +26,7 @@ public class OrderHistoryService {
      * @param userId ユーザid
      * @return 注文情報のリスト
      */
-    public List<Order> showOrderHistory(Integer userId){
-        return orderRepository.findByUserId(userId);
+    public List<Order> showOrderHistory(Integer userId, Integer[] statuses){
+        return orderRepository.findByUserIdAndStatuses(userId, statuses);
     }
 }
