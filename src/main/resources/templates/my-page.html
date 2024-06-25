@@ -142,7 +142,7 @@
                 <i class="material-icons right">how_to_reg</i>
               </button>
             </form>
-            <p>
+            <p class="text-r">
               <a th:href="@{/delete-account}">アカウント削除</a>
             </p>
           </div>
@@ -187,47 +187,53 @@
               </a>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="box">
-        <div class="order-history">
-          <h2>注文履歴</h2>
-          <div class="order-list" th:each="order: ${orderList}">
-            <div th:each="orderItem: ${order.orderItemList}" class="order-item">
-              <a
-                th:href="@{/show-item-detail?id=} + ${orderItem.item.id}"
-                class="product-image-link"
-              >
-                <img
-                  th:src="@{/img/} + ${orderItem.item.imagePath}"
-                  alt="画像"
-                  class="product-image"
-                />
-              </a>
-              <div class="order-details">
-                <a
-                  th:href="@{/show-item-detail?id=} + ${orderItem.item.id}"
-                  class="product-name"
+          <div class="box">
+            <div class="order-history">
+              <h2 class="page-title">注文履歴</h2>
+              <div class="order-list" th:each="order: ${orderList}">
+                <div
+                  th:each="orderItem: ${order.orderItemList}"
+                  class="order-item"
                 >
-                  <h2
-                    class="product-name"
-                    th:text="${orderItem.item.name}"
-                  ></h2>
-                </a>
-                <p
-                  class="order-date"
-                  th:text="${#temporals.format(order.orderTime, 'yyyy年MM月dd日')}"
-                ></p>
-                <p
-                  class="product-price"
-                  th:text="${#numbers.formatInteger(orderItem.calcSubTotalPrice, 0, 'COMMA')} + '円'"
-                ></p>
-                <a
-                  th:href="@{/show-item-detail?id=} + ${orderItem.item.id}"
-                  class="reorder-button"
-                  >再度購入</a
-                >
+                  <a
+                    th:href="@{/show-item-detail?id=} + ${orderItem.item.id}"
+                    class="product-image-link"
+                  >
+                    <img
+                      th:src="@{/img/} + ${orderItem.item.imagePath}"
+                      alt="画像"
+                      class="product-image"
+                    />
+                  </a>
+                  <div class="order-details">
+                    <a
+                      th:href="@{/show-item-detail?id=} + ${orderItem.item.id}"
+                      class="product-name"
+                    >
+                      <h2
+                        class="product-name"
+                        th:text="${orderItem.item.name}"
+                      ></h2>
+                    </a>
+                    <p
+                      class="order-date"
+                      th:text="${#temporals.format(order.orderTime, 'yyyy年MM月dd日')}"
+                    ></p>
+                    <p
+                      class="product-price"
+                      th:text="${#numbers.formatInteger(orderItem.calcSubTotalPrice, 0, 'COMMA')} + '円'"
+                    ></p>
+                    <a
+                      th:href="@{/show-item-detail?id=} + ${orderItem.item.id}"
+                      class="reorder-button"
+                      >再度購入</a
+                    >
+                  </div>
+                </div>
               </div>
+              <p class="text-r">
+                <a th:href="@{/order-history}">注文履歴一覧</a>
+              </p>
             </div>
           </div>
         </div>

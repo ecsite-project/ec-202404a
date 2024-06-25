@@ -9,6 +9,10 @@ main {
   height: auto;
 }
 
+.text-r {
+  text-align: right;
+}
+
 .my-page {
   display: flex;
   justify-content: center;
@@ -46,6 +50,7 @@ main {
   color: rgb(34, 34, 34);
   width: 100%;
   font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .change-form button:hover {
@@ -77,6 +82,11 @@ main {
 
 .order-history {
   max-width: none;
-  width: 90%;
+  width: 100%;
   overflow-x: auto;
+}
+
+.order-item {
+  min-width: 100px;
+  width: 30%;
 }
