@@ -5,8 +5,8 @@ const ctx = document.getElementById('myChart')
 const [reviewListValues, mostPositiveReview, mostNegativeReview] = ((arr) => {
   const sum = arr.slice(0, 3).reduce((acc, v) => acc + v)
   return [
-    arr.map((v) => Math.floor((v / sum) * 10000) / 100),
-    ...arr.slice(3).map((v) => [Math.floor(v[0] * 10000) / 100, v[1]]),
+    arr.map((v) => Math.round((v / sum) * 10000) / 100),
+    ...arr.slice(3).map((v) => [Math.round(v[0] * 10000) / 100, v[1]]),
   ]
 })(
   reviewList.reduce(
@@ -32,10 +32,18 @@ $('#value--positive').text(reviewListValues[0])
 $('#value--negative').text(reviewListValues[1])
 $('#value--neutral').text(reviewListValues[2])
 
-$('#positive-review__value').text(mostPositiveReview[0])
-$('#negative-review__value').text(mostNegativeReview[0])
-$('#positive-review').text(mostPositiveReview[1])
-$('#negative-review').text(mostNegativeReview[1])
+if (mostPositiveReview[0] > 30) {
+  $('#positive-review__value').text(mostPositiveReview[0])
+  $('#positive-review').text(mostPositiveReview[1])
+} else {
+  $('#positive-review__value').text('---')
+}
+if (mostNegativeReview[0] > 30) {
+  $('#negative-review__value').text(mostNegativeReview[0])
+  $('#negative-review').text(mostNegativeReview[1])
+} else {
+  $('#negative-review__value').text('---')
+}
 
 const data = {
   labels: ['ポジティブ', 'ネガティブ', 'ニュートラル'],

@@ -1,7 +1,9 @@
 "use strict";
 
 $(function() {
-    $(".credit-info").hide();
+    if(!$(".credit-method").prop("checked")){
+        $(".credit-info").hide();
+    }
 
     $(".money-method, .credit-method").on("click", (e) => {
         if($(e.target).val() == 1){

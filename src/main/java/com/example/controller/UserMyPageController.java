@@ -33,6 +33,9 @@ public class UserMyPageController {
   @Autowired
   private UserDetailsService userDetailsService;
 
+  @Autowired
+  private OrderHistoryController orderHistoryController;
+
   /**
    * ユーザマイページ画面を表示します.
    *
@@ -45,7 +48,11 @@ public class UserMyPageController {
   public String toMyPage(Model model, UserMyPageUpdateForm form, @AuthenticationPrincipal LoginUser loginUser) {
     User user = loginUser.getUser();
     BeanUtils.copyProperties(user, form);
-    model.addAttribute("bookMarkList",user.getBookmarkList());
+    if (!user.getBookmarkList().isEmpty()){
+      model.addAttribute("bookMarkList",user.getBookmarkList());
+    }
+    model.addAttribute("recommends",userMyPageService.getItemListNotBookMark(user.getBookmarkList()).subList(0,3));
+    orderHistoryController.orderHistory(model,loginUser);
     return "my-page";
   }
 

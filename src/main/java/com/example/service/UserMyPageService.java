@@ -1,6 +1,9 @@
 package com.example.service;
 
+import com.example.domain.Bookmark;
+import com.example.domain.Item;
 import com.example.domain.User;
+import com.example.repository.ItemRepository;
 import com.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -9,6 +12,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ユーザ情報をマイページに持ってくるサービス.
@@ -25,6 +31,9 @@ public class UserMyPageService {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private ItemRepository itemRepository;
 
     /**
      * 受け取ったユーザ情報でテーブルとセッション双方の登録情報を上書きします.
@@ -58,5 +67,17 @@ public class UserMyPageService {
                 newUserDetails, currentAuth.getCredentials(), newUserDetails.getAuthorities());
 
         SecurityContextHolder.getContext().setAuthentication(newAuth);
+    }
+
+    public List<Item> getItemListNotBookMark(List<Item> bookmarkItemList){
+        List<Integer> notInValue = new ArrayList<>();
+        for (Item item : bookmarkItemList){
+            notInValue.add(item.getId());
+        }
+        if (notInValue.isEmpty()){
+            notInValue.add(0);
+        }
+
+        return itemRepository.findExceptIdValues(notInValue);
     }
 }
