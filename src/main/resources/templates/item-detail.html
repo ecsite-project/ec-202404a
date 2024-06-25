@@ -41,15 +41,15 @@
                 <canvas class="review-chart__canvas" id="myChart"></canvas>
                 <div class="review-chart__legend">
                   <div>
-                    <p class="legend__label label--positive">ポジティブ</p>
+                    <p class="legend__label label--positive sort-review sort-positive">ポジティブ</p>
                     <p id="value--positive" class="legend__value"></p>
                   </div>
                   <div>
-                    <p class="legend__label label--negative">ネガティブ</p>
+                    <p class="legend__label label--negative sort-review sort-negative">ネガティブ</p>
                     <p id="value--negative" class="legend__value"></p>
                   </div>
                   <div>
-                    <p class="legend__label label--neutral">ニュートラル</p>
+                    <p class="legend__label label--neutral sort-review sort-neutral">ニュートラル</p>
                     <p id="value--neutral" class="legend__value"></p>
                   </div>
                 </div>
@@ -223,6 +223,7 @@
     <script th:src="@{/js/item-detail/control-review-form.js}"></script>
     <script th:src="@{/js/item-detail/review-chart.js}"></script>
     <script th:src="@{/js/item-detail/review-list.js}"></script>
+    <script th:src="@{/js/item-detail/review-sort.js}"></script>
     <script th:src="@{/js/totalPrice.js}"></script>
     <script th:src="@{/js/materialize/select.js}"></script>
     <script th:src="@{/js/bookmark.js}"></script>
