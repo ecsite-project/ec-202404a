@@ -28,33 +28,24 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-    /**
-     * レビュー投稿画面の作成.
-     *
-     * @param model 商品idの格納
-     * @param itemId 商品id
-     * @param form バリデーションチェック
-     * @return レビュー投稿画面
-     */
-    @GetMapping()
-    public String showReviewPost(Model model, Integer itemId, ReviewForm form){
-        model.addAttribute("itemId", itemId);
-        return "review";
-    }
-
+    @Autowired
+    private ShowItemDetailController showItemDetailController;
+    
     /**
      * レビューの保存.
      *
      * @param form レビューの入力情報
      * @param result バリデーションチェック
      * @param model レビュー投稿画面に渡す
+     * @param loginUser ログインしているユーザ
      * @return 商品詳細ページへリダイレクト
      */
     @PostMapping("/add")
     public String add(@Validated ReviewForm form, BindingResult result, Model model, @AuthenticationPrincipal LoginUser loginUser){
         User user = loginUser.getUser();
         if(result.hasErrors()){
-            return showReviewPost(model, form.getItemId(), form);
+            model.addAttribute("isOpenReviewForm", true);
+            return showItemDetailController.toItemDetail(form.getItemId(),model, loginUser, form);
         }
 
         Review review = new Review();
