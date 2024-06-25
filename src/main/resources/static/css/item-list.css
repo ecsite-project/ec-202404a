@@ -110,3 +110,17 @@
   color: #fff;
   border: 2px solid rgb(255, 255, 255);
 }
+
+.add-item-card {
+  display: none;
+  position: fixed;
+  top: 20%;
+  right: 25%;
+  transform: translateX(25%);
+  background-color: #000;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
