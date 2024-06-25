@@ -84,30 +84,7 @@
                 </div>
               </div>
             </div>
-            <div class="review-content-wrap">
-              <table>
-                <thead>
-                  <th></th>
-                  <th>ポジティブ度</th>
-                  <th>ネガティブ度</th>
-                  <th>ニュートラル度</th>
-                </thead>
-                <tbody>
-                  <tr th:each="review: ${item.reviewList}">
-                    <td th:text="${review.content}"></td>
-                    <td
-                      th:text="${#numbers.formatDecimal(review.positiveValue, 1, 'COMMA', 5, 'POINT')}"
-                    ></td>
-                    <td
-                      th:text="${#numbers.formatDecimal(review.negativeValue, 1, 'COMMA', 5, 'POINT')}"
-                    ></td>
-                    <td
-                      th:text="${#numbers.formatDecimal(review.neutralValue, 1, 'COMMA', 5, 'POINT')}"
-                    ></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <div class="review-content-wrap" id="review-content-wrap"></div>
           </div>
         </div>
 
@@ -212,6 +189,7 @@
       const reviewList = /*[[${item.reviewList}]]*/ 'item.reviewList'
     </script>
     <script th:src="@{/js/item-detail/review-chart.js}"></script>
+    <script th:src="@{/js/item-detail/review-list.js}"></script>
     <script th:src="@{/js/totalPrice.js}"></script>
     <script th:src="@{/js/materialize/select.js}"></script>
     <script th:src="@{/js/bookmark.js}"></script>
