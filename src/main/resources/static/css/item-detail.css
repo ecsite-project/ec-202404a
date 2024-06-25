@@ -191,6 +191,7 @@
 .size-input__inputs span,
 .topping-input__inputs span {
   padding-left: 24px !important;
+  margin: 4px 2px;
 }
 
 .size-input__inputs span::after {
@@ -249,7 +250,6 @@
   background-color: #fdd86a;
   color: white;
 }
-
 
 .bookmark-item {
   height: 25px;
