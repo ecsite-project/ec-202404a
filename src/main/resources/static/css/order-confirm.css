@@ -199,7 +199,7 @@
   fill: #ffc107 !important;
 }
 
-.select-wrapper input {
+.input-field.active .select-wrapper input {
   border-bottom: 1px solid #ffc107 !important;
 }
 
@@ -207,7 +207,7 @@
   fill: rgba(255, 255, 255, 0.65) !important;
 }
 
-.select-wrapper + label {
+.input-field.active .select-wrapper + label {
   color: #ffc107;
 }
 
