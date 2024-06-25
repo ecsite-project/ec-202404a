@@ -241,7 +241,7 @@
                   <input
                     name="paymentMethod"
                     type="radio"
-                    class="with-gap"
+                    class="with-gap money-method"
                     value="1"
                     checked="checked"
                   />
@@ -256,88 +256,90 @@
                   <input
                     name="paymentMethod"
                     type="radio"
-                    class="with-gap"
+                    class="with-gap credit-method"
                     value="2"
                   />
                   <span>クレジットカード</span>
                 </label>
               </div>
 
-              <div class="row">
-                <div class="input-field col s12">
-                  <i class="material-icons prefix">mail</i>
-                  <input
-                    th:field="*{cardNumber}"
-                    id="cardNumber"
-                    type="text"
-                    class="validate"
-                  />
-                  <label for="cardNumber">クレジットカード番号(ハイフンなし 例：12345678901234)</label>
-                  <span class="helper-text" th:errors="*{cardNumber}"
-                    >エラー</span
-                  >
+              <div class="credit-info">
+                <div class="row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">mail</i>
+                    <input
+                      th:field="*{cardNumber}"
+                      id="cardNumber"
+                      type="text"
+                      class="validate"
+                    />
+                    <label for="cardNumber">クレジットカード番号(ハイフンなし 例：12345678901234)</label>
+                    <span class="helper-text" th:errors="*{cardNumber}"
+                      >エラー</span
+                    >
+                  </div>
                 </div>
-              </div>
 
-              <div class="row">
-                <div class="input-field col s12">
-                  <i class="material-icons prefix">mail</i>
-                  <input
-                    th:field="*{cardExpYear}"
-                    id="cardExpYear"
-                    type="text"
-                    class="validate"
-                  />
-                  <label for="cardExpYear">カード有効期限（年）</label>
-                  <span class="helper-text" th:errors="*{cardExpYear}"
-                    >エラー</span
-                  >
+                <div class="row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">mail</i>
+                    <input
+                      th:field="*{cardExpYear}"
+                      id="cardExpYear"
+                      type="text"
+                      class="validate"
+                    />
+                    <label for="cardExpYear">カード有効期限（年）</label>
+                    <span class="helper-text" th:errors="*{cardExpYear}"
+                      >エラー</span
+                    >
+                  </div>
                 </div>
-              </div>
 
-              <div class="row">
-                <div class="input-field col s12">
-                  <i class="material-icons prefix">mail</i>
-                  <input
-                    th:field="*{cardExpMonth}"
-                    id="cardExpMonth"
-                    type="text"
-                    class="validate"
-                  />
-                  <label for="cardExpMonth">カード有効期限（月）</label>
-                  <span class="helper-text" th:errors="*{cardExpMonth}"
-                    >エラー</span
-                  >
+                <div class="row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">mail</i>
+                    <input
+                      th:field="*{cardExpMonth}"
+                      id="cardExpMonth"
+                      type="text"
+                      class="validate"
+                    />
+                    <label for="cardExpMonth">カード有効期限（月）</label>
+                    <span class="helper-text" th:errors="*{cardExpMonth}"
+                      >エラー</span
+                    >
+                  </div>
                 </div>
-              </div>
 
-              <div class="row">
-                <div class="input-field col s12">
-                  <i class="material-icons prefix">mail</i>
-                  <input
-                    th:field="*{cardName}"
-                    id="cardName"
-                    type="text"
-                    class="validate"
-                  />
-                  <label for="cardName">クレジットカード名義人</label>
-                  <span class="helper-text" th:errors="*{cardName}"
-                    >エラー</span
-                  >
+                <div class="row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">mail</i>
+                    <input
+                      th:field="*{cardName}"
+                      id="cardName"
+                      type="text"
+                      class="validate"
+                    />
+                    <label for="cardName">クレジットカード名義人</label>
+                    <span class="helper-text" th:errors="*{cardName}"
+                      >エラー</span
+                    >
+                  </div>
                 </div>
-              </div>
 
-              <div class="row">
-                <div class="input-field col s12">
-                  <i class="material-icons prefix">mail</i>
-                  <input
-                    th:field="*{cardCvv}"
-                    id="cardCvv"
-                    type="text"
-                    class="validate"
-                  />
-                  <label for="cardCvv">セキュリティコード</label>
-                  <span class="helper-text" th:errors="*{cardCvv}">エラー</span>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <i class="material-icons prefix">mail</i>
+                    <input
+                      th:field="*{cardCvv}"
+                      id="cardCvv"
+                      type="text"
+                      class="validate"
+                    />
+                    <label for="cardCvv">セキュリティコード</label>
+                    <span class="helper-text" th:errors="*{cardCvv}">エラー</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -358,5 +360,6 @@
     <script th:src="@{/js/order-confirm/input-zipcode.js}"></script>
     <script th:src="@{/js/materialize/date-picker.js}"></script>
     <script th:src="@{/js/materialize/select.js}"></script>
+    <script th:src="@{/js/credit-display.js}"></script>
   </body>
 </html>
