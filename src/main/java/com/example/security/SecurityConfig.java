@@ -48,8 +48,6 @@ public class SecurityConfig {
         .ignoringRequestMatchers(new AntPathRequestMatcher("/get-item-info"))
         .ignoringRequestMatchers(new AntPathRequestMatcher("/bookmark"))
         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-    ).exceptionHandling(exceptionHandling -> exceptionHandling
-            .authenticationEntryPoint(customAuthenticationEntryPoint) // ここでカスタム認証エントリーポイントを設定
     );
 
     return http.build();
