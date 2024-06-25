@@ -14,16 +14,15 @@
 
     <main>
       <div class="item-container">
-        <div sec:authorize="isAuthenticated()">
+        <div sec:authorize="isAuthenticated()" class="bookmark-item">
           <i
-            class="fas fa-bookmark"
-            id="bookmark-icon"
+            class="fas fa-bookmark bookmark-icon"
             th:data-flag="${bookmarkFlag}"
             th:data-itemid="${item.id}"
           ></i>
         </div>
-        <div sec:authorize="isAnonymous()">
-          <i class="fas fa-bookmark"></i>
+        <div sec:authorize="isAnonymous()" class="bookmark-item">
+          <i class="fas fa-bookmark not-bookmark-icon"></i>
         </div>
         <div class="item-content">
           <img th:src="@{/img/} + ${item.imagePath}" />
