@@ -1,7 +1,7 @@
 "use strict";
 
 $(function() {
-    const $bookmarkIcon = $("#bookmark-icon");
+    const $bookmarkIcon = $(".bookmark-icon");
     const bookmarkUrl = "http://localhost:8080/ec-202404a/bookmark";
     const bookmarkColor = "blue";
 
@@ -29,4 +29,8 @@ $(function() {
             console.error(xhr, textStatus, errorThrown);
         });
     });
+
+    $(".not-bookmark-icon").on("click", () => {
+        window.location.href = 'http://localhost:8080/ec-202404a/login';
+    })
 });
