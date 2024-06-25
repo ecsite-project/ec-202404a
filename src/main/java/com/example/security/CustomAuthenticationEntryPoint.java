@@ -31,12 +31,9 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
      */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-
-        System.out.println(response.getStatus());
         // コンテキストパスを取得
         String contextPath = request.getContextPath();
         // エラーページへのリダイレクト
         response.sendRedirect(contextPath + "/error/4xx");
-
     }
 }

@@ -3,6 +3,7 @@ package com.example.controller;
 import com.example.domain.Item;
 import com.example.domain.LoginUser;
 import com.example.domain.User;
+import com.example.form.ReviewForm;
 import com.example.service.ShowItemDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,16 +30,18 @@ public class ShowItemDetailController {
    * @param id 商品のid
    * @param model 商品の格納
    * @param loginUser ログインしているユーザ
+   * @param form レビューフォーム
    * @return 商品詳細画面
    */
   @GetMapping()
-  public String toItemDetail(Integer id, Model model, @AuthenticationPrincipal LoginUser loginUser) {
+  public String toItemDetail(Integer id, Model model, @AuthenticationPrincipal LoginUser loginUser, ReviewForm form) {
     Item item = showItemDetailService.showItem(id);
     model.addAttribute("item", item);
 
     boolean bookmarkFlag = isBookMark(loginUser, item);
 
     model.addAttribute("bookmarkFlag", bookmarkFlag);
+    model.addAttribute("itemId", id);
     return "item-detail";
   }
 

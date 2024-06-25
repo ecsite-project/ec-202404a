@@ -102,8 +102,34 @@
   color: white;
 }
 
+.review-form {
+  margin-top: 24px;
+}
+
+.review-form > form {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.review-form > form .input-field {
+  width: 80%;
+  color: white;
+}
+
+.review-submit-button {
+  background-color: #ffc107;
+  color: white;
+  font-weight: 700;
+}
+
+.review-submit-button:hover {
+  background-color: #fdd86a;
+  color: white;
+}
+
 .review-content-wrap {
-  margin-top: 20px;
+  margin: 20px 0 24px;
 }
 
 .review-content {
@@ -118,8 +144,13 @@
 }
 .review-content__text-wrap {
   width: 72%;
+  padding-top: 4px;
 }
 
+.review-number-wrap span:nth-last-child(2) {
+  width: 6rem;
+  display: inline-block;
+}
 .review-number-wrap span:nth-last-child(1) {
   font-size: 24px;
   margin-left: 8px;
@@ -224,14 +255,40 @@
   color: white;
 }
 
-#bookmark-icon {
+.bookmark-item {
+  height: 25px;
+  width: auto;
+}
+
+.bookmark-icon {
   font-size: 24px;
   width: auto;
-  height: 15%;
+  height: 100%;
   transition: transform 0.3s, color 0.3s;
   cursor: pointer;
 }
 
-#bookmark-icon:hover {
+.bookmark-icon:hover {
   transform: scale(1.2);
+}
+
+.not-bookmark-icon {
+  font-size: 24px;
+  width: auto;
+  height: 100%;
+  cursor: pointer;
+}
+
+.bookmark-card {
+  display: none;
+  position: fixed;
+  top: 5%;
+  left: 20%;
+  transform: translateX(-50%);
+  background-color: #000;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
 }

@@ -1,7 +1,7 @@
 "use strict";
 
 $(function() {
-    const $bookmarkIcon = $("#bookmark-icon");
+    const $bookmarkIcon = $(".bookmark-icon");
     const bookmarkUrl = "http://localhost:8080/ec-202404a/bookmark";
     const bookmarkColor = "blue";
 
@@ -14,6 +14,9 @@ $(function() {
 
         $bookmarkIcon.css("color", isBookmarked ? "" : bookmarkColor);
         $bookmarkIcon.data("flag", !isBookmarked);
+
+        $('#popup').text(isBookmarked ? "ブックマークが解除されました" : "ブックマークされました");
+        $('#popup').fadeIn().delay(1000).fadeOut();
 
         $.ajax({
             url: bookmarkUrl,
@@ -29,4 +32,8 @@ $(function() {
             console.error(xhr, textStatus, errorThrown);
         });
     });
+
+    $(".not-bookmark-icon").on("click", () => {
+        window.location.href = 'http://localhost:8080/ec-202404a/login';
+    })
 });

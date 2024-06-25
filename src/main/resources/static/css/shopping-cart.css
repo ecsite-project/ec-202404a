@@ -10,7 +10,7 @@
 .cart-content-section {
   width: 76%;
   min-width: 600px;
-  margin: 0 auto;
+  margin: 0 auto 24px;
 }
 
 .total-price {
@@ -36,6 +36,10 @@
 .cart-table__thead {
   color: rgba(255, 255, 255, 0.65);
   font-size: 12px;
+  position: sticky;
+  top: 72px;
+  z-index: 9;
+  background-color: rgb(34, 34, 34);
 }
 
 .td-item__list > span:nth-child(n + 2)::before {

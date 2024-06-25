@@ -127,7 +127,9 @@
                     type="text"
                     class="validate"
                   />
-                  <label for="destinationZipcode">郵便番号(ハイフンあり 例：000-0000)</label>
+                  <label for="destinationZipcode"
+                    >郵便番号(ハイフンあり 例：000-0000)</label
+                  >
                   <span class="helper-text" th:errors="*{destinationZipcode}"
                     >エラー</span
                   >
@@ -193,7 +195,9 @@
                     type="text"
                     class="validate"
                   />
-                  <label for="destinationTel">電話番号(ハイフンあり 例：000-0000-0000)</label>
+                  <label for="destinationTel"
+                    >電話番号(ハイフンあり 例：000-0000-0000)</label
+                  >
                   <span class="helper-text" th:errors="*{destinationTel}"
                     >エラー</span
                   >
@@ -214,9 +218,12 @@
                     >エラー</span
                   >
                 </div>
-                <div class="input-field col s6">
-                  <select name="deliveryTime">
-                    <option value="10">10時</option>
+                <div
+                  class="input-field col s6"
+                  id="deliveryTimeSelectInputField"
+                >
+                  <select name="deliveryTime" id="deliveryTimeSelect" th:field="*{deliveryTime}">
+                    <option selected value="10">10時</option>
                     <option value="11">11時</option>
                     <option value="12">12時</option>
                     <option value="13">13時</option>
@@ -227,6 +234,9 @@
                     <option value="18">18時</option>
                   </select>
                   <label>配達時間</label>
+                  <span class="helper-text" th:errors="*{deliveryTime}"
+                    >エラー</span
+                  >
                 </div>
               </div>
             </div>
@@ -244,6 +254,7 @@
                     class="with-gap money-method"
                     value="1"
                     checked="checked"
+                    th:field="*{paymentMethod}"
                   />
                   <span>代金引換</span>
                 </label>
@@ -258,6 +269,7 @@
                     type="radio"
                     class="with-gap credit-method"
                     value="2"
+                    th:field="*{paymentMethod}"
                   />
                   <span>クレジットカード</span>
                 </label>
@@ -273,7 +285,10 @@
                       type="text"
                       class="validate"
                     />
-                    <label for="cardNumber">クレジットカード番号(ハイフンなし 例：12345678901234)</label>
+                    <label for="cardNumber"
+                      >クレジットカード番号(ハイフンなし
+                      例：12345678901234)</label
+                    >
                     <span class="helper-text" th:errors="*{cardNumber}"
                       >エラー</span
                     >
@@ -290,9 +305,6 @@
                       class="validate"
                     />
                     <label for="cardExpYear">カード有効期限（年）</label>
-                    <span class="helper-text" th:errors="*{cardExpYear}"
-                      >エラー</span
-                    >
                   </div>
                 </div>
 
@@ -306,9 +318,6 @@
                       class="validate"
                     />
                     <label for="cardExpMonth">カード有効期限（月）</label>
-                    <span class="helper-text" th:errors="*{cardExpMonth}"
-                      >エラー</span
-                    >
                   </div>
                 </div>
 
@@ -322,9 +331,6 @@
                       class="validate"
                     />
                     <label for="cardName">クレジットカード名義人</label>
-                    <span class="helper-text" th:errors="*{cardName}"
-                      >エラー</span
-                    >
                   </div>
                 </div>
 
@@ -338,7 +344,6 @@
                       class="validate"
                     />
                     <label for="cardCvv">セキュリティコード</label>
-                    <span class="helper-text" th:errors="*{cardCvv}">エラー</span>
                   </div>
                 </div>
               </div>
@@ -358,8 +363,10 @@
     <script th:src="@{/js/zipcode.js}"></script>
     <script th:src="@{/js/order-confirm/getLoginInfo.js}"></script>
     <script th:src="@{/js/order-confirm/input-zipcode.js}"></script>
+    <script
+      th:src="@{/js/order-confirm/control-deliveryTime-option.js}"
+    ></script>
     <script th:src="@{/js/materialize/date-picker.js}"></script>
-    <script th:src="@{/js/materialize/select.js}"></script>
     <script th:src="@{/js/credit-display.js}"></script>
   </body>
 </html>
