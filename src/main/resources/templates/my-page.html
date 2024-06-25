@@ -8,11 +8,12 @@
     th:replace="~{common/head :: head_fragment(title = 'マイページ', links = ~{::link})}"
   >
     <link rel="stylesheet" th:href="@{/css/item-list.css}" />
+    <link rel="stylesheet" th:href="@{/css/order-history.css}" />
     <link rel="stylesheet" th:href="@{/css/my-page.css}" />
   </head>
   <body>
     <div th:replace="~{common/header :: header_fragment}"></div>
-    <main>
+    <div class="my-page">
       <div class="section1">
         <h3 class="page-title">登録情報更新</h3>
         <div class="change-form">
@@ -159,7 +160,47 @@
           </div>
         </div>
       </div>
-    </main>
+    </div>
+    <div class="box">
+      <div class="order-history">
+        <h2>注文履歴</h2>
+        <div class="order-list" th:each="order: ${orderList}">
+          <div th:each="orderItem: ${order.orderItemList}" class="order-item">
+            <a
+              th:href="@{/show-item-detail?id=} + ${orderItem.item.id}"
+              class="product-image-link"
+            >
+              <img
+                th:src="@{/img/} + ${orderItem.item.imagePath}"
+                alt="画像"
+                class="product-image"
+              />
+            </a>
+            <div class="order-details">
+              <a
+                th:href="@{/show-item-detail?id=} + ${orderItem.item.id}"
+                class="product-name"
+              >
+                <h2 class="product-name" th:text="${orderItem.item.name}"></h2>
+              </a>
+              <p
+                class="order-date"
+                th:text="${#temporals.format(order.orderTime, 'yyyy年MM月dd日')}"
+              ></p>
+              <p
+                class="product-price"
+                th:text="${#numbers.formatInteger(orderItem.calcSubTotalPrice, 0, 'COMMA')} + '円'"
+              ></p>
+              <a
+                th:href="@{/show-item-detail?id=} + ${orderItem.item.id}"
+                class="reorder-button"
+                >再度購入</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div th:replace="~{common/footer :: footer_fragment}"></div>
     <script th:src="@{/js/register/control-name-input-activation.js}"></script>
     <script th:src="@{/js/register/control-valid-input-fields.js}"></script>
