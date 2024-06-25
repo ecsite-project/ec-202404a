@@ -11,6 +11,11 @@
   </head>
   <body>
     <div th:replace="~{common/header :: header_fragment}"></div>
+
+    <div class="spinner-box">
+      <img th:src="@{/img/naruto.png}" class="loding-img">
+    </div>
+
     <main>
       <div class="control">
         <div class="control__search-word">
@@ -91,5 +96,6 @@
     <div th:replace="~{common/footer :: footer_fragment}"></div>
     <script th:src="@{/js/item-list/select.js}"></script>
     <script th:src="@{/js/pagination.js}"></script>
+    <script th:src="@{/js/loading.js}"></script>
   </body>
 </html>
