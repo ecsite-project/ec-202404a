@@ -78,6 +78,7 @@
 
 .cdp_i {
   font-size: 14px;
+  line-height: 14px;
   text-decoration: none;
 
   transition: background-color 250ms ease-in-out, border-color 250ms ease-in-out,
