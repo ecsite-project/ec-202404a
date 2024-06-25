@@ -47,13 +47,13 @@ public class OrderForm {
     /** カード番号 */
     private String cardNumber;
     /** カード有効期限（年） */
-    private Integer cardExpYear;
+    private String cardExpYear;
     /** カード有効期限（月） */
-    private Integer cardExpMonth;
+    private String cardExpMonth;
     /** カード名義人 */
     private String cardName;
     /** セキュリティコード */
-    private Integer cardCvv;
+    private String cardCvv;
 
     @Override
     public String toString() {
@@ -69,11 +69,11 @@ public class OrderForm {
                 ", deliveryDate='" + deliveryDate + '\'' +
                 ", deliveryTime='" + deliveryTime + '\'' +
                 ", paymentMethod=" + paymentMethod +
-                ", cardNumber=" + cardNumber +
-                ", cardExpYear=" + cardExpYear +
-                ", cardExpMonth=" + cardExpMonth +
+                ", cardNumber='" + cardNumber + '\'' +
+                ", cardExpYear='" + cardExpYear + '\'' +
+                ", cardExpMonth='" + cardExpMonth + '\'' +
                 ", cardName='" + cardName + '\'' +
-                ", cardCvv=" + cardCvv +
+                ", cardCvv='" + cardCvv + '\'' +
                 '}';
     }
 
@@ -173,19 +173,19 @@ public class OrderForm {
         this.cardNumber = cardNumber;
     }
 
-    public Integer getCardExpYear() {
+    public String getCardExpYear() {
         return cardExpYear;
     }
 
-    public void setCardExpYear(Integer cardExpYear) {
+    public void setCardExpYear(String cardExpYear) {
         this.cardExpYear = cardExpYear;
     }
 
-    public Integer getCardExpMonth() {
+    public String getCardExpMonth() {
         return cardExpMonth;
     }
 
-    public void setCardExpMonth(Integer cardExpMonth) {
+    public void setCardExpMonth(String cardExpMonth) {
         this.cardExpMonth = cardExpMonth;
     }
 
@@ -197,11 +197,11 @@ public class OrderForm {
         this.cardName = cardName;
     }
 
-    public Integer getCardCvv() {
+    public String getCardCvv() {
         return cardCvv;
     }
 
-    public void setCardCvv(Integer cardCvv) {
+    public void setCardCvv(String cardCvv) {
         this.cardCvv = cardCvv;
     }
 }
