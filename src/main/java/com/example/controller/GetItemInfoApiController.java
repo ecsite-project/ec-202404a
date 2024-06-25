@@ -38,6 +38,12 @@ public class GetItemInfoApiController {
     @Autowired
     private ShoppingCartService shoppingCartService;
 
+    /**
+     * 検索ボックスで入力が行われる度、入力内容であいまい検索を行って10件のオートコンプリート候補を返します。
+     *
+     * @param input 入力内容
+     * @return 商品名のリスト
+     */
     @ResponseBody
     @PostMapping("")
     public Map<String,List<String>> autoComp(String input){
@@ -53,6 +59,11 @@ public class GetItemInfoApiController {
         return results;
     }
 
+    /**
+     * 商品数のカウント.
+     * @param loginUser ログインユーザ
+     * @return 商品数
+     */
     @GetMapping("/count-item")
     public Map<String, Integer> countItem(@AuthenticationPrincipal LoginUser loginUser){
         Map<String, Integer> map = new HashMap<>();
