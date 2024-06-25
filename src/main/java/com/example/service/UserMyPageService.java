@@ -74,6 +74,9 @@ public class UserMyPageService {
         for (Item item : bookmarkItemList){
             notInValue.add(item.getId());
         }
+        if (notInValue.isEmpty()){
+            notInValue.add(0);
+        }
 
         return itemRepository.findExceptIdValues(notInValue);
     }

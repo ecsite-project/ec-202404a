@@ -149,7 +149,10 @@
         </div>
         <div class="section2">
           <h2 class="page-title">ブックマーク一覧</h2>
-          <div class="item-section">
+          <div class="item-section" th:if="${bookMarkList == null}">
+            <p>ブックマークはありません</p>
+          </div>
+          <div class="item-section" th:if="${bookMarkList}">
             <div
               th:each="bookMarkItem : ${bookMarkList}"
               class="item-container"
@@ -168,7 +171,7 @@
             </div>
           </div>
           <hr />
-          <h2 class="page-title">あなたにおすすめ</h2>
+          <h2 class="page-title">おすすめの商品</h2>
           <div class="item-section">
             <div
               th:each="bookMarkItem : ${recommends}"
@@ -191,6 +194,9 @@
             <div class="order-history">
               <h2 class="page-title">注文履歴</h2>
               <div class="order-list" th:each="order: ${orderList}">
+                <div class="item-section" th:if="${order.id == null}">
+                  <p>注文履歴はありません</p>
+                </div>
                 <div
                   th:each="orderItem: ${order.orderItemList}"
                   class="order-item"
@@ -231,9 +237,6 @@
                   </div>
                 </div>
               </div>
-              <p class="text-r">
-                <a th:href="@{/order-history}">注文履歴一覧</a>
-              </p>
             </div>
           </div>
         </div>
