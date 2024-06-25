@@ -34,7 +34,7 @@
                   <p class="td-item__name" th:text="${orderItem.item.name}"></p>
                   <p
                     class="td-item__price"
-                    th:text="${#numbers.formatInteger(orderItem.calcSubTotalPrice / orderItem.quantity, 0, 'COMMA')} + '円 '"
+                    th:text="(${orderItem.size} == 'S' ? '小盛' : (${orderItem.size} == 'M' ? '並盛' : '大盛'))+'：'+${#numbers.formatInteger(orderItem.calcSubTotalPrice / orderItem.quantity, 0, 'COMMA')} + '円 '"
                   ></p>
                   <p class="td-item__list">
                     <span

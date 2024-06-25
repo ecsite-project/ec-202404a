@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.common.PaymentMethod;
 import com.example.domain.LoginUser;
 import com.example.domain.Order;
 import com.example.domain.User;
@@ -43,6 +44,10 @@ public class OrderConfirmController {
 
     Order order = shoppingCartService.showOrder(loginUserId);
     model.addAttribute("order", order);
+
+    if(orderForm.getPaymentMethod() == null) {
+      orderForm.setPaymentMethod(PaymentMethod.MONEY.getKey());
+    }
     return "order-confirm";
   }
 }
