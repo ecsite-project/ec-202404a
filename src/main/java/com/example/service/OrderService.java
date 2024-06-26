@@ -55,7 +55,7 @@ public class OrderService {
         RestTemplate restTemplate = new RestTemplate();
         JsonNode jsonNode = restTemplate.postForObject(creditCardCheckApi, card, JsonNode.class);
 
-        return "success".equals(jsonNode.findValue("status").toString());
+        return "success".equals(jsonNode.findValue("status").asText());
     }
 
     /**
